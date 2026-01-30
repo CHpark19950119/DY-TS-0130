@@ -21,11 +21,6 @@
       "id": "health",
       "name": "보건",
       "icon": "🏥"
-    },
-    {
-      "id": "law",
-      "name": "법률",
-      "icon": "⚖️"
     }
   ],
   "levels": [
@@ -46,6 +41,142 @@
     }
   ],
   "articles": [
+    {
+      "id": 104,
+      "title": "Corporate Earnings Reports and Stock Market Dynamics",
+      "summary": "In January 2026, corporate earnings reports revealed mixed results, influencing volatility in the global stock markets. While technology firms like Zenith Technologies exceeded expectations, traditional manufacturing companies faced challenges due to rising costs. Experts suggest the implications of these results will shape investor strategies moving forward.",
+      "content": "In January 2026, the corporate earnings season unveiled a mixed bag of results, igniting volatility across the global stock markets. Notably, tech giants such as Zenith Technologies and GlobalSoft reported earnings that surpassed analysts' expectations, while traditional manufacturing firms faced headwinds amid ongoing supply chain disruptions. Zenith posted a net income of $1.2 billion for the fourth quarter, a 15% increase year-on-year, benefitting from robust demand for its cloud services. In contrast, SteelCorp reported a 10% decline in earnings, attributed to rising raw material costs and inflationary pressures affecting consumer spending.\n\nThe recent performance of these corporations has drawn attention to the broader economic picture, particularly as the Federal Reserve continues to navigate a complex landscape of fiscal policy and monetary easing. With inflation hovering around 4.5%, policymakers are under pressure to provide a balanced response that supports growth without exacerbating price increases. Dr. Sarah Chen, an economist at the International Monetary Fund (IMF), noted, \"The divergence in corporate earnings highlights the structural shifts within industries, revealing the increasing leverage of technology over traditional sectors.\"\n\nMarket analysts suggest that the mixed corporate results will have significant implications for investor sentiment. The S&P 500 index fluctuated within a narrow band, closing the week at 4,150 points, reflecting a cautious optimism among investors. According to John Smith, a senior analyst at Alpha Research, \"The market's trajectory will heavily depend on upcoming fiscal stimulus measures and how they are received by the public and investors alike. If the government can implement effective policies that promote sustainable growth, we may see a rebound in market confidence.\"\n\nLooking ahead, the outlook for the stock market remains uncertain. The interplay between corporate earnings and macroeconomic indicators will be crucial in shaping investor strategies. As companies prepare for the next quarter, the focus will likely shift to how they adapt to ongoing economic challenges, including labor shortages and energy costs. Furthermore, the potential for renewed diplomatic discussions between major economies could influence market stability, particularly as bilateral relations evolve in response to shifting global dynamics. Investors are advised to remain vigilant as the situation develops, as the implications of these earnings reports could reverberate through different sectors for months to come.",
+      "koreanContent": "2026년 1월, 기업 실적 발표 시즌이 혼합된 결과를 드러내며 전 세계 주식 시장에서 변동성을 촉발했습니다. 특히 제니스 테크놀로지스와 글로벌소프트와 같은 기술 대기업들이 애널리스트들의 예상을 뛰어넘는 실적을 발표한 반면, 전통 제조업체들은 지속적인 공급망 차질로 인해 어려움을 겪었습니다. 제니스는 4분기 순이익 12억 달러를 기록하며 전년 대비 15% 증가한 성과를 보였고, 클라우드 서비스에 대한 강력한 수요가 이익 증가를 이끌었습니다. 반면 스틸코프는 원자재 비용 상승과 소비자 지출에 영향을 미치는 인플레이션 압박으로 인해 10% 감소한 실적을 보고했습니다.\n\n이러한 기업의 성과는 연방준비제도가 복잡한 재정 정책 및 통화 완화의 경로를 탐색하는 가운데, 더 넓은 경제 그림에 주목하게 만들고 있습니다. 인플레이션이 4.5%에 머물고 있는 상황에서 정책 입안자들은 성장을 지원하면서 가격 상승을 악화시키지 않는 균형 잡힌 대응을 제공해야 한다는 압박을 받고 있습니다. 국제통화기금(IMF)의 경제학자 사라 천 박사는 \"기업 실적의 차별화는 산업 내 구조적 변화를 드러내며, 기술이 전통 부문에 비해 점차적으로 더 큰 영향력을 미치고 있음을 보여준다\"고 언급했습니다. \n\n시장 분석가들은 혼합된 기업 실적이 투자자 심리에 상당한 영향을 미칠 것이라고 제안합니다. S&P 500 지수는 좁은 범위 내에서 변동하며 주간 마감을 4,150포인트에 맞췄고, 이는 투자자들 사이에서 조심스러운 낙관론을 반영합니다. 알파 리서치의 수석 애널리스트 존 스미스는 \"시장의 경로는 향후 재정 부양 조치와 그것이 대중 및 투자자에게 어떻게 받아들여지는가에 크게 의존할 것입니다. 정부가 지속 가능한 성장을 촉진하는 효과적인 정책을 실행할 수 있다면, 시장 신뢰의 반등을 볼 수 있을 것입니다\"라고 말했습니다.\n\n앞으로의 주식 시장 전망은 불확실한 상황입니다. 기업 실적과 거시경제 지표 간의 상호작용은 투자 전략을 형성하는 데 중요한 역할을 할 것입니다. 기업들이 다음 분기를 준비함에 따라, 노동력 부족과 에너지 비용을 포함한 지속적인 경제적 도전에 어떻게 적응하는지가 주목받을 것입니다. 더 나아가, 주요 경제국 간의 외교적 논의의 재개 가능성은 시장 안정성에 영향을 미칠 수 있으며, 이는 양자 관계가 변화하는 글로벌 역학에 대응하여 진화하는 데 기인할 수 있습니다. 투자자들은 상황이 발전함에 따라 경계를 유지하는 것이 좋습니다. 이러한 실적 발표의 함의는 앞으로 몇 달 동안 다양한 부문에 걸쳐 파급 효과를 미칠 수 있습니다.",
+      "category": "economy",
+      "level": "advanced",
+      "source": "AI Generated",
+      "keyTerms": [
+        {
+          "en": "monetary policy",
+          "ko": "통화 정책"
+        },
+        {
+          "en": "fiscal stimulus",
+          "ko": "재정 부양책"
+        },
+        {
+          "en": "inflationary pressure",
+          "ko": "인플레이션 압박"
+        },
+        {
+          "en": "investor sentiment",
+          "ko": "투자자 심리"
+        },
+        {
+          "en": "diplomatic relations",
+          "ko": "외교 관계"
+        }
+      ],
+      "wordCount": 364,
+      "generatedAt": "2026-01-30T02:42:10.065Z"
+    },
+    {
+      "id": 105,
+      "title": "Election and Political Change: A New Era for Global Relations",
+      "summary": "The 2026 elections have ushered in significant political changes, with new leadership prioritizing sustainable growth and climate initiatives. Experts emphasize the need for a robust multilateral framework to navigate the complexities of evolving international relations. The implications of these elections will likely shape global alliances and economic strategies for years to come.",
+      "content": "As the world enters 2026, the recent elections across various nations have sparked significant political changes, altering the trajectory of international relations and economic policies. With voter turnout reaching an unprecedented average of 75%, citizens have voiced their demand for transformative leadership that prioritizes resilience in the face of global challenges, including climate change and economic instability.\n\nIn the United States, the election of President Emily Carter, a former senator with a background in environmental advocacy, signals a shift towards more progressive fiscal policies. Her administration's early focus on implementing a comprehensive fiscal stimulus package aims to address inflationary pressures while promoting sustainable economic growth. Meanwhile, in Europe, the election of the Green Coalition in Germany has led to a re-evaluation of bilateral relations with the United States, particularly regarding climate initiatives and trade agreements.\n\nDr. Sarah Chen, an economist at the International Monetary Fund (IMF), remarked, \"The new political landscape presents both opportunities and challenges. Countries are increasingly leveraging diplomatic channels to address common issues, yet the divergence in priorities may complicate cooperative efforts. We need a robust multilateral framework to navigate these complexities effectively.\"\n\nAnalysts suggest that the prevailing shift towards progressive governance is influencing economic strategies globally. The World Bank has reported a significant increase in investments directed toward green technologies, anticipating that such initiatives will not only mitigate environmental degradation but also stimulate job creation in emerging sectors. However, the challenge remains in balancing this transition with the need for fiscal responsibility, especially in nations grappling with high public debt.\n\nLooking ahead, the implications of these electoral outcomes are profound. As nations recalibrate their foreign and domestic policies, global alliances may be redefined, impacting everything from trade routes to security pacts. The next few years will be critical as leaders navigate the intersection of economic recovery and political accountability, striving to meet both national interests and global commitments. Voter engagement remains essential, as the electorate increasingly holds leaders accountable for their promises and actions in a rapidly evolving political landscape.\n\nIn summary, the 2026 elections mark a pivotal moment in global politics, where emerging leaders are expected to drive significant reforms that could reshape bilateral relations and redefine economic strategies worldwide.",
+      "koreanContent": "2026년이 시작됨에 따라 여러 국가에서 진행된 최근 선거들이 상당한 정치적 변화를 촉발하며 국제 관계 및 경제 정책의 궤도를 바꾸고 있다. 유권자 투표율이 평균 75%에 달하는 등 시민들은 기후 변화와 경제 불안정이라는 글로벌 도전에 직면해 회복력을 우선시하는 변혁적 리더십을 요구하고 있다.\n\n미국에서는 환경 옹호 배경을 가진 전 상원 의원 에밀리 카터가 대통령으로 선출되면서 더욱 진보적인 재정 정책으로의 전환을 알리고 있다. 그녀의 정부는 인플레이션 압박을 해결하고 지속 가능한 경제 성장을 촉진하기 위해 포괄적인 재정 부양책의 실행에 조기에 집중하고 있다. 유럽에서는 독일의 녹색 연합이 선출되면서 미국과의 양자 관계에 대한 재평가가 이루어지고 있으며, 특히 기후 이니셔티브와 무역 협정에 관한 논의가 활발해지고 있다.\n\n국제통화기금(IMF)의 경제학자 드 사라 첸은 \"새로운 정치 지형은 기회와 도전을 동시에 제공한다. 국가들은 공동의 문제를 해결하기 위해 외교 채널을 점점 더 활용하고 있지만, 우선 사항의 차이가 협력 노력을 복잡하게 만들 수도 있다. 우리는 이러한 복잡성을 효과적으로 탐색하기 위한 강력한 다자간 프레임워크가 필요하다\"고 말했다.\n\n전문가들은 점진적인 거버넌스의 전환이 전 세계적으로 경제 전략에 영향을 미치고 있다고 분석하고 있다. 세계은행은 친환경 기술에 대한 투자가 크게 증가했으며, 이러한 이니셔티브가 환경 파괴를 완화할 뿐 아니라 신흥 분야의 일자리를 창출할 것이라고 전망하고 있다. 그러나 고공채를 안고 있는 국가에서는 이 전환을 재정적 책임과 균형을 이루는 것이 여전히 도전 과제로 남아 있다.\n\n앞으로 이러한 선거 결과의 함의는 심오하다. 국가들이 외교 및 국내 정책을 재조정함에 따라 글로벌 동맹관계가 재정립될 수 있으며, 이는 무역 경로와 안보 협정까지 영향을 미칠 수 있다. 향후 몇 년은 지도자들이 경제 회복과 정치적 책임의 교차점에서 길을 찾아가면서 국가 이익과 글로벌 약속을 모두 충족하기 위해 노력할 중요한 시점이 될 것이다. 유권자 참여는 필수적이며, 유권자들은 빠르게 변화하는 정치 환경에서 지도자들의 약속과 행동에 대해 점점 더 책임을 묻고 있다.\n\n결론적으로, 2026년 선거는 글로벌 정치에서 중대한 순간을 나타내며, 새로운 지도자들이 양자 관계를 재정의하고 전 세계 경제 전략을 재편할 것으로 기대되고 있다.",
+      "category": "politics",
+      "level": "advanced",
+      "source": "AI Generated",
+      "keyTerms": [
+        {
+          "en": "monetary policy",
+          "ko": "통화 정책"
+        },
+        {
+          "en": "fiscal stimulus",
+          "ko": "재정 부양책"
+        },
+        {
+          "en": "diplomatic channels",
+          "ko": "외교 채널"
+        },
+        {
+          "en": "multilateral framework",
+          "ko": "다자간 프레임워크"
+        },
+        {
+          "en": "inflationary pressure",
+          "ko": "인플레이션 압박"
+        }
+      ],
+      "wordCount": 365,
+      "generatedAt": "2026-01-30T02:42:52.040Z"
+    },
+    {
+      "id": 106,
+      "title": "Surge in Cybersecurity Threats Demands Strategic Responses",
+      "summary": "A recent report highlights a 45% increase in cyberattacks, prompting organizations to enhance their cybersecurity frameworks. Experts emphasize the need for multilateral agreements and investment in advanced technologies to combat this growing threat. The trajectory of cybersecurity challenges suggests ongoing vigilance and strategic planning are essential for resilience against cyber adversaries.",
+      "content": "As cyber threats reach unprecedented levels, organizations worldwide are compelled to reassess their cybersecurity frameworks. A recent report from the Global Cybersecurity Coalition (GCC), dated January 2026, revealed a staggering 45% increase in cyberattacks compared to the previous year. This rise can be attributed to a combination of sophisticated techniques employed by cybercriminals and the rapid digital transformation spurred by the COVID-19 pandemic.\n\nIn the wake of these alarming statistics, the International Monetary Fund (IMF) emphasized the necessity for enhanced cybersecurity measures. \"With the escalating cyber threats, we are witnessing an urgent need for multilateral agreements that bolster cybersecurity standards across nations,\" stated Dr. Emily Harris, a cybersecurity expert at the IMF. She underscored the importance of strengthening diplomatic channels among nations to facilitate information sharing and collaborative responses to cyber incidents.\n\nThe implications of inadequate cybersecurity extend beyond mere financial losses. A recent study conducted by the Cybersecurity Research Institute (CRI) estimated that global businesses could incur losses exceeding $6 trillion in 2026 due to cyber outages and breaches. Moreover, the fallout from high-profile attacks can lead to significant reputational damage and erosion of consumer trust, making it imperative for organizations to adopt a proactive stance in their security measures.\n\nAs organizations seek to navigate this evolving threat landscape, experts advocate for a comprehensive approach that includes regular assessments of cybersecurity protocols and investment in advanced technologies. For example, leveraging artificial intelligence and machine learning can be instrumental in predicting and mitigating potential threats before they materialize. Furthermore, continuous training of personnel to recognize and respond to cyber threats plays a critical role in fortifying defenses.\n\nLooking ahead, the trajectory of cybersecurity threats suggests a persistent escalation in sophistication and frequency. Organizations must remain vigilant and adaptive, prioritizing cybersecurity in their fiscal policy and strategic planning. The GCC advises that establishing a robust cybersecurity framework should not only be a reactive measure but should also play a central role in future economic planning, ensuring resilience against cyber adversaries. The combination of fiscal stimulus directed toward cybersecurity infrastructure and international cooperation is critical in shaping a more secure digital future.",
+      "koreanContent": "사이버 위협이 전례 없는 수준에 이르면서 전 세계 조직들은 사이버 보안 프레임워크를 재평가해야 할 필요에 직면하고 있다. 2026년 1월에 발표된 글로벌 사이버 보안 연합(GCC)의 최근 보고서에 따르면, 전년 대비 사이버 공격이 무려 45% 증가한 것으로 나타났다. 이러한 증가는 사이버 범죄자들이 사용하는 정교한 기법과 COVID-19 팬데믹으로 촉발된 빠른 디지털 전환이 결합된 결과로 분석된다.\n\n이러한 경고 통계의 여파로 국제통화기금(IMF)은 사이버 보안 조치를 강화할 필요성을 강조했다. \"사이버 위협의 증가로 인해 각국 간 사이버 보안 기준을 강화하는 다자간 합의의 긴급한 필요성을 목격하고 있습니다,\"라고 IMF의 사이버 보안 전문가인 에밀리 해리스 박사가 밝혔다. 그녀는 국가 간 정보 공유와 사이버 사건에 대한 협력적 대응을 촉진하기 위해 외교 채널을 강화하는 것이 중요하다고 강조했다.\n\n부족한 사이버 보안은 단순한 재정적 손실을 넘어서는 영향을 미친다. 사이버 보안 연구소(CRI)가 실시한 최근 연구에 따르면, 2026년 전 세계 기업들이 사이버 중단과 침해로 인해 발생할 수 있는 손실은 6조 달러를 초과할 것으로 예상된다. 더욱이, 고위험 공격의 여파는 상당한 평판 손상과 소비자 신뢰의 침식을 초래할 수 있어, 조직들이 보안 조치를 선제적으로 채택하는 것이 반드시 필요하다.\n\n조직들이 이러한 변화하는 위협 환경을 탐색하기 위해 전문가들은 사이버 보안 프로토콜을 정기적으로 평가하고 첨단 기술에 투자하는 포괄적인 접근 방식을 옹호한다. 예를 들어 인공지능 및 머신러닝을 활용하면 잠재적 위협이 발생하기 전에 이를 예측하고 완화하는 데 중요한 역할을 할 수 있다. 게다가, 사이버 위협을 인식하고 대응하는 직원의 지속적인 교육은 방어를 강화하는 데 매우 중요한 역할을 한다.\n\n앞으로 나아가 사이버 보안 위협의 추세는 정교함과 빈도가 계속해서 증가할 것으로 보인다. 조직들은 경계심을 유지하고 적응해야 하며, 재정 정책 및 전략 계획에서 사이버 보안을 우선시해야 한다. GCC는 강력한 사이버 보안 프레임워크를 구축하는 것이 단순한 반응적 조치가 아니라 향후 경제 계획에서 중심적인 역할을 해야 한다고 조언하며, 사이버 적에 대한 회복력을 보장해야 한다고 강조한다. 사이버 보안 인프라에 대한 재정 부양책과 국제 협력의 결합이 보다 안전한 디지털 미래를 형성하는 데 필수적이다.",
+      "category": "tech",
+      "level": "advanced",
+      "source": "AI Generated",
+      "keyTerms": [
+        {
+          "en": "monetary policy",
+          "ko": "통화 정책"
+        },
+        {
+          "en": "fiscal stimulus",
+          "ko": "재정 부양책"
+        },
+        {
+          "en": "cybersecurity",
+          "ko": "사이버 보안"
+        },
+        {
+          "en": "collaborative responses",
+          "ko": "협력적 대응"
+        },
+        {
+          "en": "reputational damage",
+          "ko": "평판 손상"
+        }
+      ],
+      "wordCount": 350,
+      "generatedAt": "2026-01-30T02:43:14.963Z"
+    },
+    {
+      "id": 107,
+      "title": "Trends in the Biotech Industry: A 2026 Overview",
+      "summary": "The global biotechnology sector is experiencing rapid growth, driven by advancements in mRNA technology and increased investment. While funding reached an all-time high in 2025, challenges such as inflationary pressures persist. The geopolitical landscape also complicates international collaborations, necessitating multilateral frameworks to enhance cooperation.",
+      "content": "As of January 2026, the global biotechnology sector continues to evolve rapidly, driven by advances in research and development, regulatory changes, and increasing investment from both public and private sectors. According to a report by the Biotechnology Innovation Organization (BIO), the global biotech market is projected to reach $624 billion by 2027, reflecting an annual growth rate of 8.3%. This growth is largely fueled by innovations in genomics, personalized medicine, and biomanufacturing, which are reshaping the healthcare landscape.\n\nThe last few years have seen significant advancements, particularly in mRNA technology, which gained prominence during the COVID-19 pandemic. Dr. Sarah Chen, an economist at the World Health Organization, notes, \"The success of mRNA vaccines has opened new avenues for vaccine development, offering unprecedented speed and adaptability to emerging health threats.\"\n\nThese developments have led to a surge in investment. Funding for biotech startups reached an all-time high of $47 billion in 2025, according to a report by PitchBook, highlighting the increased confidence among investors in the sector's potential. However, this growth is not without challenges. The industry faces inflationary pressures that could impact research budgets and operational costs. The recent fiscal stimulus packages introduced by several governments aim to alleviate these concerns, yet experts caution that the sustainability of such measures remains uncertain.\n\nMoreover, the geopolitical landscape continues to affect the biotech industry. Tensions between major powers have strained bilateral relations, complicating international collaborations that are vital for research and development. The Multi-lateral Framework for Biotech Development, established in late 2025, aims to address these challenges by fostering diplomatic channels between nations to facilitate information sharing and joint ventures.\n\nLooking ahead, the trajectory of the biotech industry appears promising, but it will require careful navigation of the complexities that lie ahead. The implications of these advancements will likely extend beyond healthcare, influencing economic policies and labor markets as new technologies emerge. Stakeholders are urged to remain vigilant in monitoring these trends to leverage opportunities while mitigating risks associated with this dynamic and fast-paced sector.",
+      "koreanContent": "2026년 1월 현재, 글로벌 생명공학 산업은 연구 및 개발의 진보, 규제 변화, 그리고 공공 및 민간 부문에서의 투자 증가에 힘입어 빠르게 진화하고 있습니다. 생명공학 혁신 기구(BIO)의 보고서에 따르면, 글로벌 생명공학 시장은 2027년까지 6,240억 달러에 이를 것으로 예상되며, 이는 연평균 성장률 8.3%에 해당합니다. 이러한 성장은 유전체학, 개인 맞춤형 의학, 생물 제조 분야의 혁신에 의해 주도되고 있으며, 이는 의료 환경을 재편하고 있습니다.\n\n최근 몇 년간 COVID-19 팬데믹 동안 주목받은 mRNA 기술을 중심으로 큰 발전이 있었습니다. 세계 보건 기구(WHO)의 경제학자인 사라 첸 박사는 \"mRNA 백신의 성공은 백신 개발을 위한 새로운 길을 열어 주었으며, 신흥 건강 위협에 대한 전례 없는 속도와 적응성을 제공하고 있습니다.\"라고 언급했습니다.\n\n이러한 발전은 투자 증가로 이어졌습니다. 2025년 생명공학 스타트업에 대한 자금 조달은 470억 달러로 사상 최고치를 기록했으며, 이는 이 분야의 잠재력에 대한 투자자들의 신뢰가 높아졌음을 보여줍니다. 그러나 이러한 성장은 도전 과제 없이 이루어지지 않았습니다. 업계는 연구 예산 및 운영 비용에 영향을 미칠 수 있는 인플레이션 압박에 직면해 있습니다. 여러 정부가 도입한 최근의 재정 부양책은 이러한 우려를 완화하려 하지만, 전문가들은 이러한 조치의 지속 가능성에 대한 의문을 제기하고 있습니다.\n\n더욱이, 지정학적 환경은 생명공학 산업에도 영향을 미치고 있습니다. 주요 강대국 간의 긴장은 양자 관계를 복잡하게 만들고 있으며, 연구 및 개발에 필수적인 국제 협력을 어렵게 하고 있습니다. 2025년 말에 설립된 다자간 생명공학 개발 프레임워크는 국가 간의 정보 공유 및 공동 벤처를 촉진하기 위해 외교적 경로를 조성함으로써 이러한 문제를 해결하고자 하고 있습니다.\n\n앞으로 생명공학 산업의 경로는 유망해 보이지만, 향후 복잡성을 신중하게 탐색해야 할 것입니다. 이러한 발전의 함의는 의료를 넘어 경제 정책 및 노동 시장에 영향을 미치는 새로운 기술이 출현함에 따라 확대될 것으로 보입니다. 이해 관계자들은 이러한 추세를 면밀히 모니터링하여 기회를 활용하고 이 역동적이고 빠르게 변화하는 산업과 관련된 위험을 완화할 것을 권장합니다.",
+      "category": "health",
+      "level": "advanced",
+      "source": "AI Generated",
+      "keyTerms": [
+        {
+          "en": "monetary policy",
+          "ko": "통화 정책"
+        },
+        {
+          "en": "fiscal stimulus",
+          "ko": "재정 부양책"
+        },
+        {
+          "en": "biomanufacturing",
+          "ko": "생물 제조"
+        },
+        {
+          "en": "inflationary pressure",
+          "ko": "인플레이션 압박"
+        },
+        {
+          "en": "multilateral framework",
+          "ko": "다자간 프레임워크"
+        }
+      ],
+      "wordCount": 333,
+      "generatedAt": "2026-01-30T02:43:36.593Z"
+    },
     {
       "id": 16,
       "title": "Electric Vehicle Battery Technology Advances Accelerate",
