@@ -257,7 +257,8 @@
             background: var(--bg-tertiary);
             border-radius: 8px;
             padding: 10px 12px;
-            margin: 10px 0;
+            margin: 12px 0;
+            border: 1px solid var(--border-color);
         }
         .progress-row {
             display: flex;
@@ -270,24 +271,62 @@
             font-size: 12px;
             width: 60px;
             flex-shrink: 0;
+            font-weight: 500;
         }
         .progress-bar-mini {
             flex: 1;
-            height: 6px;
+            height: 8px;
             background: var(--bg-secondary);
-            border-radius: 3px;
+            border-radius: 4px;
             overflow: hidden;
+            border: 1px solid var(--border-color);
         }
         .progress-fill-mini {
             height: 100%;
-            background: var(--accent-primary);
+            background: linear-gradient(90deg, #667eea, #764ba2);
             transition: width 0.3s;
+            border-radius: 3px;
+        }
+        .progress-fill-mini.interp {
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+        }
+        .progress-fill-mini.empty {
+            background: transparent;
         }
         .progress-text {
             font-size: 11px;
             color: var(--text-secondary);
-            width: 70px;
+            min-width: 85px;
             text-align: right;
+            font-weight: 500;
+        }
+        .progress-text.score-high { color: #28a745; }
+        .progress-text.score-mid { color: #fd7e14; }
+        .progress-text.score-low { color: #dc3545; }
+        
+        /* 기사 정보 */
+        .article-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin: 10px 0;
+            padding: 8px 0;
+            border-top: 1px solid var(--border-color);
+        }
+        .article-date-time {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+        }
+        .date-icon { font-size: 14px; }
+        .date-full { color: var(--text-primary); }
+        .date-relative { color: var(--text-secondary); font-size: 12px; }
+        .article-stats {
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
         }
         
         /* 아카이브 카드 */
