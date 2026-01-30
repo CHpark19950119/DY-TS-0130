@@ -3,13 +3,14 @@
 const API = {
     // Google Cloud 프록시 URL
     PROXY_URL: 'https://claude-proxy-957117035071.us-central1.run.app',
+    TTS_URL: 'https://claude-proxy-957117035071.us-central1.run.app/ttsProxy',
     
     // GPT 호출 (gpt-4o-mini)
     async callGPT(prompt, systemPrompt = '') {
         try {
             console.log('🚀 Calling GPT API...');
             
-            const response = await fetch(this.PROXY_URL, {
+            const response = await fetch(this.PROXY_URL + '/claudeProxy', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -56,7 +57,7 @@ const API = {
         try {
             console.log('🚀 Calling Claude API...');
             
-            const response = await fetch(this.PROXY_URL, {
+            const response = await fetch(this.PROXY_URL + '/claudeProxy', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -322,11 +323,100 @@ JSON 형식:
     }
 };
 
-// ===== TTS (토글 기능) =====
+// ===== TTS (Google Cloud Text-to-Speech) =====
 const TTS = {
     speaking: false,
+    currentAudio: null,
     
-    speak(text, lang = 'en-US', rate = 0.9) {
+    // 한국어/영어 감지
+    detectLanguage(text) {
+        const koreanRegex = /[\uac00-\ud7af]/g;
+        const englishRegex = /[a-zA-Z]/g;
+        const koreanCount = (text.match(koreanRegex) || []).length;
+        const englishCount = (text.match(englishRegex) || []).length;
+        return koreanCount > englishCount ? 'ko-KR' : 'en-US';
+    },
+    
+    // Google Cloud TTS 사용
+    async speak(text, lang = 'en-US', rate = 0.9) {
+        if (!text || text.trim().length === 0) {
+            console.log('[TTS] 재생할 텍스트 없음');
+            return;
+        }
+        
+        // 언어 자동 감지
+        if (!lang || lang === 'auto') {
+            lang = this.detectLanguage(text);
+        }
+        
+        try {
+            console.log(`[TTS] Cloud TTS로 ${lang} 음성 생성 중...`);
+            
+            const response = await fetch(API.TTS_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    text: text,
+                    languageCode: lang,
+                    voiceName: this.getVoiceName(lang),
+                    speakingRate: rate
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`TTS API 오류: ${response.status}`);
+            }
+            
+            const blob = await response.blob();
+            const audioUrl = URL.createObjectURL(blob);
+            
+            // 기존 음성 정지
+            if (this.currentAudio) {
+                this.currentAudio.pause();
+                this.currentAudio = null;
+            }
+            
+            // 새 음성 재생
+            this.currentAudio = new Audio(audioUrl);
+            this.speaking = true;
+            
+            this.currentAudio.onended = () => {
+                this.speaking = false;
+                this.currentAudio = null;
+            };
+            
+            this.currentAudio.onerror = (e) => {
+                console.error('[TTS] 재생 오류:', e);
+                this.speaking = false;
+                this.currentAudio = null;
+            };
+            
+            await this.currentAudio.play();
+            console.log('[TTS] 음성 재생 시작');
+        } catch (error) {
+            console.error('[TTS] 오류:', error);
+            this.speaking = false;
+            
+            // Fallback: 브라우저 기본 TTS 사용
+            console.log('[TTS] Cloud TTS 실패, 브라우저 TTS로 대체');
+            this.fallbackSpeak(text, lang, rate);
+        }
+    },
+    
+    // 음성 이름 선택
+    getVoiceName(lang) {
+        const voices = {
+            'ko-KR': 'ko-KR-Standard-A',
+            'en-US': 'en-US-Standard-A',
+            'en-GB': 'en-GB-Standard-A',
+            'ja-JP': 'ja-JP-Standard-A',
+            'zh-CN': 'zh-CN-Standard-A'
+        };
+        return voices[lang] || voices['en-US'];
+    },
+    
+    // Fallback: 브라우저 기본 SpeechSynthesis API
+    fallbackSpeak(text, lang = 'en-US', rate = 0.9) {
         if (this.speaking) {
             this.stop();
             return;
@@ -342,7 +432,11 @@ const TTS = {
     },
     
     stop() { 
-        speechSynthesis.cancel(); 
+        speechSynthesis.cancel();
+        if (this.currentAudio) {
+            this.currentAudio.pause();
+            this.currentAudio = null;
+        }
         this.speaking = false; 
     },
     
