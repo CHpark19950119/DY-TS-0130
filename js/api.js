@@ -422,7 +422,7 @@ const TTS = {
     getVoiceName(lang) {
         const voices = {
             'ko-KR': 'ko-KR-Standard-A',
-            'en-US': 'en-US-Standard-A',  // ← 자연스러운 음성으로 변경
+            'en-US': 'en-US-Neural2-A',  // ← 자연스러운 음성으로 변경
             'en-GB': 'en-GB-Standard-A',
             'ja-JP': 'ja-JP-Standard-A',
             'zh-CN': 'zh-CN-Standard-A'
