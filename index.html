@@ -87,6 +87,161 @@
         .article-card .article-meta span[title] {
             cursor: help;
         }
+        
+        /* 실제/AI 뱃지 */
+        .badge-real {
+            background: #28a745;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .badge-ai {
+            background: #6c757d;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        /* 기사 카드 개선 */
+        .article-card {
+            cursor: default;
+        }
+        .article-summary {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+        .article-date {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+        .article-progress {
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            height: 20px;
+            position: relative;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+        .article-progress-fill {
+            background: var(--accent-primary);
+            height: 100%;
+            transition: width 0.3s;
+        }
+        .article-progress span {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .article-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        .btn-accent {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+        }
+        
+        /* 기사 상세 모달 */
+        .modal-xl {
+            max-width: 900px;
+            width: 95%;
+        }
+        .article-detail-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .article-detail-section {
+            margin-bottom: 24px;
+        }
+        .article-detail-section h4 {
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .article-content {
+            line-height: 1.8;
+            font-size: 15px;
+        }
+        .article-content p {
+            margin-bottom: 8px;
+            display: flex;
+            gap: 8px;
+        }
+        .sentence-num {
+            background: var(--accent-primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        
+        /* 통역 연습 */
+        .interp-progress {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .interp-progress .progress-bar {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        .interp-progress .progress-fill {
+            height: 100%;
+            background: var(--accent-primary);
+        }
+        .stage-box {
+            text-align: center;
+            padding: 24px;
+        }
+        .stage-box h3 {
+            margin-bottom: 8px;
+        }
+        .stage-desc {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+        .audio-controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .stage-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .timer-display {
+            font-size: 72px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin: 24px 0;
+        }
     </style>
 </head>
 <body>
@@ -849,21 +1004,64 @@
                 <button class="modal-close" onclick="closeArticleUpdateModal()">×</button>
             </div>
             <div class="modal-body">
+                <div style="background: #fff3cd; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+                    <p style="margin:0; color: #856404; font-size: 13px;">
+                        ⚠️ <strong>AI 환각 방지</strong>: 직접 입력하신 기사는 원문 그대로 저장됩니다.<br>
+                        GPT는 번역과 용어 추출만 담당합니다.
+                    </p>
+                </div>
                 <div class="update-options">
                     <div class="update-option" onclick="updateFromRSS()">
                         <div class="opt-icon">📡</div>
                         <h4>NewsAPI 자동 수집</h4>
-                        <p>실제 뉴스에서 최신 기사를 가져옵니다 (GitHub Token 필요)</p>
+                        <p>실제 뉴스 제목/요약 기반 (GitHub Actions)</p>
+                        <small style="color: #6c757d;">* 본문은 AI 확장</small>
                     </div>
-                    <div class="update-option" onclick="updateManual()" style="border: 2px solid var(--accent-primary);">
+                    <div class="update-option" onclick="updateManual()" style="border: 2px solid var(--accent-primary); background: rgba(var(--accent-primary-rgb), 0.05);">
                         <div class="opt-icon">✍️</div>
-                        <h4>⭐ 직접 입력 (추천)</h4>
-                        <p>기사 제목과 본문을 복사/붙여넣기</p>
+                        <h4>⭐ 직접 입력 (권장)</h4>
+                        <p>기사 복사/붙여넣기 → 원문 100% 유지</p>
+                        <small style="color: #28a745; font-weight: 600;">✓ 환각 없음</small>
                     </div>
                 </div>
-                <div id="update-form-area" style="display:none;">
+                <div id="update-form-area" style="display:none; margin-top: 20px;">
                     <!-- 동적 폼 -->
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 기사 상세보기 모달 -->
+    <div class="modal" id="article-detail-modal">
+        <div class="modal-content modal-xl">
+            <div class="modal-header">
+                <div>
+                    <h3 id="article-detail-title">기사 제목</h3>
+                    <div class="article-detail-meta">
+                        <span id="article-detail-date"></span>
+                        <span id="article-detail-source"></span>
+                        <span id="article-detail-stats"></span>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeArticleDetailModal()">×</button>
+            </div>
+            <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+                <div class="article-detail-section">
+                    <h4>🇺🇸 영어 원문</h4>
+                    <div id="article-detail-en" class="article-content"></div>
+                </div>
+                <div class="article-detail-section" id="article-detail-ko-section">
+                    <h4>🇰🇷 한국어 번역</h4>
+                    <div id="article-detail-ko" class="article-content"></div>
+                </div>
+                <div class="article-detail-section">
+                    <h4>📖 핵심 용어</h4>
+                    <div id="article-detail-terms" class="key-terms-list"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="btn-start-translate">✍️ 번역 연습 시작</button>
+                <button class="btn btn-accent" id="btn-start-interpret">🎙️ 통역 연습 시작</button>
             </div>
         </div>
     </div>

@@ -8,6 +8,25 @@ const App = {
     githubToken: null, githubOwner: 'CHpark19950119', githubRepo: '-NEWLASTTS'
 };
 
+// Storage 확장 (기존 Storage 객체에 함수 추가)
+if (typeof Storage !== 'undefined') {
+    // 기사 진행도 저장
+    Storage.saveArticleProgress = function(articleId, completed, total) {
+        const progress = this.getArticleProgress();
+        progress[articleId] = { completed, total, updatedAt: new Date().toISOString() };
+        localStorage.setItem('articleProgress', JSON.stringify(progress));
+    };
+    
+    // 기사 진행도 가져오기
+    Storage.getArticleProgress = function() {
+        try {
+            return JSON.parse(localStorage.getItem('articleProgress') || '{}');
+        } catch (e) {
+            return {};
+        }
+    };
+}
+
 // ========== 초기화 ==========
 document.addEventListener('DOMContentLoaded', async () => {
     initTheme(); initProfile();
@@ -237,19 +256,70 @@ function renderArticles() {
     let list = [...App.articles];
     if (cat !== 'all') list = list.filter(a => a.category === cat);
     if (lv !== 'all') list = list.filter(a => a.level === lv);
-    if (sort === 'newest') list.sort((a, b) => (b.id || 0) - (a.id || 0));
-    else if (sort === 'oldest') list.sort((a, b) => (a.id || 0) - (b.id || 0));
+    if (sort === 'newest') list.sort((a, b) => new Date(b.generatedAt || 0) - new Date(a.generatedAt || 0));
+    else if (sort === 'oldest') list.sort((a, b) => new Date(a.generatedAt || 0) - new Date(b.generatedAt || 0));
     const grid = document.getElementById('articles-grid');
     if (!list.length) { grid.innerHTML = '<div class="empty-state"><p>기사 없음</p></div>'; return; }
+    
+    // 진행도 데이터 가져오기
+    const progress = Storage.getArticleProgress() || {};
+    
     grid.innerHTML = list.map(a => {
         const ci = App.categories.find(c => c.id === a.category) || { icon: '📰', name: a.category };
         const li = App.levels.find(l => l.id === a.level) || { icon: '📚', name: a.level };
         const hasKorean = a.koreanContent ? '🇰🇷' : '';
-        return '<div class="article-card" onclick="selectArticle(' + a.id + ')"><div class="article-meta"><span>' + ci.icon + ' ' + ci.name + '</span><span>' + li.icon + ' ' + li.name + '</span>' + (hasKorean ? '<span title="한영 번역 가능">🇰🇷</span>' : '') + '</div><h4>' + a.title + '</h4><p>' + (a.summary || a.content?.substring(0, 100) + '...') + '</p><div class="article-footer"><span>' + (a.source || '') + '</span><span>' + (a.wordCount || '-') + '단어</span></div></div>';
+        const sourceTag = a.isRealArticle || a.source?.includes('직접입력') 
+            ? '<span class="badge-real" title="실제 기사">✓실제</span>' 
+            : (a.source === 'AI Generated' ? '<span class="badge-ai" title="AI 생성">🤖AI</span>' : '');
+        
+        // 날짜 포맷
+        const dateStr = a.generatedAt ? formatFullDate(a.generatedAt) : '날짜 없음';
+        
+        // 진행도 계산
+        const articleProgress = progress[a.id] || { completed: 0, total: 0 };
+        const totalSentences = (a.content || '').match(/[^.!?]+[.!?]+/g)?.length || 1;
+        const completedSentences = articleProgress.completed || 0;
+        const progressPct = totalSentences > 0 ? Math.round((completedSentences / totalSentences) * 100) : 0;
+        const progressBar = progressPct > 0 
+            ? `<div class="article-progress"><div class="article-progress-fill" style="width:${progressPct}%"></div><span>${progressPct}%</span></div>` 
+            : '';
+        
+        return `<div class="article-card">
+            <div class="article-meta">
+                <span>${ci.icon} ${ci.name}</span>
+                <span>${li.icon} ${li.name}</span>
+                ${hasKorean ? '<span title="한영 번역 가능">🇰🇷</span>' : ''}
+                ${sourceTag}
+            </div>
+            <h4>${a.title}</h4>
+            <p class="article-summary">${(a.summary || a.content?.substring(0, 100) + '...')}</p>
+            ${progressBar}
+            <div class="article-footer">
+                <span class="article-date">📅 ${dateStr}</span>
+                <span>${a.wordCount || '-'}단어 · ${totalSentences}문장</span>
+            </div>
+            <div class="article-actions">
+                <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); showArticleDetail(${a.id})">📖 원문보기</button>
+                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); startTranslate(${a.id})">✍️ 번역</button>
+                <button class="btn btn-sm btn-accent" onclick="event.stopPropagation(); startInterpret(${a.id})">🎙️ 통역</button>
+            </div>
+        </div>`;
     }).join('');
 }
 
+function formatFullDate(d) {
+    if (!d) return '';
+    const date = new Date(d);
+    return date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+// 기사 선택 (기본: 번역으로 이동)
 function selectArticle(id) {
+    startTranslate(id);
+}
+
+// 번역 연습 시작
+function startTranslate(id) {
     const a = App.articles.find(x => x.id === id);
     if (!a) return;
     App.currentArticle = a;
@@ -259,6 +329,69 @@ function selectArticle(id) {
     Storage.updateStreak();
     setupTranslation(a);
     navigateTo('translate');
+}
+
+// 통역 연습 시작
+function startInterpret(id) {
+    const a = App.articles.find(x => x.id === id);
+    if (!a) return;
+    App.currentArticle = a;
+    Storage.addHistory({ type: 'article', articleId: id });
+    Storage.updateDailyProgress({ article: true });
+    setupInterpretation(a);
+    navigateTo('interpret');
+}
+
+// 기사 원문 상세보기
+function showArticleDetail(id) {
+    const a = App.articles.find(x => x.id === id);
+    if (!a) return;
+    
+    const dateStr = a.generatedAt ? formatFullDate(a.generatedAt) : '날짜 없음';
+    const sentences = (a.content || '').match(/[^.!?]+[.!?]+/g) || [];
+    
+    const modal = document.getElementById('article-detail-modal');
+    document.getElementById('article-detail-title').textContent = a.title;
+    document.getElementById('article-detail-date').textContent = '📅 ' + dateStr;
+    document.getElementById('article-detail-source').textContent = a.source || '';
+    document.getElementById('article-detail-stats').textContent = `${a.wordCount || '-'}단어 · ${sentences.length}문장`;
+    
+    // 영어 원문 (문장 번호 표시)
+    document.getElementById('article-detail-en').innerHTML = sentences.map((s, i) => 
+        `<p><span class="sentence-num">${i+1}</span> ${s.trim()}</p>`
+    ).join('');
+    
+    // 한국어 번역 (있으면)
+    const koContent = a.koreanContent || '';
+    const koSentences = koContent ? (koContent.match(/[^.!?。]+[.!?。]+/g) || [koContent]) : [];
+    if (koSentences.length > 0) {
+        document.getElementById('article-detail-ko-section').style.display = 'block';
+        document.getElementById('article-detail-ko').innerHTML = koSentences.map((s, i) => 
+            `<p><span class="sentence-num">${i+1}</span> ${s.trim()}</p>`
+        ).join('');
+    } else {
+        document.getElementById('article-detail-ko-section').style.display = 'none';
+    }
+    
+    // 핵심 용어
+    if (a.keyTerms?.length) {
+        document.getElementById('article-detail-terms').innerHTML = a.keyTerms.map(t => 
+            `<span class="key-term">${t.en} <span class="ko">${t.ko}</span></span>`
+        ).join('');
+    } else {
+        document.getElementById('article-detail-terms').innerHTML = '<p>핵심 용어 없음</p>';
+    }
+    
+    // 모달 열기
+    modal.classList.add('active');
+    
+    // 버튼에 ID 저장
+    document.getElementById('btn-start-translate').onclick = () => { closeArticleDetailModal(); startTranslate(id); };
+    document.getElementById('btn-start-interpret').onclick = () => { closeArticleDetailModal(); startInterpret(id); };
+}
+
+function closeArticleDetailModal() {
+    document.getElementById('article-detail-modal').classList.remove('active');
 }
 
 // ========== 번역 연습 ==========
@@ -419,6 +552,10 @@ function nextPhrase() {
 function finishTranslation() {
     const completed = App.phraseFeedbacks.filter(f => !f.skipped).length;
     const avg = completed > 0 ? Math.round(App.phraseFeedbacks.filter(f => !f.skipped).reduce((s, f) => s + f.score, 0) / completed) : 0;
+    
+    // 진행도 저장
+    Storage.saveArticleProgress(App.currentArticle.id, completed, App.phrases.length);
+    
     Storage.addArchive({ type: 'translation', articleId: App.currentArticle.id, articleTitle: App.currentArticle.title, totalPhrases: App.phrases.length, completedPhrases: completed, averageScore: avg, phraseFeedbacks: App.phraseFeedbacks, direction: App.translateDirection });
     Storage.addGachaTicket(1);
     showToast('완료! 평균 ' + avg + '점, +1 티켓');
@@ -426,6 +563,229 @@ function finishTranslation() {
 }
 
 function addTermToVocab(en, ko) { Storage.addWord({ english: en, korean: ko }); showToast('"' + en + '" 추가됨'); }
+
+// ========== 통역 연습 ==========
+const InterpretApp = {
+    stage: 1,
+    currentPhrase: null,
+    phraseIndex: 0,
+    results: []
+};
+
+function setupInterpretation(a) {
+    document.getElementById('interp-empty').style.display = 'none';
+    document.getElementById('interp-content').style.display = 'block';
+    
+    const enContent = a.content || '';
+    const enSentences = enContent.match(/[^.!?]+[.!?]+/g) || [enContent];
+    const koContent = a.koreanContent || '';
+    const koSentences = koContent ? (koContent.match(/[^.!?。]+[.!?。]+/g) || [koContent]) : [];
+    
+    App.phrases = enSentences.map((s, i) => ({ 
+        en: s.trim(), 
+        ko: koSentences[i]?.trim() || '' 
+    }));
+    
+    InterpretApp.phraseIndex = 0;
+    InterpretApp.results = [];
+    InterpretApp.stage = 1;
+    
+    updateInterpretStage();
+    showInterpretPhrase();
+}
+
+function updateInterpretStage() {
+    document.querySelectorAll('.interp-stages .stage').forEach((el, i) => {
+        el.classList.toggle('active', i + 1 === InterpretApp.stage);
+        el.classList.toggle('completed', i + 1 < InterpretApp.stage);
+    });
+}
+
+function showInterpretPhrase() {
+    const p = App.phrases[InterpretApp.phraseIndex];
+    if (!p) return;
+    
+    InterpretApp.currentPhrase = p;
+    const workspace = document.getElementById('interp-workspace');
+    const total = App.phrases.length;
+    const current = InterpretApp.phraseIndex + 1;
+    
+    workspace.innerHTML = `
+        <div class="interp-progress">
+            <span>${current} / ${total} 문장</span>
+            <div class="progress-bar"><div class="progress-fill" style="width:${(current/total)*100}%"></div></div>
+        </div>
+        <div class="interp-stage-content">
+            ${getStageContent(InterpretApp.stage, p)}
+        </div>
+    `;
+}
+
+function getStageContent(stage, phrase) {
+    switch(stage) {
+        case 1: // 듣기
+            return `
+                <div class="stage-box">
+                    <h3>🎧 1단계: 듣기</h3>
+                    <p class="stage-desc">원문을 듣고 내용을 파악하세요</p>
+                    <div class="audio-controls">
+                        <button class="btn btn-lg btn-primary" onclick="playInterpretAudio()">
+                            🔊 원문 듣기
+                        </button>
+                        <button class="btn btn-secondary" onclick="playInterpretAudio(0.7)">
+                            🐢 느리게
+                        </button>
+                    </div>
+                    <div class="stage-actions">
+                        <button class="btn btn-ghost" onclick="showInterpretText()">📖 원문 보기</button>
+                        <button class="btn btn-primary" onclick="nextInterpretStage()">다음 단계 →</button>
+                    </div>
+                </div>
+            `;
+        case 2: // 기억
+            return `
+                <div class="stage-box">
+                    <h3>🧠 2단계: 기억</h3>
+                    <p class="stage-desc">들은 내용을 정리하고 핵심을 기억하세요 (10초)</p>
+                    <div class="timer-display" id="interp-timer">10</div>
+                    <div class="stage-actions">
+                        <button class="btn btn-secondary" onclick="playInterpretAudio()">🔊 다시 듣기</button>
+                        <button class="btn btn-primary" onclick="nextInterpretStage()">녹음 시작 →</button>
+                    </div>
+                </div>
+            `;
+        case 3: // 녹음/입력
+            return `
+                <div class="stage-box">
+                    <h3>🎙️ 3단계: 통역</h3>
+                    <p class="stage-desc">한국어로 통역하세요</p>
+                    <textarea id="interp-input" placeholder="한국어로 통역한 내용을 입력하세요..." style="width:100%;height:120px;padding:12px;border-radius:8px;border:1px solid var(--border-color);font-size:16px;"></textarea>
+                    <div class="stage-actions">
+                        <button class="btn btn-secondary" onclick="playInterpretAudio()">🔊 다시 듣기</button>
+                        <button class="btn btn-primary" onclick="submitInterpretation()">제출 & 평가 →</button>
+                    </div>
+                </div>
+            `;
+        case 4: // 평가
+            return `
+                <div class="stage-box">
+                    <h3>📊 4단계: 평가</h3>
+                    <div id="interp-feedback">평가 중...</div>
+                </div>
+            `;
+        default:
+            return '';
+    }
+}
+
+function playInterpretAudio(rate = 1) {
+    if (InterpretApp.currentPhrase) {
+        TTS.speak(InterpretApp.currentPhrase.en, 'en-US', rate);
+    }
+}
+
+function showInterpretText() {
+    if (InterpretApp.currentPhrase) {
+        showToast(InterpretApp.currentPhrase.en, 'info');
+    }
+}
+
+function nextInterpretStage() {
+    InterpretApp.stage++;
+    if (InterpretApp.stage > 4) {
+        InterpretApp.stage = 1;
+        InterpretApp.phraseIndex++;
+        if (InterpretApp.phraseIndex >= App.phrases.length) {
+            finishInterpretation();
+            return;
+        }
+    }
+    updateInterpretStage();
+    showInterpretPhrase();
+    
+    // 2단계 타이머
+    if (InterpretApp.stage === 2) {
+        startInterpretTimer();
+    }
+}
+
+function startInterpretTimer() {
+    let seconds = 10;
+    const timer = document.getElementById('interp-timer');
+    const interval = setInterval(() => {
+        seconds--;
+        if (timer) timer.textContent = seconds;
+        if (seconds <= 0) {
+            clearInterval(interval);
+            nextInterpretStage();
+        }
+    }, 1000);
+}
+
+async function submitInterpretation() {
+    const input = document.getElementById('interp-input')?.value.trim();
+    if (!input) { showToast('통역 내용을 입력하세요', 'warning'); return; }
+    
+    InterpretApp.stage = 4;
+    updateInterpretStage();
+    showInterpretPhrase();
+    
+    showLoading(true, '통역 평가 중...');
+    
+    try {
+        const fb = await API.getInterpretationFeedback(
+            InterpretApp.currentPhrase.en, 
+            input, 
+            'en-ko', 
+            false
+        );
+        
+        InterpretApp.results.push({
+            original: InterpretApp.currentPhrase.en,
+            interpretation: input,
+            score: fb.score,
+            feedback: fb
+        });
+        
+        showLoading(false);
+        
+        document.getElementById('interp-feedback').innerHTML = `
+            <div class="feedback-score">
+                <span class="score-num">${fb.score}</span>
+                <span class="score-label">점</span>
+            </div>
+            <p class="feedback-main">${fb.feedback}</p>
+            ${fb.missedPoints?.length ? '<h4>❌ 누락된 내용</h4><ul>' + fb.missedPoints.map(p => '<li>' + p + '</li>').join('') + '</ul>' : ''}
+            ${fb.goodPoints?.length ? '<h4>✅ 잘한 점</h4><ul>' + fb.goodPoints.map(p => '<li>' + p + '</li>').join('') + '</ul>' : ''}
+            ${fb.modelInterpretation ? '<h4>📝 모범 통역</h4><div class="model-answer">' + fb.modelInterpretation + '</div>' : ''}
+            <button class="btn btn-primary" onclick="nextInterpretStage()" style="margin-top:16px;">
+                ${InterpretApp.phraseIndex < App.phrases.length - 1 ? '다음 문장 →' : '결과 보기 →'}
+            </button>
+        `;
+    } catch (e) {
+        showLoading(false);
+        showToast('평가 실패: ' + e.message, 'error');
+    }
+}
+
+function finishInterpretation() {
+    const completed = InterpretApp.results.length;
+    const avg = completed > 0 ? Math.round(InterpretApp.results.reduce((s, r) => s + r.score, 0) / completed) : 0;
+    
+    Storage.addArchive({ 
+        type: 'interpretation', 
+        articleId: App.currentArticle.id, 
+        articleTitle: App.currentArticle.title, 
+        totalPhrases: App.phrases.length, 
+        completedPhrases: completed, 
+        averageScore: avg, 
+        results: InterpretApp.results 
+    });
+    Storage.addGachaTicket(1);
+    showToast('통역 완료! 평균 ' + avg + '점, +1 티켓');
+    navigateTo('dashboard'); 
+    updateDashboard();
+}
 
 // ========== 기사 업데이트 ==========
 function openArticleUpdateModal() {
@@ -493,23 +853,29 @@ function updateManual() {
     const formArea = document.getElementById('update-form-area');
     formArea.style.display = 'block';
     formArea.innerHTML = `
-        <div class="form-group">
-            <label>기사 제목</label>
-            <input type="text" id="manual-title" placeholder="제목 입력" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--border-color);">
+        <div style="background: #d4edda; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+            <p style="margin:0; color: #155724;">
+                ✅ <strong>원문 100% 유지</strong> - 복사한 기사가 그대로 저장됩니다.<br>
+                GPT는 번역과 핵심용어 추출만 담당합니다.
+            </p>
         </div>
         <div class="form-group">
-            <label>기사 내용</label>
-            <textarea id="manual-content" placeholder="기사 본문을 붙여넣으세요..." style="width:100%;height:200px;padding:12px;border-radius:8px;border:1px solid var(--border-color);resize:vertical;"></textarea>
+            <label>📰 기사 제목 (복사/붙여넣기)</label>
+            <input type="text" id="manual-title" placeholder="기사 제목을 붙여넣으세요" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--border-color);">
         </div>
         <div class="form-group">
-            <label>언어</label>
-            <select id="manual-lang" style="padding:12px;border-radius:8px;border:1px solid var(--border-color);">
-                <option value="en">영어 기사</option>
-                <option value="ko">한국어 기사</option>
+            <label>📝 기사 본문 (복사/붙여넣기)</label>
+            <textarea id="manual-content" placeholder="기사 전체 본문을 붙여넣으세요..." style="width:100%;height:250px;padding:12px;border-radius:8px;border:1px solid var(--border-color);resize:vertical;font-size:14px;line-height:1.6;"></textarea>
+        </div>
+        <div class="form-group">
+            <label>🌐 원문 언어</label>
+            <select id="manual-lang" style="padding:12px;border-radius:8px;border:1px solid var(--border-color);width:100%;">
+                <option value="en">🇺🇸 영어 기사 → 한국어 번역 생성</option>
+                <option value="ko">🇰🇷 한국어 기사 → 영어 번역 생성</option>
             </select>
         </div>
-        <button class="btn btn-primary" onclick="processManualArticle()" style="margin-top:12px;">
-            ✨ 기사 변환 및 추가
+        <button class="btn btn-primary" onclick="processManualArticle()" style="margin-top:12px;width:100%;">
+            ✨ 번역 생성 및 기사 추가
         </button>
     `;
 }
@@ -521,32 +887,34 @@ async function processManualArticle() {
     
     if (!title || !content) { showToast('제목과 내용을 입력하세요', 'warning'); return; }
     
-    showLoading(true, '기사 변환 중...');
+    showLoading(true, '번역 및 용어 추출 중...');
     
     try {
         const article = await API.createArticleFromText(title, content, lang === 'ko');
         
-        if (article && article.content) {
+        if (article) {
             const newId = Math.max(0, ...App.articles.map(a => a.id || 0)) + 1;
             const newArticle = {
                 id: newId,
+                // 원문 유지
                 title: article.title,
-                summary: article.summary,
                 content: article.content,
                 koreanContent: article.koreanContent || '',
+                summary: article.summary || content.substring(0, 150) + '...',
                 category: article.category || 'economy',
-                level: article.level || 'advanced',
-                source: 'Manual Input',
+                level: 'advanced',
+                source: lang === 'ko' ? '직접입력 (한국어 원문)' : '직접입력 (영어 원문)',
                 keyTerms: article.keyTerms || [],
                 wordCount: article.content.split(/\s+/).length,
-                generatedAt: new Date().toISOString()
+                generatedAt: new Date().toISOString(),
+                isRealArticle: true // 실제 기사 표시
             };
             
             App.articles.unshift(newArticle);
-            Storage.set('customArticles', App.articles.filter(a => a.source === 'URL Import' || a.source === 'Manual Input'));
+            Storage.set('customArticles', App.articles.filter(a => a.source?.includes('직접입력')));
             
             showLoading(false);
-            showToast('✅ 기사 추가 완료!', 'success');
+            showToast('✅ 기사 추가 완료! (원문 유지, 번역 생성됨)', 'success');
             closeArticleUpdateModal();
             renderArticles();
         } else {

@@ -166,53 +166,100 @@ const API = {
         }
     },
     
+    // 통역 평가 요청
+    async getInterpretationFeedback(original, userInterpretation, direction = 'en-ko', usePremium = false) {
+        const prompt = `당신은 통번역대학원 교수로서 학생의 통역을 평가합니다.
+
+【원문 (영어)】
+"${original}"
+
+【학습자 통역 (한국어)】
+"${userInterpretation}"
+
+【평가 기준】
+1. 완성도 (40점): 원문의 핵심 정보가 모두 전달되었는가
+2. 정확성 (30점): 오역이나 왜곡 없이 정확한가
+3. 유창성 (30점): 자연스럽고 유창한 한국어인가
+
+JSON 형식으로만 응답하세요:
+{
+  "score": 0-100,
+  "feedback": "전체 평가 (유창성, 정확성, 완성도를 3-4문장으로)",
+  "missedPoints": ["누락된 내용 1", "누락된 내용 2"],
+  "goodPoints": ["잘한 점 1", "잘한 점 2"],
+  "modelInterpretation": "모범 통역"
+}`;
+
+        try {
+            const response = usePremium 
+                ? await this.callClaude(prompt)
+                : await this.callGPT(prompt);
+            const jsonMatch = response.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+                return JSON.parse(jsonMatch[0]);
+            }
+            throw new Error('응답 파싱 실패');
+        } catch (error) {
+            console.error('Interpretation feedback error:', error);
+            return {
+                score: 0,
+                feedback: 'AI 평가 오류: ' + error.message,
+                missedPoints: [],
+                goodPoints: [],
+                modelInterpretation: ''
+            };
+        }
+    },
+    
     // URL은 브라우저에서 직접 접근 불가 (CORS)
     // 대신 사용자가 기사 내용을 복사해서 붙여넣도록 안내
     async extractArticleFromURL(url) {
         throw new Error('URL 직접 접근 불가. 기사 내용을 복사해서 "직접 입력"을 사용하세요.');
     },
     
-    // 직접 텍스트로 기사 생성
+    // 직접 입력된 텍스트로 기사 생성 (원문 유지, 번역만 GPT)
     async createArticleFromText(title, content, isKorean = false) {
         const prompt = isKorean 
-            ? `다음 한국어 기사를 통번역 학습용으로 변환해주세요.
+            ? `다음 한국어 기사를 영어로 번역하고 핵심 용어를 추출하세요.
 
+【원문 (수정하지 마세요)】
 제목: ${title}
-내용: ${content}
+본문: ${content}
 
-작업:
-1. 영어로 번역 (350-450 단어, Reuters 스타일)
-2. 원본 한국어 다듬기
-3. 핵심 용어 5개
+【작업】
+1. 제목을 영어로 번역
+2. 본문을 전문적인 영어로 번역 (Reuters/Bloomberg 스타일)
+3. 핵심 통번역 용어 5개 추출
+
+【중요】원문 내용을 그대로 번역하세요. 새로운 내용을 추가하지 마세요.
 
 JSON 형식:
 {
-  "title": "영어 제목",
-  "content": "영어 본문",
-  "koreanContent": "한국어 본문",
-  "summary": "요약",
+  "englishTitle": "영어 제목",
+  "englishContent": "영어 번역",
+  "summary": "2-3문장 요약",
   "category": "economy|politics|tech|health|science",
-  "level": "advanced",
   "keyTerms": [{"en": "term", "ko": "용어"}]
 }`
-            : `다음 영어 기사를 통번역 학습용으로 변환해주세요.
+            : `다음 영어 기사를 한국어로 번역하고 핵심 용어를 추출하세요.
 
-제목: ${title}
-내용: ${content}
+【원문 (수정하지 마세요)】
+Title: ${title}
+Content: ${content}
 
-작업:
-1. 영어 본문 다듬기 (350-450 단어)
-2. 전문적인 한국어 번역
-3. 핵심 용어 5개
+【작업】
+1. 제목을 한국어로 번역
+2. 본문을 전문적인 한국어로 번역 (통번역대학원 수준)
+3. 핵심 통번역 용어 5개 추출
+
+【중요】원문 내용을 그대로 번역하세요. 새로운 내용을 추가하지 마세요.
 
 JSON 형식:
 {
-  "title": "영어 제목",
-  "content": "영어 본문",
+  "koreanTitle": "한국어 제목",
   "koreanContent": "한국어 번역",
-  "summary": "요약",
+  "summary": "2-3문장 요약",
   "category": "economy|politics|tech|health|science",
-  "level": "advanced",
   "keyTerms": [{"en": "term", "ko": "용어"}]
 }`;
 
@@ -220,9 +267,32 @@ JSON 형식:
             const response = await this.callGPT(prompt);
             const jsonMatch = response.match(/\{[\s\S]*\}/);
             if (jsonMatch) {
-                return JSON.parse(jsonMatch[0]);
+                const result = JSON.parse(jsonMatch[0]);
+                
+                // 원문 유지, 번역만 추가
+                if (isKorean) {
+                    return {
+                        title: result.englishTitle || title,
+                        content: result.englishContent || content,
+                        koreanTitle: title,
+                        koreanContent: content, // 원문 그대로
+                        summary: result.summary,
+                        category: result.category || 'economy',
+                        keyTerms: result.keyTerms || []
+                    };
+                } else {
+                    return {
+                        title: title, // 원문 그대로
+                        content: content, // 원문 그대로
+                        koreanTitle: result.koreanTitle,
+                        koreanContent: result.koreanContent,
+                        summary: result.summary,
+                        category: result.category || 'economy',
+                        keyTerms: result.keyTerms || []
+                    };
+                }
             }
-            throw new Error('기사 생성 실패');
+            throw new Error('번역 실패');
         } catch (error) {
             console.error('Article creation error:', error);
             return null;
