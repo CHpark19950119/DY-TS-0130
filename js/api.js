@@ -2,7 +2,7 @@
 
 const API = {
     // Google Cloud 프록시 URL
-    PROXY_URL: 'https://claude-proxy-957117035071.us-central1.run.app',
+    PROXY_URL: 'https://claude-proxy-957117035071.us-central1.run.app/claudeProxy',
     TTS_URL: 'https://claude-proxy-957117035071.us-central1.run.app/ttsProxy',
     
     // GPT 호출 (gpt-4o-mini)
@@ -10,7 +10,7 @@ const API = {
         try {
             console.log('🚀 Calling GPT API...');
             
-            const response = await fetch(this.PROXY_URL + '/claudeProxy', {
+            const response = await fetch(this.PROXY_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -57,7 +57,7 @@ const API = {
         try {
             console.log('🚀 Calling Claude API...');
             
-            const response = await fetch(this.PROXY_URL + '/claudeProxy', {
+            const response = await fetch(this.PROXY_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -370,14 +370,20 @@ const TTS = {
             const blob = await response.blob();
             const audioUrl = URL.createObjectURL(blob);
             
-            // 기존 음성 정지
+            // 기존 음성 정지 (안전하게)
             if (this.currentAudio) {
-                this.currentAudio.pause();
+                try {
+                    this.currentAudio.pause();
+                    this.currentAudio.currentTime = 0;
+                } catch (e) {
+                    console.log('[TTS] 이전 음성 정지 중 오류:', e.message);
+                }
                 this.currentAudio = null;
             }
             
-            // 새 음성 재생
+            // 새 음성 생성
             this.currentAudio = new Audio(audioUrl);
+            this.currentAudio.preload = 'auto';
             this.speaking = true;
             
             this.currentAudio.onended = () => {
@@ -391,8 +397,17 @@ const TTS = {
                 this.currentAudio = null;
             };
             
-            await this.currentAudio.play();
-            console.log('[TTS] 음성 재생 시작');
+            // play() 호출을 안전하게
+            try {
+                await this.currentAudio.play();
+                console.log('[TTS] 음성 재생 시작');
+            } catch (playError) {
+                console.error('[TTS] play() 오류:', playError.message);
+                // AbortError는 무시하고 계속 진행
+                if (playError.name !== 'AbortError') {
+                    throw playError;
+                }
+            }
         } catch (error) {
             console.error('[TTS] 오류:', error);
             this.speaking = false;
@@ -407,7 +422,7 @@ const TTS = {
     getVoiceName(lang) {
         const voices = {
             'ko-KR': 'ko-KR-Standard-A',
-            'en-US': 'en-US-Standard-A',
+            'en-US': 'en-US-Neural2-A',  // ← 자연스러운 음성으로 변경
             'en-GB': 'en-GB-Standard-A',
             'ja-JP': 'ja-JP-Standard-A',
             'zh-CN': 'zh-CN-Standard-A'
