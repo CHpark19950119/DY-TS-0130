@@ -5,42 +5,26 @@ const path = require('path');
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
-// 다양한 RSS 소스
+// RSS 소스
 const RSS_SOURCES = [
-  // 경제
   { url: 'https://feeds.reuters.com/reuters/businessNews', category: 'economy', source: 'Reuters' },
-  { url: 'https://feeds.bloomberg.com/markets/news.rss', category: 'economy', source: 'Bloomberg' },
-  { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml', category: 'economy', source: 'NYT' },
-  
-  // 정치/외교
   { url: 'https://feeds.reuters.com/Reuters/worldNews', category: 'politics', source: 'Reuters' },
-  { url: 'https://feeds.bbci.co.uk/news/world/rss.xml', category: 'politics', source: 'BBC' },
-  { url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml', category: 'politics', source: 'NYT' },
-  
-  // 기술
   { url: 'https://feeds.reuters.com/reuters/technologyNews', category: 'tech', source: 'Reuters' },
-  { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml', category: 'tech', source: 'NYT' },
-  
-  // 보건
   { url: 'https://feeds.reuters.com/reuters/healthNews', category: 'health', source: 'Reuters' },
-  { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Health.xml', category: 'health', source: 'NYT' },
+  { url: 'https://feeds.bbci.co.uk/news/world/rss.xml', category: 'politics', source: 'BBC' },
+  { url: 'https://feeds.bbci.co.uk/news/business/rss.xml', category: 'economy', source: 'BBC' },
 ];
 
-// RSS 파싱 (간단한 정규식 방식)
 async function fetchRSS(url) {
   try {
-    const response = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0' }
-    });
+    const response = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
     const text = await response.text();
-    
     const items = [];
     const itemMatches = text.match(/<item>([\s\S]*?)<\/item>/g) || [];
     
-    for (const item of itemMatches.slice(0, 5)) {
+    for (const item of itemMatches.slice(0, 3)) {
       const title = item.match(/<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/title>/)?.[1] || '';
       const description = item.match(/<description>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/description>/)?.[1] || '';
-      
       if (title && title.length > 20) {
         items.push({
           title: title.replace(/<[^>]*>/g, '').trim(),
@@ -48,52 +32,31 @@ async function fetchRSS(url) {
         });
       }
     }
-    
     return items;
   } catch (error) {
-    console.error(`RSS fetch error (${url}):`, error.message);
+    console.error(`RSS error (${url}):`, error.message);
     return [];
   }
 }
 
-// GPT로 기사 확장
 async function expandArticle(title, summary, category, source) {
-  const categoryInfo = {
-    economy: '경제/금융 (거시경제, 통화정책, 금융시장, 기업 실적)',
-    politics: '국제정치/외교 (외교, 안보, 국제관계, 정상회담)',
-    law: '법률/규제 (국제법, 통상법, 규제 정책)',
-    health: '의료/보건 (공중보건, 의료정책, 신약 개발)',
-    tech: '기술/IT (AI, 반도체, 디지털 전환, 스타트업)'
-  };
-
-  const prompt = `You are a Reuters/Bloomberg-level professional news writer.
-
-## Task
-Write a professional English news article for translation practice.
+  const prompt = `You are a Reuters/Bloomberg journalist. Write a 350-450 word English news article.
 
 Title: ${title}
 Summary: ${summary}
-Category: ${categoryInfo[category] || category}
-Source style: ${source}
+Category: ${category}
 
-## Requirements
-1. Write 350-450 words in formal journalistic English
-2. Structure: Lead → Body → Expert quote → Outlook
-3. Include specific numbers, dates, and names
-4. Use advanced vocabulary suitable for translation exams
-5. Maintain objective, neutral tone
+Requirements:
+1. Formal journalistic English
+2. Include numbers, dates, expert quotes
+3. Structure: Lead → Body → Quote → Outlook
 
-Respond ONLY with this JSON format:
+Respond with JSON only:
 {
-  "content": "Full article text (350-450 words)",
+  "content": "English article (350-450 words)",
+  "koreanContent": "한국어 번역",
   "level": "intermediate|advanced|expert",
-  "keyTerms": [
-    {"en": "term1", "ko": "용어1"},
-    {"en": "term2", "ko": "용어2"},
-    {"en": "term3", "ko": "용어3"},
-    {"en": "term4", "ko": "용어4"},
-    {"en": "term5", "ko": "용어5"}
-  ]
+  "keyTerms": [{"en": "term", "ko": "용어"}]
 }`;
 
   try {
@@ -104,31 +67,25 @@ Respond ONLY with this JSON format:
         'Authorization': `Bearer ${OPENAI_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'gpt-5-mini',
+        model: 'gpt-4o-mini',
         messages: [{ role: 'user', content: prompt }],
-        max_tokens: 2000
+        max_tokens: 2500
       })
     });
 
     const data = await response.json();
     const text = data.choices?.[0]?.message?.content || '';
     const jsonMatch = text.match(/\{[\s\S]*\}/);
-    
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
-    }
+    if (jsonMatch) return JSON.parse(jsonMatch[0]);
   } catch (error) {
     console.error('Article expansion error:', error.message);
   }
-  
   return null;
 }
 
-// 메인 실행
 async function main() {
   console.log('📰 Starting article generation...');
   
-  // 기존 기사 로드
   const articlesPath = path.join(__dirname, '..', 'data', 'articles.json');
   let existingData = { articles: [], categories: [], levels: [] };
   
@@ -138,7 +95,6 @@ async function main() {
     console.log('Creating new articles.json');
   }
   
-  // 카테고리/레벨 정의
   existingData.categories = [
     { id: 'economy', name: '경제', icon: '💰' },
     { id: 'politics', name: '정치/외교', icon: '🌍' },
@@ -156,18 +112,12 @@ async function main() {
   const newArticles = [];
   let articleId = Math.max(0, ...existingData.articles.map(a => a.id || 0)) + 1;
   
-  // 각 카테고리에서 1-2개씩 기사 생성
-  for (const source of RSS_SOURCES) {
+  for (const source of RSS_SOURCES.slice(0, 4)) {
     console.log(`\n📡 Fetching from ${source.source} (${source.category})...`);
-    
     const items = await fetchRSS(source.url);
     
-    if (items.length === 0) {
-      console.log('  No items found');
-      continue;
-    }
+    if (items.length === 0) continue;
     
-    // 첫 번째 아이템만 처리 (비용 절약)
     const item = items[0];
     console.log(`  Processing: ${item.title.substring(0, 50)}...`);
     
@@ -179,6 +129,7 @@ async function main() {
         title: item.title,
         summary: item.summary,
         content: expanded.content,
+        koreanContent: expanded.koreanContent || '',
         category: source.category,
         level: expanded.level || 'advanced',
         source: source.source,
@@ -189,18 +140,13 @@ async function main() {
       console.log(`  ✅ Generated article #${articleId - 1}`);
     }
     
-    // API 레이트 리밋 방지
     await new Promise(r => setTimeout(r, 2000));
   }
   
-  // 새 기사를 맨 앞에 추가
   existingData.articles = [...newArticles, ...existingData.articles].slice(0, 100);
-  
-  // 저장
   fs.writeFileSync(articlesPath, JSON.stringify(existingData, null, 2));
   
   console.log(`\n✅ Done! Generated ${newArticles.length} new articles.`);
-  console.log(`📊 Total articles: ${existingData.articles.length}`);
 }
 
 main().catch(console.error);

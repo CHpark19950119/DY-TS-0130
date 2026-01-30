@@ -8,6 +8,88 @@
     <link rel="stylesheet" href="css/themes.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/games.css">
+    <style>
+        /* 프리미엄 버튼 */
+        .btn-premium {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        .btn-premium:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-1px);
+        }
+        
+        /* 모델 뱃지 */
+        .model-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .model-badge.gpt {
+            background: linear-gradient(135deg, #10a37f 0%, #1a7f64 100%);
+            color: white;
+        }
+        .model-badge.premium {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        /* 피드백 스타일 개선 */
+        .feedback-main {
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-primary);
+        }
+        
+        /* 분석 섹션 */
+        .analysis-section {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .analysis-item {
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .analysis-item:last-child {
+            margin-bottom: 0;
+        }
+        .analysis-item strong {
+            color: var(--accent-primary);
+        }
+        
+        /* 모범 번역 */
+        .model-answer {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 1px solid var(--accent-primary);
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        
+        /* 버튼 그룹 */
+        .trans-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .trans-actions .btn {
+            flex: 1;
+            min-width: 120px;
+        }
+    </style>
 </head>
 <body>
     <!-- 배경 효과 -->
@@ -349,8 +431,11 @@
                             <textarea id="trans-input" placeholder="번역을 입력하세요..."></textarea>
                             <div class="trans-actions">
                                 <button class="btn btn-ghost" onclick="skipPhrase()">건너뛰기</button>
-                                <button class="btn btn-primary" onclick="submitTranslation()">
-                                    제출 & AI 첨삭 ✨
+                                <button class="btn btn-primary" onclick="submitWithGPT()">
+                                    🚀 GPT 첨삭
+                                </button>
+                                <button class="btn btn-premium" onclick="submitWithClaude()">
+                                    ✨ Claude 프리미엄
                                 </button>
                             </div>
                         </div>
@@ -664,25 +749,20 @@
                         </div>
                     </div>
 
-                    <!-- API 설정 -->
+                    <!-- AI 연동 상태 -->
                     <div class="settings-card">
-                        <h3>🤖 AI API 설정</h3>
+                        <h3>🤖 AI 연동 상태</h3>
                         <div class="setting-item">
-                            <label>AI 모델 선택</label>
-                            <select id="set-ai-model">
-                                <option value="claude">Claude (Anthropic)</option>
-                                <option value="gpt">GPT (OpenAI)</option>
-                            </select>
+                            <p style="color: var(--accent-primary);">✅ Google Cloud 프록시 연결됨</p>
+                            <small>GPT-5 mini / Claude Sonnet 4 사용 가능</small>
                         </div>
                         <div class="setting-item">
-                            <label>Anthropic API Key</label>
-                            <input type="password" id="api-key-claude" placeholder="sk-ant-...">
+                            <label>GitHub 토큰 (기사 업데이트용)</label>
+                            <p id="github-token-status" style="font-size: 14px; color: var(--text-secondary);">
+                                토큰은 기사 업데이트 시 입력됩니다
+                            </p>
+                            <button class="btn btn-secondary" onclick="resetGithubToken()">토큰 초기화</button>
                         </div>
-                        <div class="setting-item">
-                            <label>OpenAI API Key</label>
-                            <input type="password" id="api-key-openai" placeholder="sk-...">
-                        </div>
-                        <button class="btn btn-secondary" onclick="saveApiKeys()">API 키 저장</button>
                     </div>
 
                     <!-- D-Day 설정 -->
