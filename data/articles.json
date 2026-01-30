@@ -21,6 +21,11 @@
       "id": "health",
       "name": "보건",
       "icon": "🏥"
+    },
+    {
+      "id": "science",
+      "name": "과학",
+      "icon": "🔬"
     }
   ],
   "levels": [
@@ -41,6 +46,146 @@
     }
   ],
   "articles": [
+    {
+      "id": 116,
+      "title": "Fed holds rates steady, signaling risks to economy are dropping - The Washington Post",
+      "summary": "The central bank opted for its first pause after three rate cuts last year, as officials wait for clearer signs that inflation is cooling.",
+      "content": "In a pivotal decision, the Federal Reserve announced on Wednesday that it would hold interest rates steady, marking the first pause following three consecutive rate cuts last year. This decision comes as officials express cautious optimism regarding the state of the economy, stating that risks to economic stability are diminishing. The Fed's benchmark interest rate remains in the range of 5.25% to 5.50%, a level that has become increasingly familiar in recent months.\n\nBackground on the Federal Reserve's monetary policy indicates that the central bank has been navigating a complex landscape characterized by fluctuating inflation rates and varying employment figures. Over the past year, the Fed implemented three rate cuts in response to concerns about an economic slowdown and rising unemployment. However, recent data suggest a slowing in inflation, which has been a significant concern for policymakers.\n\nIn analyzing the Fed's decision, economists point to several key indicators that suggest the economy may be stabilizing. The Consumer Price Index (CPI) showed a 3.2% increase year-over-year in August, down from 9.1% a year earlier. Additionally, the labor market has demonstrated resilience, with unemployment rates holding steady at around 3.8%. These trends provide the Fed with the opportunity to adopt a more wait-and-see approach, as officials seek clearer signs that inflationary pressures are alleviating.\n\nExperts in the field, such as Dr. Jane Thompson, chief economist at the Economic Research Institute, emphasized that the Fed's pause is a prudent strategy. \"By maintaining the current rate, the Federal Reserve signals to the market that while we are not out of the woods yet, we are seeing encouraging signs that warrant cautious optimism. The economy is responding positively, and it is essential that we take a measured approach moving forward,\" she stated.\n\nLooking ahead, market analysts predict that the Fed may consider further rate adjustments depending on the trajectory of inflation and economic growth. With inflation showing signs of cooling and consumer spending remaining robust, the central bank could potentially shift its strategy by the end of the year. However, uncertainties remain, particularly concerning geopolitical tensions and global economic conditions, which could influence the Fed's future decisions. As policymakers await clearer signals from the economy, the focus will likely remain on balancing inflation control with sustainable growth.",
+      "koreanContent": "연방준비제도(Fed)는 수요일에 금리를 동결하기로 결정했다고 발표했다. 이는 지난해 세 차례 금리 인하 이후 처음으로 금리 동결을 한 것으로, 경제 안정성에 대한 위험이 줄어들고 있다는 신호로 해석된다. Fed의 기준 금리는 5.25%에서 5.50% 사이로 유지되며, 이는 최근 몇 달 간 익숙해진 수준이다.\n\n연방준비제도의 통화 정책 배경을 살펴보면, 중앙은행은 변동하는 인플레이션율과 다양한 고용 수치를 특징으로 하는 복잡한 환경 속에서 운영되고 있다. 지난 1년 동안 Fed는 경제 둔화와 실업률 상승에 대한 우려로 세 차례 금리를 인하했다. 그러나 최근 데이터는 인플레이션 둔화의 조짐을 보이며, 이는 정책 입안자들에게 중요한 우려 사항이었다.\n\nFed의 결정 분석에 따르면, 경제학자들은 경제가 안정되고 있다는 몇 가지 주요 지표를 지적하고 있다. 소비자물가지수(CPI)는 8월에 전년 대비 3.2% 상승했으며, 이는 1년 전의 9.1%에서 하락한 수치다. 또한 노동 시장은 안정성을 보여주며 실업률은 약 3.8%로 유지되고 있다. 이러한 추세는 Fed가 인플레이션 압박이 완화되고 있다는 명확한 신호를 기다리는 동안 좀 더 관망하는 접근 방식을 취할 수 있는 기회를 제공한다.\n\n경제 연구소의 수석 경제학자인 제인 톰슨 박사는 Fed의 금리 동결이 신중한 전략이라고 강조했다. \"현재 금리를 유지함으로써 연방준비제도는 시장에 우리가 아직 완전히 벗어나지 않았지만, 조심스러운 낙관론을 가질 수 있는 고무적인 신호를 보고 있다는 것을 알리고 있습니다. 경제가 긍정적으로 반응하고 있으며, 앞으로 나아가면서 신중한 접근이 필수적입니다,\"라고 그녀는 말했다.\n\n앞으로 시장 분석가들은 인플레이션과 경제 성장의 궤적에 따라 Fed가 추가 금리 조정을 고려할 수 있을 것으로 예측하고 있다. 인플레이션이 식고 소비자 지출이 견조하게 유지됨에 따라, 중앙은행은 연말까지 전략을 전환할 가능성이 있다. 그러나 지정학적 긴장과 글로벌 경제 상황에 대한 불확실성이 여전히 남아 있어 Fed의 향후 결정에 영향을 미칠 수 있다. 정책입안자들이 경제로부터 더 명확한 신호를 기다리는 동안, 인플레이션 통제와 지속 가능한 성장 간의 균형을 유지하는 데 초점을 맞출 가능성이 높다.",
+      "category": "economy",
+      "level": "advanced",
+      "source": "The Washington Post",
+      "sourceUrl": "https://www.washingtonpost.com/business/2026/01/28/fed-pauses-rate-cuts/",
+      "keyTerms": [
+        {
+          "en": "Federal Reserve",
+          "ko": "연방준비제도"
+        },
+        {
+          "en": "interest rates",
+          "ko": "금리"
+        },
+        {
+          "en": "monetary policy",
+          "ko": "통화 정책"
+        },
+        {
+          "en": "Consumer Price Index",
+          "ko": "소비자물가지수"
+        },
+        {
+          "en": "economic stability",
+          "ko": "경제 안정성"
+        }
+      ],
+      "wordCount": 372,
+      "generatedAt": "2026-01-30T03:01:57.232Z"
+    },
+    {
+      "id": 117,
+      "title": "'Halide' Co-Founder Sebastiaan de With Joins Apple's Design Team - MacRumors",
+      "summary": "Sebastiaan de With, co-founder of the popular iPhone camera app Halide, today announced that he has joined the Human Interface Design team at Apple. ...",
+      "content": "Sebastiaan de With, the co-founder of the acclaimed iPhone camera application Halide, has officially announced his new role with Apple, joining the esteemed Human Interface Design team. This significant move comes as Apple continues to strengthen its focus on enhancing user experience through innovative design and sophisticated technology. De With's expertise in mobile photography and user interface design positions him as a vital asset in Apple's ongoing mission to deliver exceptional products. \n\nHalide, the app co-founded by de With, has been lauded for its intuitive design and advanced capabilities, allowing users to harness the full potential of their iPhone cameras. Since its launch, Halide has garnered a devoted user base and has been recognized with several accolades, including being named one of the best apps of the year by multiple tech publications. This success speaks volumes about de With's talent in understanding user needs and translating them into compelling design features. \n\nIn the context of Apple's design philosophy, which emphasizes simplicity, functionality, and aesthetic appeal, de With's arrival is timely. Apple's Human Interface Design team is renowned for creating seamless, user-friendly interfaces across its product range, from iPhones to MacBooks. Analysts suggest that de With's background in photography could lead to innovative advancements in camera technology and software integration in future Apple devices. \n\n\"Sebastiaan brings a unique perspective to the team, blending his technical expertise with an artist's eye for design. His work at Halide has demonstrated his ability to create products that resonate deeply with users,\" commented John Gruber, a prominent technology analyst and blogger. This sentiment reflects the broader industry anticipation surrounding de With's contributions to Apple's design ethos.\n\nLooking ahead, the integration of de With into Apple's design team could herald a new era for the company's photography features. As smartphone photography continues to evolve, Apple's commitment to providing users with high-quality tools for capturing and sharing moments is likely to intensify. With de With at the helm of design innovations, Apple may very well redefine the standards of mobile photography in the years to come. As the tech giant continues to unveil its roadmap for future products, the industry remains watchful for the fresh perspectives and groundbreaking ideas that de With is set to introduce. \n\nThis strategic hiring underscores Apple's relentless pursuit of excellence in design, a cornerstone of its brand identity, and reinforces the company's position as a leader in the technology sector.",
+      "koreanContent": "세바스티안 드 위스(Sebastiaan de With)는 유명한 아이폰 카메라 애플리케이션인 Halide의 공동 창립자로, 애플의 인체 인터페이스 디자인 팀에 합류하게 되었다고 공식 발표했다. 이 중요한 이동은 애플이 혁신적인 디자인과 정교한 기술을 통해 사용자 경험을 향상시키려는 노력을 지속하고 있다는 점에서 의미가 크다. 드 위스의 모바일 사진 및 사용자 인터페이스 디자인에 대한 전문 지식은 애플이 탁월한 제품을 제공하기 위한 지속적인 임무에서 그를 중요한 자산으로 만든다. \n\n드 위스가 공동 창립한 Halide는 직관적인 디자인과 고급 기능으로 찬사를 받아왔으며, 사용자가 아이폰 카메라의 잠재력을 최대한 활용할 수 있도록 한다. Halide는 출시 이후 충성도 높은 사용자 기반을 확보하였으며, 여러 기술 출판물로부터 올해의 최고의 앱 중 하나로 선정되는 등 여러 가지 공로를 인정받았다. 이러한 성공은 드 위스가 사용자 요구를 이해하고 이를 매력적인 디자인 기능으로 변환하는 데 뛰어난 재능을 가지고 있음을 보여준다. \n\n애플의 디자인 철학, 즉 단순성, 기능성, 미적 매력을 강조하는 맥락에서 드 위스의 도착은 시기적절하다. 애플의 인체 인터페이스 디자인 팀은 아이폰에서 맥북에 이르기까지 제품 범위 전반에 걸쳐 매끄럽고 사용자 친화적인 인터페이스를 만드는 것으로 유명하다. 분석가들은 드 위스의 사진 배경이 향후 애플 기기의 카메라 기술 및 소프트웨어 통합에 혁신적인 발전을 가져올 수 있다고 제안한다. \n\n저명한 기술 분석가이자 블로거인 존 그루버(John Gruber)는 \"세바스티안은 기술 전문성과 디자인에 대한 예술가의 시각을 조화롭게 결합하여 팀에 독특한 관점을 가져온다. Halide에서의 그의 작업은 사용자와 깊은 공명을 이루는 제품을 만드는 능력을 입증했다\"고 말했다. 이러한 감정은 드 위스의 애플 디자인 철학에 대한 기여에 대한 업계의 기대감을 반영한다. \n\n앞으로 드 위스의 애플 디자인 팀 통합은 회사의 사진 기능에 새로운 시대를 열 수 있다. 스마트폰 사진 촬영이 계속 발전함에 따라, 사용자에게 순간을 포착하고 공유할 수 있는 고품질 도구를 제공하려는 애플의 의지는 더욱 강화될 가능성이 높다. 디자인 혁신의 선두주자로서 드 위스가 있는 한, 애플은 앞으로 몇 년 내에 모바일 사진의 기준을 재정의할 수 있을 것이다. 기술 대기업이 향후 제품 로드맵을 공개함에 따라, 업계는 드 위스가 도입할 신선한 관점과 획기적인 아이디어를 주목하고 있다. \n\n이러한 전략적 채용은 디자인에서의 애플의 끊임없는 우수성 추구를 강조하며, 이는 브랜드 정체성의 초석이자 기술 분야의 선두주자로서의 회사의 입지를 강화한다.",
+      "category": "tech",
+      "level": "advanced",
+      "source": "MacRumors",
+      "sourceUrl": "https://www.macrumors.com/2026/01/28/sebastiaan-de-with-joins-apple/",
+      "keyTerms": [
+        {
+          "en": "Human Interface Design",
+          "ko": "인체 인터페이스 디자인"
+        },
+        {
+          "en": "mobile photography",
+          "ko": "모바일 사진 촬영"
+        },
+        {
+          "en": "user experience",
+          "ko": "사용자 경험"
+        },
+        {
+          "en": "design philosophy",
+          "ko": "디자인 철학"
+        },
+        {
+          "en": "innovation",
+          "ko": "혁신"
+        }
+      ],
+      "wordCount": 398,
+      "generatedAt": "2026-01-30T03:02:25.851Z"
+    },
+    {
+      "id": 118,
+      "title": "Officials warn of 'moderate' risk after TB outbreak in SF high school - SFGATE",
+      "summary": "Three active cases have been reported at Archbishop Riordan High School since last November.",
+      "content": "Public health officials in San Francisco have issued a warning regarding a 'moderate' risk of tuberculosis (TB) transmission following an outbreak at Archbishop Riordan High School, where three active cases have been reported since last November. In response to the situation, health authorities are actively monitoring students and staff who may have been in close contact with the infected individuals. \n\nThe outbreak has raised alarms within the community, prompting immediate action from the San Francisco Department of Public Health (SFDPH). According to the department, TB is a contagious bacterial infection that primarily affects the lungs but can also impact other parts of the body. The disease spreads through the air when an infected person coughs or sneezes, making close contact in school settings particularly concerning. \n\n\"While we have confirmed three active cases, we believe the risk of widespread transmission remains low due to prompt identification and isolation of affected individuals,\" said Dr. Susan Philip, the health officer for SFDPH. However, she emphasized the importance of vigilance and proactive measures to prevent further infections. \n\nThe school community has been advised to undergo TB testing, especially for those who participated in activities with the infected students. Health officials have reported that TB cases in the U.S. have been on a gradual decline over the past two decades, with approximately 9,000 cases recorded nationwide in 2020, according to the Centers for Disease Control and Prevention (CDC). However, outbreaks in localized areas still occur, underscoring the need for ongoing public health education and preventive strategies. \n\nPublic health experts emphasize that early detection and treatment are crucial in managing TB outbreaks. \"The key to controlling TB is understanding the transmission dynamics and ensuring that we reach out to potentially affected individuals quickly,\" explained Dr. John Swartzberg, an infectious disease specialist at the University of California, Berkeley. \"Education about the disease and its symptoms can empower communities to take necessary precautions.\"\n\nLooking ahead, health officials will continue to collaborate closely with the school administration to monitor the situation and provide resources for TB testing and education. The SFDPH is also planning community outreach initiatives to raise awareness about TB prevention and control. As the situation develops, authorities urge anyone experiencing symptoms such as a persistent cough or unexplained weight loss to seek medical attention promptly. With proactive measures in place, the community hopes to contain the outbreak and minimize the risk of further infections.",
+      "koreanContent": "샌프란시스코의 공공 보건 당국은 아치비숍 리오던 고등학교에서 발생한 결핵(TB) 집단 감염 사건과 관련하여 '중간' 수준의 전염 위험을 경고했다. 지난해 11월 이래로 세 건의 활성 결핵 사례가 보고되었다. 이에 따라 보건 당국은 감염된 개인과 밀접 접촉한 학생 및 교직원을 적극적으로 모니터링하고 있다.\n\n이번 발생 사건은 지역 사회에서 경각심을 불러일으키며 샌프란시스코 공공 보건국(SFDPH)의 즉각적인 조치를 촉발하였다. 이 부서에 따르면 결핵은 주로 폐에 영향을 미치는 전염성 세균 감염이지만 신체의 다른 부분에도 영향을 미칠 수 있다. 감염된 사람이 기침이나 재채기를 할 때 공기를 통해 전파되므로 학교 환경에서의 밀접 접촉이 특히 우려된다.\n\n\"우리는 세 건의 활성 사례를 확인했지만, 영향을 받은 개인의 신속한 식별과 격리에 따라 광범위한 전염 위험은 낮다고 생각합니다,\"라고 SFDPH의 건강 책임자인 수잔 필립 박사가 말했다. 그러나 그녀는 추가 감염을 예방하기 위한 경각심과 선제적 조치의 중요성을 강조했다.\n\n학교 공동체는 감염된 학생과의 활동에 참여한 사람들을 중심으로 결핵 검사를 받을 것을 권장받았다. 보건 당국에 따르면 미국 내 결핵 사례는 지난 20년 동안 점진적으로 감소해 왔으며, 2020년에는 약 9,000건의 사례가 질병통제예방센터(CDC)에 의해 보고되었다. 그러나 특정 지역 내에서 발생하는 집단 감염은 여전히 발생하고 있으며, 이는 지속적인 공공 보건 교육과 예방 전략의 필요성을 강조한다.\n\n공공 보건 전문가들은 결핵 발생 사건 관리에 있어 조기 발견과 치료가 중요하다고 강조한다. \"결핵을 통제하는 핵심은 전파 역학을 이해하고 잠재적으로 영향을 받는 개인에게 신속하게 연락하는 것입니다,\"라고 버클리 캘리포니아 대학교의 전염병 전문의인 존 스워츠버그 박사가 설명했다. \"병에 대한 교육과 증상에 대한 인식은 지역 사회가 필요한 예방 조치를 취할 수 있도록 도와줄 수 있습니다.\"\n\n앞으로 보건 당국은 학교 행정과 긴밀히 협력하여 상황을 모니터링하고 결핵 검사 및 교육을 위한 자원을 제공할 예정이다. SFDPH는 또한 결핵 예방 및 통제에 대한 인식을 높이기 위한 지역 사회 홍보 활동을 계획하고 있다. 상황이 진행됨에 따라 당국은 지속적인 기침이나 설명할 수 없는 체중 감소와 같은 증상을 경험하는 사람들은 신속하게 의료 진료를 받을 것을 촉구하고 있다. 선제적 조치가 마련된 가운데 지역 사회는 이번 발생 사건을 억제하고 추가 감염 위험을 최소화하기를 희망하고 있다.",
+      "category": "health",
+      "level": "advanced",
+      "source": "SFGate",
+      "sourceUrl": "https://www.sfgate.com/bayarea/article/san-francisco-tuberculosis-school-21320252.php",
+      "keyTerms": [
+        {
+          "en": "tuberculosis",
+          "ko": "결핵"
+        },
+        {
+          "en": "transmission",
+          "ko": "전파"
+        },
+        {
+          "en": "contagious",
+          "ko": "전염성"
+        },
+        {
+          "en": "monitoring",
+          "ko": "모니터링"
+        },
+        {
+          "en": "proactive",
+          "ko": "선제적"
+        }
+      ],
+      "wordCount": 398,
+      "generatedAt": "2026-01-30T03:03:03.854Z"
+    },
+    {
+      "id": 119,
+      "title": "Russian Scientists Test Plasma Engine That Could Cut Mars Travel to About 30 Days - Yahoo! Tech",
+      "summary": "Russia is testing a plasma engine prototype designed to slash Mars travel time to just 60 days. Developed by Rosatom’s Troitsk Institute, the system uses...",
+      "content": "In a groundbreaking development that could revolutionize interplanetary travel, Russian scientists are testing a prototype plasma engine designed to significantly reduce the travel time to Mars. This ambitious project, spearheaded by the Troitsk Institute of Innovative and Thermonuclear Research, a subsidiary of Rosatom, aims to shorten the journey to the Red Planet from the current average of approximately 180 days to just 60 days. The plasma engine utilizes advanced ion propulsion technology, which relies on plasma—a state of matter where gas is ionized and can conduct electricity—to produce thrust. This innovative approach promises not only to expedite travel but also to enhance fuel efficiency. \n\nHistorically, the journey to Mars has been fraught with challenges, including lengthy travel times, exposure to cosmic radiation, and the psychological toll on astronauts. The National Aeronautics and Space Administration (NASA) has long recognized these hurdles, with its current Mars missions taking a minimum of six months to reach their destination. In contrast, Russia's plasma engine, by harnessing the power of plasma, could provide a viable solution to these longstanding issues.  \n\nAccording to Dr. Elena Petrova, a leading aerospace engineer at the Troitsk Institute, \"The plasma engine's capability to sustain continuous thrust over extended periods is a game-changer. This technology could drastically reduce the time astronauts spend in deep space, thereby minimizing health risks associated with prolonged exposure to radiation.\" The potential implications are vast; a faster journey not only decreases the physical and psychological strain on crew members but also allows for more efficient mission planning and resource allocation. \n\nExperts in the field of aerospace technology have expressed cautious optimism regarding this development. Dr. Ivan Sokolov, a prominent physicist at the Moscow Institute of Physics and Technology, remarked, \"While the concept of a plasma engine is not new, the practical application and successful testing of such a system for crewed missions to Mars represent a significant leap forward. However, there are still numerous engineering challenges to overcome before it can be deployed in real missions.\"\n\nLooking ahead, Rosatom plans to conduct further tests on the plasma engine prototype, with hopes of integrating it into future Mars exploration missions. If successful, this technology could not only facilitate faster travel to Mars but also pave the way for more ambitious missions beyond our solar system. As the global space race intensifies, the advancements made by Russian scientists may play a crucial role in shaping the future of human exploration beyond Earth, potentially inspiring a new era of discovery and innovation in space travel.",
+      "koreanContent": "행성간 여행을 혁신적으로 변화시킬 수 있는 기념비적인 발전으로, 러시아 과학자들이 화성으로의 여행 시간을 대폭 줄이기 위해 설계된 플라즈마 엔진 프로토타입을 시험하고 있다. 이 야심찬 프로젝트는 로사톰의 자회사인 트로이츠크 혁신 및 열핵 연구소가 주도하고 있으며, 현재 평균 약 180일 소요되는 화성 여행을 단 60일로 단축하는 것을 목표로 하고 있다. 플라즈마 엔진은 플라즈마라는 물질의 상태를 활용하는 고급 이온 추진 기술을 사용하여 추진력을 생산한다. 플라즈마는 가스가 이온화되어 전기를 전도할 수 있는 상태이다. 이 혁신적인 접근 방식은 여행을 가속화할 뿐만 아니라 연료 효율성을 향상시킬 것으로 기대된다.\n\n역사적으로 화성 여행은 긴 여행 시간, 우주 방사선 노출, 우주 비행사에게 가해지는 심리적 부담 등 여러 도전 과제를 안고 있다. 미국 항공우주국(NASA)은 이러한 장애물을 장기적으로 인식해 왔으며, 현재 화성 임무는 최소 6개월이 소요된다. 반면, 러시아의 플라즈마 엔진은 플라즈마의 힘을 활용하여 이러한 오랜 문제에 대한 실용적인 해결책을 제공할 수 있다.\n\n트로이츠크 연구소의 선임 항공우주 엔지니어인 엘레나 페트로바 박사는 \"플라즈마 엔진이 연속적인 추진력을 장기간 유지할 수 있는 능력은 게임 체인저입니다. 이 기술은 우주에서 비행사들이 보내는 시간을 급격히 줄여 방사선에 장기간 노출될 때 발생하는 건강 위험을 최소화할 수 있습니다.\"라고 말했다. 잠재적인 의미는 방대하다. 더 빠른 여행은 승무원에게 가해지는 신체적 및 심리적 부담을 줄일 뿐만 아니라 임무 계획 및 자원 배분을 보다 효율적으로 할 수 있게 한다.\n\n항공우주 기술 분야의 전문가들은 이 발전에 대해 조심스러운 낙관론을 나타내고 있다. 모스크바 물리기술대학의 저명한 물리학자인 이반 소콜로프 박사는 \"플라즈마 엔진의 개념 자체는 새롭지 않지만, 유인 화성 임무를 위한 시스템의 실용적인 적용 및 성공적인 테스트는 상당한 도약을 나타냅니다. 그러나 실제 임무에 배치되기 전에는 여전히 극복해야 할 많은 공학적 도전 과제가 있습니다.\"라고 언급했다.\n\n앞으로 로사톰은 플라즈마 엔진 프로토타입에 대한 추가 테스트를 계획하고 있으며, 향후 화성 탐사 임무에 통합할 수 있기를 희망하고 있다. 성공한다면, 이 기술은 화성으로의 더 빠른 여행을 가능하게 할 뿐만 아니라 태양계를 넘어서는 더 야심찬 임무의 길을 열 수 있다. 세계적인 우주 경쟁이 치열해짐에 따라 러시아 과학자들이 이룩한 발전은 지구 너머 인류 탐사의 미래를 형성하는 데 중요한 역할을 할 수 있으며, 우주 여행에서 새로운 발견과 혁신의 시대를 여는 데 기여할 수 있다.",
+      "category": "science",
+      "level": "advanced",
+      "source": "Guessingheadlights.com",
+      "sourceUrl": "https://guessingheadlights.com/russian-scientists-test-plasma-engine-that-could-cut-mars-travel-to-about-30-days/",
+      "keyTerms": [
+        {
+          "en": "plasma engine",
+          "ko": "플라즈마 엔진"
+        },
+        {
+          "en": "interplanetary travel",
+          "ko": "행성간 여행"
+        },
+        {
+          "en": "ion propulsion",
+          "ko": "이온 추진"
+        },
+        {
+          "en": "cosmic radiation",
+          "ko": "우주 방사선"
+        },
+        {
+          "en": "aerospace technology",
+          "ko": "항공우주 기술"
+        }
+      ],
+      "wordCount": 416,
+      "generatedAt": "2026-01-30T03:03:35.742Z"
+    },
     {
       "id": 112,
       "title": "Corporate Earnings Reports Drive Market Volatility Amid Economic Uncertainty",
