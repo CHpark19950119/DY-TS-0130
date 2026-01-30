@@ -308,8 +308,28 @@ function renderArticles() {
     const grid = document.getElementById('articles-grid');
     if (!list.length) { grid.innerHTML = '<div class="empty-state"><p>기사 없음</p></div>'; return; }
     
-    // 진행도 데이터 가져오기
-    const progress = Storage.getArticleProgress() || {};
+    // 아카이브에서 진행도 계산
+    const archives = Storage.getArchive() || [];
+    const articleProgressMap = {};
+    
+    archives.forEach(arch => {
+        if (arch.articleId) {
+            if (!articleProgressMap[arch.articleId]) {
+                articleProgressMap[arch.articleId] = {
+                    translation: { completed: 0, total: 0, score: 0, count: 0 },
+                    interpretation: { completed: 0, total: 0, score: 0, count: 0 }
+                };
+            }
+            const type = arch.type === 'translation' ? 'translation' : 'interpretation';
+            articleProgressMap[arch.articleId][type].completed = Math.max(
+                articleProgressMap[arch.articleId][type].completed, 
+                arch.completedPhrases || 0
+            );
+            articleProgressMap[arch.articleId][type].total = arch.totalPhrases || 0;
+            articleProgressMap[arch.articleId][type].score += arch.averageScore || 0;
+            articleProgressMap[arch.articleId][type].count++;
+        }
+    });
     
     grid.innerHTML = list.map(a => {
         const ci = App.categories.find(c => c.id === a.category) || { icon: '📰', name: a.category };
@@ -322,14 +342,43 @@ function renderArticles() {
         // 날짜 포맷
         const dateStr = a.generatedAt ? formatFullDate(a.generatedAt) : '날짜 없음';
         
-        // 진행도 계산
-        const articleProgress = progress[a.id] || { completed: 0, total: 0 };
+        // 문장 수 계산
         const totalSentences = (a.content || '').match(/[^.!?]+[.!?]+/g)?.length || 1;
-        const completedSentences = articleProgress.completed || 0;
-        const progressPct = totalSentences > 0 ? Math.round((completedSentences / totalSentences) * 100) : 0;
-        const progressBar = progressPct > 0 
-            ? `<div class="article-progress"><div class="article-progress-fill" style="width:${progressPct}%"></div><span>${progressPct}%</span></div>` 
-            : '';
+        
+        // 진행도 계산 (아카이브 기반)
+        const progress = articleProgressMap[a.id];
+        let progressHtml = '';
+        
+        if (progress) {
+            const transProgress = progress.translation;
+            const interpProgress = progress.interpretation;
+            
+            const transCompleted = transProgress.completed;
+            const interpCompleted = interpProgress.completed;
+            const transPct = transProgress.total > 0 ? Math.round((transCompleted / transProgress.total) * 100) : 0;
+            const interpPct = interpProgress.total > 0 ? Math.round((interpCompleted / interpProgress.total) * 100) : 0;
+            const transAvg = transProgress.count > 0 ? Math.round(transProgress.score / transProgress.count) : 0;
+            const interpAvg = interpProgress.count > 0 ? Math.round(interpProgress.score / interpProgress.count) : 0;
+            
+            if (transPct > 0 || interpPct > 0) {
+                progressHtml = `<div class="article-progress-section">`;
+                if (transPct > 0) {
+                    progressHtml += `<div class="progress-row">
+                        <span class="progress-label">✍️ 번역</span>
+                        <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:${transPct}%"></div></div>
+                        <span class="progress-text">${transPct}% (${transAvg}점)</span>
+                    </div>`;
+                }
+                if (interpPct > 0) {
+                    progressHtml += `<div class="progress-row">
+                        <span class="progress-label">🎙️ 통역</span>
+                        <div class="progress-bar-mini"><div class="progress-fill-mini" style="width:${interpPct}%"></div></div>
+                        <span class="progress-text">${interpPct}% (${interpAvg}점)</span>
+                    </div>`;
+                }
+                progressHtml += `</div>`;
+            }
+        }
         
         return `<div class="article-card">
             <div class="article-meta">
@@ -340,7 +389,7 @@ function renderArticles() {
             </div>
             <h4>${a.title}</h4>
             <p class="article-summary">${(a.summary || a.content?.substring(0, 100) + '...')}</p>
-            ${progressBar}
+            ${progressHtml}
             <div class="article-footer">
                 <span class="article-date">📅 ${dateStr}</span>
                 <span>${a.wordCount || '-'}단어 · ${totalSentences}문장</span>
@@ -1195,15 +1244,114 @@ function renderArchive() {
     const el = document.getElementById('archive-list');
     if (!el) return;
     if (!list.length) { el.innerHTML = '<div class="empty-state"><p>아카이브 없음</p></div>'; return; }
-    el.innerHTML = list.map(a => '<div class="archive-card" onclick="openArchive(' + a.id + ')"><div class="article-meta"><span>' + (a.type === 'translation' ? '✍️ 번역' : '🎙️ 통역') + '</span><span>' + new Date(a.date).toLocaleDateString('ko-KR') + '</span>' + (a.averageScore ? '<span>' + a.averageScore + '점</span>' : '') + '</div><h4>' + (a.articleTitle || '제목 없음') + '</h4><p>' + (a.completedPhrases || 0) + '/' + (a.totalPhrases || 0) + ' 문장</p></div>').join('');
+    
+    el.innerHTML = list.map(a => {
+        const scoreClass = (a.averageScore || 0) >= 80 ? 'score-high' : (a.averageScore || 0) >= 60 ? 'score-mid' : 'score-low';
+        const progressPct = a.totalPhrases ? Math.round((a.completedPhrases / a.totalPhrases) * 100) : 0;
+        
+        return `<div class="archive-card" onclick="openArchive(${a.id})">
+            <div class="archive-header">
+                <span class="archive-type">${a.type === 'translation' ? '✍️ 번역' : '🎙️ 통역'}</span>
+                <span class="archive-date">${new Date(a.date).toLocaleDateString('ko-KR')}</span>
+                <span class="archive-score ${scoreClass}">${a.averageScore || 0}점</span>
+            </div>
+            <h4 class="archive-title">${a.articleTitle || '제목 없음'}</h4>
+            <div class="archive-progress">
+                <div class="archive-progress-bar">
+                    <div class="archive-progress-fill" style="width:${progressPct}%"></div>
+                </div>
+                <span>${a.completedPhrases || 0}/${a.totalPhrases || 0} 문장 (${progressPct}%)</span>
+            </div>
+        </div>`;
+    }).join('');
 }
 
 function openArchive(id) {
-    const a = Storage.getArchive().find(x => x.id === id); if (!a) return;
+    const a = Storage.getArchive().find(x => x.id === id); 
+    if (!a) return;
     App.currentArchiveId = id;
+    
+    const scoreClass = (a.averageScore || 0) >= 80 ? 'score-high' : (a.averageScore || 0) >= 60 ? 'score-mid' : 'score-low';
+    
     document.getElementById('am-title').textContent = (a.type === 'translation' ? '✍️ 번역' : '🎙️ 통역') + ' - ' + a.articleTitle;
-    let body = '<div style="margin-bottom:16px"><p>총 ' + (a.totalPhrases || 0) + '문장 중 ' + (a.completedPhrases || 0) + '문장 완료</p><p>평균 점수: <strong>' + (a.averageScore || 0) + '</strong>점</p></div>';
-    if (a.phraseFeedbacks?.length) { body += '<h4>📝 문장별 첨삭</h4>'; body += a.phraseFeedbacks.map((f, i) => '<div style="padding:12px;background:var(--bg-tertiary);border-radius:8px;margin-bottom:8px"><strong>' + (i + 1) + '.</strong> "' + f.original + '"<br><span style="color:var(--text-secondary)">내 번역: ' + (f.userTranslation || '(건너뜀)') + '</span><br><span style="color:var(--accent-primary)">점수: ' + (f.score || 0) + '점' + (f.model ? ' (' + f.model + ')' : '') + '</span></div>').join(''); }
+    
+    let body = `
+        <div class="archive-summary">
+            <div class="summary-item">
+                <span class="summary-label">완료</span>
+                <span class="summary-value">${a.completedPhrases || 0}/${a.totalPhrases || 0} 문장</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">평균 점수</span>
+                <span class="summary-value ${scoreClass}">${a.averageScore || 0}점</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">방향</span>
+                <span class="summary-value">${a.direction === 'ko-en' ? '🇰🇷→🇺🇸' : '🇺🇸→🇰🇷'}</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">날짜</span>
+                <span class="summary-value">${new Date(a.date).toLocaleString('ko-KR')}</span>
+            </div>
+        </div>
+    `;
+    
+    // 번역 피드백
+    if (a.phraseFeedbacks?.length) {
+        body += '<h4 class="section-title">📝 문장별 첨삭 기록</h4>';
+        body += '<div class="feedback-list">';
+        body += a.phraseFeedbacks.map((f, i) => {
+            const fScoreClass = (f.score || 0) >= 80 ? 'score-high' : (f.score || 0) >= 60 ? 'score-mid' : 'score-low';
+            const feedbackDetail = f.feedback || {};
+            
+            return `<div class="feedback-item">
+                <div class="feedback-header">
+                    <span class="feedback-num">${i + 1}</span>
+                    <span class="feedback-score ${fScoreClass}">${f.score || 0}점</span>
+                    ${f.model ? `<span class="feedback-model">${f.model}</span>` : ''}
+                </div>
+                <div class="feedback-original">
+                    <strong>원문:</strong> "${f.original}"
+                </div>
+                <div class="feedback-user">
+                    <strong>내 번역:</strong> "${f.userTranslation || '(건너뜀)'}"
+                </div>
+                ${feedbackDetail.feedback ? `<div class="feedback-ai"><strong>AI 평가:</strong> ${feedbackDetail.feedback}</div>` : ''}
+                ${feedbackDetail.modelAnswer ? `<div class="feedback-model-answer"><strong>모범 번역:</strong> ${feedbackDetail.modelAnswer}</div>` : ''}
+                ${feedbackDetail.improvements?.length ? `<div class="feedback-improvements"><strong>개선점:</strong><ul>${feedbackDetail.improvements.map(x => `<li>${x}</li>`).join('')}</ul></div>` : ''}
+            </div>`;
+        }).join('');
+        body += '</div>';
+    }
+    
+    // 통역 결과
+    if (a.results?.length) {
+        body += '<h4 class="section-title">🎙️ 통역 기록</h4>';
+        body += '<div class="feedback-list">';
+        body += a.results.map((r, i) => {
+            const rScoreClass = (r.score || 0) >= 80 ? 'score-high' : (r.score || 0) >= 60 ? 'score-mid' : 'score-low';
+            const feedbackDetail = r.feedback || {};
+            
+            return `<div class="feedback-item">
+                <div class="feedback-header">
+                    <span class="feedback-num">${i + 1}</span>
+                    <span class="feedback-score ${rScoreClass}">${r.score || 0}점</span>
+                </div>
+                <div class="feedback-original">
+                    <strong>원문:</strong> "${r.original}"
+                </div>
+                <div class="feedback-user">
+                    <strong>내 통역:</strong> "${r.interpretation || '(건너뜀)'}"
+                </div>
+                ${feedbackDetail.feedback ? `<div class="feedback-ai"><strong>AI 평가:</strong> ${feedbackDetail.feedback}</div>` : ''}
+                ${feedbackDetail.modelInterpretation ? `<div class="feedback-model-answer"><strong>모범 통역:</strong> ${feedbackDetail.modelInterpretation}</div>` : ''}
+                ${feedbackDetail.missedPoints?.length ? `<div class="feedback-missed"><strong>누락된 내용:</strong><ul>${feedbackDetail.missedPoints.map(x => `<li>${x}</li>`).join('')}</ul></div>` : ''}
+                ${feedbackDetail.goodPoints?.length ? `<div class="feedback-good"><strong>잘한 점:</strong><ul>${feedbackDetail.goodPoints.map(x => `<li>${x}</li>`).join('')}</ul></div>` : ''}
+            </div>`;
+        }).join('');
+        body += '</div>';
+    }
+    
     document.getElementById('am-body').innerHTML = body;
     document.getElementById('am-memo').value = a.memo || '';
     document.getElementById('archive-modal').classList.add('active');

@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🦜 DAYOUNG's 통번역 스튜디오</title>
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="통번역">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23667eea' width='100' height='100' rx='20'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='50'>📚</text></svg>">
+    
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/themes.css">
     <link rel="stylesheet" href="css/style.css">
@@ -241,6 +250,235 @@
             font-weight: 700;
             color: var(--accent-primary);
             margin: 24px 0;
+        }
+        
+        /* 기사 진행도 */
+        .article-progress-section {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin: 10px 0;
+        }
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .progress-row:last-child { margin-bottom: 0; }
+        .progress-label {
+            font-size: 12px;
+            width: 60px;
+            flex-shrink: 0;
+        }
+        .progress-bar-mini {
+            flex: 1;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-fill-mini {
+            height: 100%;
+            background: var(--accent-primary);
+            transition: width 0.3s;
+        }
+        .progress-text {
+            font-size: 11px;
+            color: var(--text-secondary);
+            width: 70px;
+            text-align: right;
+        }
+        
+        /* 아카이브 카드 */
+        .archive-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+        }
+        .archive-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .archive-header {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .archive-type {
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .archive-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .archive-score {
+            font-size: 13px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: auto;
+        }
+        .archive-title {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+        .archive-progress {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .archive-progress-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .archive-progress-fill {
+            height: 100%;
+            background: var(--accent-primary);
+        }
+        
+        /* 점수 색상 */
+        .score-high { background: #d4edda; color: #155724; }
+        .score-mid { background: #fff3cd; color: #856404; }
+        .score-low { background: #f8d7da; color: #721c24; }
+        
+        /* 아카이브 상세 */
+        .archive-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+        .summary-item {
+            text-align: center;
+        }
+        .summary-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .summary-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .section-title {
+            font-size: 16px;
+            margin: 20px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .feedback-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .feedback-item {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .feedback-num {
+            width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .feedback-score {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .feedback-model {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-left: auto;
+        }
+        .feedback-original, .feedback-user, .feedback-ai, 
+        .feedback-model-answer, .feedback-improvements,
+        .feedback-missed, .feedback-good {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        .feedback-original strong, .feedback-user strong {
+            color: var(--text-secondary);
+        }
+        .feedback-ai { color: var(--accent-primary); }
+        .feedback-model-answer {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-primary);
+        }
+        .feedback-improvements ul, .feedback-missed ul, .feedback-good ul {
+            margin: 4px 0 0 16px;
+            padding: 0;
+        }
+        .feedback-missed { color: #dc3545; }
+        .feedback-good { color: #28a745; }
+        
+        /* PWA 설치 버튼 */
+        .pwa-install-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            z-index: 1000;
+            display: none;
+            animation: pulse 2s infinite;
+        }
+        .pwa-install-btn:hover {
+            transform: scale(1.05);
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); }
+            50% { box-shadow: 0 4px 25px rgba(102, 126, 234, 0.6); }
+        }
+        
+        @media (max-width: 768px) {
+            .pwa-install-btn {
+                bottom: 100px;
+                right: 15px;
+                padding: 10px 16px;
+                font-size: 13px;
+            }
         }
     </style>
 </head>
@@ -1180,11 +1418,84 @@
         </div>
     </div>
 
+    <!-- PWA 설치 버튼 -->
+    <button id="pwa-install-btn" class="pwa-install-btn" onclick="installPWA()">
+        📲 앱 설치
+    </button>
+
     <!-- 스크립트 -->
     <script src="js/storage.js"></script>
     <script src="js/api.js"></script>
     <script src="js/games.js"></script>
     <script src="js/achievements.js"></script>
     <script src="js/app.js"></script>
+    
+    <!-- PWA Service Worker 등록 -->
+    <script>
+        // PWA 설치 프롬프트
+        let deferredPrompt;
+        const pwaInstallBtn = document.getElementById('pwa-install-btn');
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('PWA 설치 가능');
+            e.preventDefault();
+            deferredPrompt = e;
+            pwaInstallBtn.style.display = 'block';
+        });
+        
+        async function installPWA() {
+            if (!deferredPrompt) {
+                // iOS Safari
+                if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                    alert('Safari에서 공유 버튼 → "홈 화면에 추가"를 눌러주세요!');
+                } else {
+                    alert('이미 설치되었거나 설치할 수 없는 환경입니다.');
+                }
+                return;
+            }
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log('PWA 설치 결과:', outcome);
+            
+            if (outcome === 'accepted') {
+                pwaInstallBtn.style.display = 'none';
+            }
+            deferredPrompt = null;
+        }
+        
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA 설치 완료!');
+            pwaInstallBtn.style.display = 'none';
+            if (typeof showToast === 'function') {
+                showToast('🎉 앱이 설치되었습니다!', 'success');
+            }
+        });
+        
+        // Service Worker 등록
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('SW 등록 성공:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('SW 등록 실패:', error);
+                    });
+            });
+        }
+        
+        // iOS Safari 감지하여 설치 안내 표시
+        const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+        
+        if (isIOS && !isStandalone) {
+            // iOS에서 PWA로 실행되지 않는 경우
+            setTimeout(() => {
+                pwaInstallBtn.style.display = 'block';
+                pwaInstallBtn.textContent = '📲 홈 화면에 추가';
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
