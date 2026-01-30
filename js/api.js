@@ -4,91 +4,87 @@ const API = {
     // Google Cloud 프록시 URL
     PROXY_URL: 'https://claude-proxy-957117035071.us-central1.run.app',
     
-    // 현재 선택된 모델로 AI 요청
-    async callAI(prompt, systemPrompt = '') {
-        const model = Storage.getAiModel();
-        
-        if (model === 'claude') {
-            return this.callClaude(prompt, systemPrompt);
-        } else {
-            return this.callGPT(prompt, systemPrompt);
-        }
-    },
-    
-    // Claude API 호출 (Google Cloud Proxy 사용 - 환경변수 키)
-    async callClaude(prompt, systemPrompt = '') {
-        const response = await fetch(this.PROXY_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                provider: 'claude',
-                model: 'claude-3-haiku-20240307',
-                max_tokens: 2000,
-                messages: [
-                    { role: 'user', content: (systemPrompt || '당신은 한영/영한 번역 전문가입니다. 친절하고 정확하게 피드백을 제공합니다.') + '\n\n' + prompt }
-                ]
-            })
-        });
-        
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error?.message || 'Claude API 오류');
-        }
-        
-        const data = await response.json();
-        return data.content[0].text;
-    },
-    
-    // GPT API 호출 (Google Cloud Proxy 사용 - 환경변수 키)
+    // GPT 호출 (gpt-5-mini)
     async callGPT(prompt, systemPrompt = '') {
         const response = await fetch(this.PROXY_URL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 provider: 'gpt',
-                model: 'gpt-4o-mini',
+                model: 'gpt-5-mini',
                 max_tokens: 2000,
                 messages: [
-                    { role: 'system', content: systemPrompt || '당신은 한영/영한 번역 전문가입니다. 친절하고 정확하게 피드백을 제공합니다.' },
+                    { role: 'system', content: systemPrompt || '당신은 한영/영한 번역 전문가입니다.' },
                     { role: 'user', content: prompt }
                 ]
             })
         });
-        
         if (!response.ok) {
             const error = await response.json();
             throw new Error(error.error?.message || 'GPT API 오류');
         }
-        
         const data = await response.json();
         return data.choices[0].message.content;
     },
     
-    // 번역 첨삭 요청
-    async getTranslationFeedback(original, userTranslation, direction = 'en-ko') {
-        const prompt = `다음 번역을 평가해주세요.
+    // Claude 프리미엄 호출 (claude-sonnet-4)
+    async callClaude(prompt, systemPrompt = '') {
+        const response = await fetch(this.PROXY_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                provider: 'claude',
+                model: 'claude-sonnet-4-20250514',
+                max_tokens: 2000,
+                messages: [
+                    { role: 'user', content: (systemPrompt || '당신은 한영/영한 번역 전문가입니다.') + '\n\n' + prompt }
+                ]
+            })
+        });
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error?.message || 'Claude API 오류');
+        }
+        const data = await response.json();
+        return data.content[0].text;
+    },
+    
+    // 번역 첨삭 요청 (모델 선택 가능)
+    async getTranslationFeedback(original, userTranslation, direction = 'en-ko', usePremium = false) {
+        const sourceLang = direction === 'en-ko' ? '영어' : '한국어';
+        const targetLang = direction === 'en-ko' ? '한국어' : '영어';
+        
+        const prompt = `당신은 통번역대학원 수준의 엄격한 번역 평가 전문가입니다.
 
-[원문] (${direction === 'en-ko' ? '영어' : '한국어'})
-${original}
+## 평가 대상
+- 원문 (${sourceLang}): "${original}"
+- 학습자 번역 (${targetLang}): "${userTranslation}"
 
-[사용자 번역] (${direction === 'en-ko' ? '한국어' : '영어'})
-${userTranslation}
+## 평가 기준 (통번역대학원 수준)
+1. **정확성 (40점)**: 원문의 의미가 정확히 전달되었는가? 오역, 누락, 첨가가 없는가?
+2. **자연스러움 (30점)**: 목표 언어의 자연스러운 표현인가? 번역체가 아닌가?
+3. **용어 선택 (20점)**: 문맥에 적합한 어휘/용어를 사용했는가?
+4. **문체 일관성 (10점)**: 원문의 톤과 스타일이 유지되었는가?
 
-다음 JSON 형식으로만 응답해주세요:
+## 엄격한 평가 지침
+- 70점 이하: 오역이나 심각한 문제가 있음
+- 70-79점: 의미는 전달되나 개선 필요
+- 80-89점: 양호하나 세부 표현 개선 여지 있음
+- 90점 이상: 전문가 수준의 우수한 번역
+
+다음 JSON 형식으로만 응답하세요:
 {
-  "score": 0-100 사이의 점수,
-  "feedback": "전체적인 피드백",
-  "improvements": ["개선점1", "개선점2"],
+  "score": 0-100,
+  "feedback": "전체 평가 (2-3문장)",
+  "improvements": ["구체적 개선점1", "구체적 개선점2", "구체적 개선점3"],
   "goodPoints": ["잘한 점1", "잘한 점2"],
-  "modelAnswer": "모범 번역"
+  "modelAnswer": "모범 번역 (자연스럽고 정확한 번역)"
 }`;
 
         try {
-            const response = await this.callAI(prompt);
+            const response = usePremium 
+                ? await this.callClaude(prompt)
+                : await this.callGPT(prompt);
             const jsonMatch = response.match(/\{[\s\S]*\}/);
             if (jsonMatch) {
                 return JSON.parse(jsonMatch[0]);
@@ -97,8 +93,8 @@ ${userTranslation}
         } catch (error) {
             console.error('Feedback error:', error);
             return {
-                score: 70,
-                feedback: 'AI 첨삭을 가져올 수 없습니다. 프록시 설정을 확인해주세요.',
+                score: 0,
+                feedback: 'AI 첨삭을 가져올 수 없습니다: ' + error.message,
                 improvements: [],
                 goodPoints: [],
                 modelAnswer: ''
@@ -107,26 +103,31 @@ ${userTranslation}
     },
     
     // 통역 평가 요청
-    async getInterpretationFeedback(original, userInterpretation, direction = 'en-ko') {
-        const prompt = `다음 통역을 평가해주세요.
+    async getInterpretationFeedback(original, userInterpretation, direction = 'en-ko', usePremium = false) {
+        const prompt = `당신은 통번역대학원 수준의 엄격한 통역 평가 전문가입니다.
 
-[원문]
-${original}
+## 평가 대상
+- 원문: "${original}"
+- 학습자 통역: "${userInterpretation}"
 
-[사용자 통역]
-${userInterpretation}
+## 평가 기준
+1. **완성도**: 내용 누락 없이 전달되었는가?
+2. **정확성**: 의미가 정확히 전달되었는가?
+3. **유창성**: 자연스럽게 표현되었는가?
 
-다음 JSON 형식으로만 응답해주세요:
+다음 JSON 형식으로만 응답하세요:
 {
-  "score": 0-100 사이의 점수,
-  "feedback": "전체적인 피드백 (유창성, 정확성, 완성도)",
+  "score": 0-100,
+  "feedback": "전체 평가 (유창성, 정확성, 완성도)",
   "missedPoints": ["누락된 내용1", "누락된 내용2"],
   "goodPoints": ["잘한 점1"],
   "modelInterpretation": "모범 통역"
 }`;
 
         try {
-            const response = await this.callAI(prompt);
+            const response = usePremium 
+                ? await this.callClaude(prompt)
+                : await this.callGPT(prompt);
             const jsonMatch = response.match(/\{[\s\S]*\}/);
             if (jsonMatch) {
                 return JSON.parse(jsonMatch[0]);
@@ -135,8 +136,8 @@ ${userInterpretation}
         } catch (error) {
             console.error('Interpretation feedback error:', error);
             return {
-                score: 70,
-                feedback: 'AI 평가를 가져올 수 없습니다.',
+                score: 0,
+                feedback: 'AI 평가를 가져올 수 없습니다: ' + error.message,
                 missedPoints: [],
                 goodPoints: [],
                 modelInterpretation: ''
@@ -144,31 +145,45 @@ ${userInterpretation}
         }
     },
     
-    // 기사 확장 (AI로 본문 생성)
+    // 기사 생성 (gpt-5-mini 사용)
     async expandArticle(title, summary, category) {
         const categoryInfo = {
-            economy: '경제/금융',
-            politics: '국제정치/외교',
-            law: '법률/규제',
-            health: '의료/보건',
-            tech: '기술/IT'
+            economy: '경제/금융 (거시경제, 통화정책, 금융시장, 기업 실적)',
+            politics: '국제정치/외교 (외교, 안보, 국제관계, 정상회담)',
+            law: '법률/규제 (국제법, 통상법, 규제 정책)',
+            health: '의료/보건 (공중보건, 의료정책, 신약 개발)',
+            tech: '기술/IT (AI, 반도체, 디지털 전환, 스타트업)'
         };
         
-        const prompt = `다음 뉴스 헤드라인을 바탕으로 350-450단어의 영어 뉴스 기사를 작성해주세요.
+        const prompt = `당신은 Reuters, Bloomberg 수준의 전문 뉴스 기자입니다.
 
-제목: ${title}
-요약: ${summary}
-분야: ${categoryInfo[category] || category}
+## 작성 요청
+- 제목: ${title}
+- 요약: ${summary}
+- 분야: ${categoryInfo[category] || category}
 
-다음 JSON 형식으로 응답해주세요:
+## 작성 지침
+1. 통번역사 학습에 적합한 전문적이고 격식있는 영어로 작성
+2. 350-450단어 분량
+3. 리드문 → 본문 → 전문가 인용 → 전망 순으로 구성
+4. 통번역사 시험에 자주 나오는 고급 어휘와 표현 사용
+5. 구체적인 수치, 날짜, 인물명 포함
+
+다음 JSON 형식으로 응답하세요:
 {
   "content": "영어 기사 본문 (350-450단어)",
-  "level": "beginner|intermediate|advanced|expert",
-  "keyTerms": [{"en": "영어용어", "ko": "한국어번역"}]
+  "level": "intermediate|advanced|expert",
+  "keyTerms": [
+    {"en": "전문용어1", "ko": "한국어번역1"},
+    {"en": "전문용어2", "ko": "한국어번역2"},
+    {"en": "전문용어3", "ko": "한국어번역3"},
+    {"en": "전문용어4", "ko": "한국어번역4"},
+    {"en": "전문용어5", "ko": "한국어번역5"}
+  ]
 }`;
 
         try {
-            const response = await this.callAI(prompt);
+            const response = await this.callGPT(prompt);
             const jsonMatch = response.match(/\{[\s\S]*\}/);
             if (jsonMatch) {
                 return JSON.parse(jsonMatch[0]);
@@ -178,13 +193,44 @@ ${userInterpretation}
             console.error('Article expansion error:', error);
             return null;
         }
+    },
+    
+    // GitHub Actions 트리거 (기사 업데이트)
+    async triggerArticleUpdate(githubToken, owner, repo) {
+        try {
+            const response = await fetch(
+                `https://api.github.com/repos/${owner}/${repo}/dispatches`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Authorization': `token ${githubToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        event_type: 'update-articles'
+                    })
+                }
+            );
+            return response.ok;
+        } catch (error) {
+            console.error('GitHub trigger error:', error);
+            return false;
+        }
     }
 };
 
-// ===== TTS (Text-to-Speech) =====
+// ===== TTS (Text-to-Speech) - 토글 기능 추가 =====
 const TTS = {
     speaking: false,
+    
     speak(text, lang = 'en-US', rate = 0.9) {
+        // 토글: 재생 중이면 정지
+        if (this.speaking) {
+            this.stop();
+            return;
+        }
+        
         this.stop();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = lang;
@@ -194,7 +240,12 @@ const TTS = {
         utterance.onerror = () => { this.speaking = false; };
         speechSynthesis.speak(utterance);
     },
-    stop() { speechSynthesis.cancel(); this.speaking = false; },
+    
+    stop() { 
+        speechSynthesis.cancel(); 
+        this.speaking = false; 
+    },
+    
     isSpeaking() { return this.speaking; }
 };
 

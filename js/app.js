@@ -4,7 +4,8 @@ const App = {
     articles: [], categories: [], levels: [],
     currentArticle: null, phrases: [], phraseIndex: 0,
     phraseFeedbacks: [], translateDirection: 'en-ko',
-    currentArchiveId: null, recommendedArticle: null
+    currentArchiveId: null, recommendedArticle: null,
+    githubToken: null, githubOwner: 'CHpark19950119', githubRepo: '-NEWLASTTS'
 };
 
 // ========== 초기화 ==========
@@ -15,6 +16,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateDashboard(); renderGrass();
     checkDailyFortune(); createParticles();
     Achievements.checkTimeAchievements();
+    
+    // GitHub 토큰 로드
+    App.githubToken = Storage.get('githubToken', null);
 });
 
 function initTheme() {
@@ -107,10 +111,20 @@ function navigateTo(view) {
     else if (view === 'settings') loadSettings();
 }
 
-// ========== TTS ==========
-function speakText(text, rate) { TTS.speak(text, 'en-US', rate || Storage.getSettings().ttsSpeed || 0.9); }
-function stopTTS() { TTS.stop(); showToast('TTS 정지됨'); }
-function speakPhrase() { if (App.phrases[App.phraseIndex]) speakText(App.translateDirection === 'en-ko' ? App.phrases[App.phraseIndex].en : App.phrases[App.phraseIndex].ko); }
+// ========== TTS (토글 기능) ==========
+function speakText(text, rate) { 
+    TTS.speak(text, 'en-US', rate || Storage.getSettings().ttsSpeed || 0.9); 
+}
+
+function speakPhrase() { 
+    if (App.phrases[App.phraseIndex]) {
+        const text = App.translateDirection === 'en-ko' 
+            ? App.phrases[App.phraseIndex].en 
+            : (App.phrases[App.phraseIndex].ko || App.phrases[App.phraseIndex].en);
+        const lang = App.translateDirection === 'en-ko' ? 'en-US' : 'ko-KR';
+        TTS.speak(text, lang, Storage.getSettings().ttsSpeed || 0.9);
+    }
+}
 
 // ========== 대시보드 ==========
 function updateDashboard() {
@@ -240,17 +254,37 @@ function setupTranslation(a) {
     document.getElementById('trans-title').textContent = a.title;
     const content = a.content || '';
     const sentences = content.match(/[^.!?]+[.!?]+/g) || [content];
-    App.phrases = sentences.map(s => ({ en: s.trim(), ko: '' }));
-    App.phraseIndex = 0; App.phraseFeedbacks = [];
+    
+    // 한국어 번역이 있으면 함께 저장
+    const koContent = a.koreanContent || '';
+    const koSentences = koContent ? (koContent.match(/[^.!?。]+[.!?。]+/g) || [koContent]) : [];
+    
+    App.phrases = sentences.map((s, i) => ({ 
+        en: s.trim(), 
+        ko: koSentences[i]?.trim() || '' 
+    }));
+    App.phraseIndex = 0; 
+    App.phraseFeedbacks = [];
+    
     if (a.keyTerms?.length) {
         document.getElementById('key-terms-list').innerHTML = a.keyTerms.map(t => '<span class="key-term" onclick="addTermToVocab(\'' + t.en.replace(/'/g, "\\'") + '\', \'' + t.ko.replace(/'/g, "\\'") + '\')">' + t.en + ' <span class="ko">' + t.ko + '</span></span>').join('');
     }
     updatePhraseDisplay();
 }
 
+// ========== 한영/영한 전환 ==========
 function setTranslateDirection(dir) {
     App.translateDirection = dir;
     document.querySelectorAll('.dir-btn').forEach(b => b.classList.toggle('active', b.dataset.dir === dir));
+    
+    // 플레이스홀더 업데이트
+    const input = document.getElementById('trans-input');
+    if (dir === 'en-ko') {
+        input.placeholder = '한국어로 번역하세요...';
+    } else {
+        input.placeholder = 'Translate to English...';
+    }
+    
     updatePhraseDisplay();
 }
 
@@ -260,31 +294,67 @@ function updatePhraseDisplay() {
     document.getElementById('trans-progress-fill').style.width = (cur / total * 100) + '%';
     document.getElementById('trans-progress-text').textContent = cur + ' / ' + total;
     document.getElementById('phrase-num').textContent = cur;
-    document.getElementById('phrase-text').textContent = App.translateDirection === 'en-ko' ? p.en : (p.ko || p.en);
+    
+    // 방향에 따라 원문 표시
+    if (App.translateDirection === 'en-ko') {
+        document.getElementById('phrase-text').textContent = p.en;
+    } else {
+        // 한영 번역: 한국어 원문 표시 (없으면 영어로 대체)
+        document.getElementById('phrase-text').textContent = p.ko || p.en;
+    }
+    
     document.getElementById('trans-input').value = '';
     document.getElementById('feedback-area').style.display = 'none';
 }
 
-async function submitTranslation() {
+// ========== 첨삭 (모델 선택) ==========
+async function submitTranslation(usePremium = false) {
     const input = document.getElementById('trans-input').value.trim();
     if (!input) { showToast('번역을 입력해주세요', 'warning'); return; }
-    showLoading(true);
+    
+    const modelName = usePremium ? 'Claude Sonnet' : 'GPT-5 mini';
+    showLoading(true, modelName + ' 첨삭 중...');
+    
     const p = App.phrases[App.phraseIndex];
-    const orig = App.translateDirection === 'en-ko' ? p.en : p.ko;
+    const orig = App.translateDirection === 'en-ko' ? p.en : (p.ko || p.en);
+    
     try {
-        const fb = await API.getTranslationFeedback(orig, input, App.translateDirection);
-        App.phraseFeedbacks.push({ original: orig, userTranslation: input, feedback: fb, score: fb.score });
+        const fb = await API.getTranslationFeedback(orig, input, App.translateDirection, usePremium);
+        App.phraseFeedbacks.push({ original: orig, userTranslation: input, feedback: fb, score: fb.score, model: modelName });
+        
+        // 모델 표시 추가
+        const modelBadge = usePremium 
+            ? '<span class="model-badge premium">✨ Claude Sonnet</span>' 
+            : '<span class="model-badge">🚀 GPT-5 mini</span>';
+        
         document.getElementById('feedback-score').textContent = fb.score;
-        document.getElementById('feedback-content').innerHTML = '<p>' + fb.feedback + '</p>' + (fb.goodPoints?.length ? '<h4>✅ 잘한 점</h4><ul>' + fb.goodPoints.map(x => '<li>' + x + '</li>').join('') + '</ul>' : '') + (fb.improvements?.length ? '<h4>💡 개선점</h4><ul>' + fb.improvements.map(x => '<li>' + x + '</li>').join('') + '</ul>' : '') + (fb.modelAnswer ? '<h4>📝 모범</h4><div class="model-answer">' + fb.modelAnswer + '</div>' : '');
+        document.getElementById('feedback-content').innerHTML = modelBadge + '<p>' + fb.feedback + '</p>' + 
+            (fb.goodPoints?.length ? '<h4>✅ 잘한 점</h4><ul>' + fb.goodPoints.map(x => '<li>' + x + '</li>').join('') + '</ul>' : '') + 
+            (fb.improvements?.length ? '<h4>💡 개선점</h4><ul>' + fb.improvements.map(x => '<li>' + x + '</li>').join('') + '</ul>' : '') + 
+            (fb.modelAnswer ? '<h4>📝 모범 번역</h4><div class="model-answer">' + fb.modelAnswer + '</div>' : '');
         document.getElementById('feedback-area').style.display = 'block';
+        
         const exp = Math.floor(fb.score / 10);
         const result = Storage.addExp(exp);
         Storage.updateGrass(1, 1);
         Storage.updateDailyProgress({ translate: true });
         if (result.leveledUp) showLevelUp(result.newLevel);
         Achievements.check('translations').forEach(a => showBadgeUnlock(a));
-    } catch (e) { showToast('첨삭 실패', 'error'); console.error(e); }
+    } catch (e) { 
+        showToast('첨삭 실패: ' + e.message, 'error'); 
+        console.error(e); 
+    }
     showLoading(false);
+}
+
+// GPT 첨삭 (기본)
+function submitWithGPT() {
+    submitTranslation(false);
+}
+
+// Claude 프리미엄 첨삭
+function submitWithClaude() {
+    submitTranslation(true);
 }
 
 function skipPhrase() { App.phraseFeedbacks.push({ original: App.phrases[App.phraseIndex].en, userTranslation: '', score: 0, skipped: true }); nextPhrase(); }
@@ -305,6 +375,38 @@ function finishTranslation() {
 }
 
 function addTermToVocab(en, ko) { Storage.addWord({ english: en, korean: ko }); showToast('"' + en + '" 추가됨'); }
+
+// ========== 기사 업데이트 (GitHub Actions 트리거) ==========
+async function triggerArticleUpdate() {
+    if (!App.githubToken) {
+        const token = prompt('GitHub Personal Access Token을 입력하세요:\n(처음 한 번만 입력하면 저장됩니다)');
+        if (!token) return;
+        App.githubToken = token;
+        Storage.set('githubToken', token);
+    }
+    
+    showLoading(true, '기사 업데이트 요청 중...');
+    
+    const success = await API.triggerArticleUpdate(App.githubToken, App.githubOwner, App.githubRepo);
+    
+    showLoading(false);
+    
+    if (success) {
+        showToast('기사 업데이트가 시작되었습니다! 3-5분 후 새로고침하세요.', 'success');
+    } else {
+        showToast('업데이트 요청 실패. 토큰을 확인해주세요.', 'error');
+        App.githubToken = null;
+        Storage.remove('githubToken');
+    }
+}
+
+function openArticleUpdateModal() {
+    document.getElementById('article-update-modal').classList.add('active');
+}
+
+function closeArticleUpdateModal() {
+    document.getElementById('article-update-modal').classList.remove('active');
+}
 
 // ========== 단어장 ==========
 function renderVocab(tab) {
@@ -390,7 +492,7 @@ function openArchive(id) {
     App.currentArchiveId = id;
     document.getElementById('am-title').textContent = (a.type === 'translation' ? '✍️ 번역' : '🎙️ 통역') + ' - ' + a.articleTitle;
     let body = '<div style="margin-bottom:16px"><p>총 ' + (a.totalPhrases || 0) + '문장 중 ' + (a.completedPhrases || 0) + '문장 완료</p><p>평균 점수: <strong>' + (a.averageScore || 0) + '</strong>점</p></div>';
-    if (a.phraseFeedbacks?.length) { body += '<h4>📝 문장별 첨삭</h4>'; body += a.phraseFeedbacks.map((f, i) => '<div style="padding:12px;background:var(--bg-tertiary);border-radius:8px;margin-bottom:8px"><strong>' + (i + 1) + '.</strong> "' + f.original + '"<br><span style="color:var(--text-secondary)">내 번역: ' + (f.userTranslation || '(건너뜀)') + '</span><br><span style="color:var(--accent-primary)">점수: ' + (f.score || 0) + '점</span></div>').join(''); }
+    if (a.phraseFeedbacks?.length) { body += '<h4>📝 문장별 첨삭</h4>'; body += a.phraseFeedbacks.map((f, i) => '<div style="padding:12px;background:var(--bg-tertiary);border-radius:8px;margin-bottom:8px"><strong>' + (i + 1) + '.</strong> "' + f.original + '"<br><span style="color:var(--text-secondary)">내 번역: ' + (f.userTranslation || '(건너뜀)') + '</span><br><span style="color:var(--accent-primary)">점수: ' + (f.score || 0) + '점' + (f.model ? ' (' + f.model + ')' : '') + '</span></div>').join(''); }
     document.getElementById('am-body').innerHTML = body;
     document.getElementById('am-memo').value = a.memo || '';
     document.getElementById('archive-modal').classList.add('active');
@@ -447,20 +549,27 @@ function loadSettings() {
     document.getElementById('set-goal').value = s.dailyGoal || 60;
     document.getElementById('set-tts-speed').value = s.ttsSpeed || 0.9;
     document.getElementById('tts-speed-val').textContent = (s.ttsSpeed || 0.9) + 'x';
-    document.getElementById('set-ai-model').value = Storage.getAiModel();
-    if (Storage.getApiKey('claude')) document.getElementById('api-key-claude').value = '••••••••••••';
-    if (Storage.getApiKey('gpt')) document.getElementById('api-key-openai').value = '••••••••••••';
-    const d = Storage.getDday();
-    if (d) { document.getElementById('set-dday-name').value = d.name; document.getElementById('set-dday-date').value = d.date; }
+    
+    // GitHub 토큰 표시
+    if (App.githubToken) {
+        document.getElementById('github-token-status').textContent = '✅ 등록됨';
+    }
 }
 
-function saveApiKeys() {
-    const c = document.getElementById('api-key-claude').value;
-    const g = document.getElementById('api-key-openai').value;
-    if (c && !c.startsWith('••')) Storage.saveApiKey('claude', c);
-    if (g && !g.startsWith('••')) Storage.saveApiKey('gpt', g);
-    Storage.setAiModel(document.getElementById('set-ai-model').value);
-    showToast('API 저장됨');
+function saveSettings() {
+    const settings = {
+        dailyGoal: parseInt(document.getElementById('set-goal').value) || 60,
+        ttsSpeed: parseFloat(document.getElementById('set-tts-speed').value) || 0.9
+    };
+    Storage.saveSettings(settings);
+    showToast('설정 저장됨');
+}
+
+function resetGithubToken() {
+    App.githubToken = null;
+    Storage.remove('githubToken');
+    document.getElementById('github-token-status').textContent = '❌ 미등록';
+    showToast('GitHub 토큰 초기화됨');
 }
 
 function saveDday() { const n = document.getElementById('set-dday-name').value; const d = document.getElementById('set-dday-date').value; if (n && d) { Storage.saveDday(n, d); updateDdayDisplay(); showToast('D-Day 설정됨'); } }
@@ -468,14 +577,6 @@ function saveDiary() { Storage.saveDiary(document.getElementById('diary-text').v
 function exportData() { const d = Storage.exportData(); const b = new Blob([d], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'dayoung_backup.json'; a.click(); showToast('내보내기됨'); }
 function importData() { const i = document.createElement('input'); i.type = 'file'; i.accept = '.json'; i.onchange = async (e) => { const f = e.target.files[0]; if (f) { const t = await f.text(); if (Storage.importData(t)) { showToast('가져오기됨'); location.reload(); } else showToast('실패', 'error'); } }; i.click(); }
 function resetData() { if (confirm('모든 데이터 삭제?')) { Storage.resetAll(); location.reload(); } }
-
-// ========== 기사 업데이트 ==========
-function openArticleUpdateModal() { document.getElementById('article-update-modal').classList.add('active'); document.getElementById('update-form-area').style.display = 'none'; }
-function closeArticleUpdateModal() { document.getElementById('article-update-modal').classList.remove('active'); }
-function updateFromRSS() { showToast('GitHub Actions에서 자동 실행됩니다', 'warning'); }
-function updateFromURL() { document.getElementById('update-form-area').innerHTML = '<div class="form-group"><label>기사 URL</label><input type="url" id="article-url" placeholder="https://..."></div><button class="btn btn-primary" onclick="fetchArticleFromURL()">가져오기</button>'; document.getElementById('update-form-area').style.display = 'block'; }
-function updateManual() { document.getElementById('update-form-area').innerHTML = '<div class="form-group"><label>제목</label><input type="text" id="manual-title"></div><div class="form-group"><label>분야</label><select id="manual-cat"><option value="economy">경제</option><option value="politics">정치</option><option value="law">법률</option><option value="health">의료</option><option value="tech">기술</option></select></div><div class="form-group"><label>본문 (영어)</label><textarea id="manual-content" rows="10"></textarea></div><button class="btn btn-primary" onclick="addManualArticle()">추가</button>'; document.getElementById('update-form-area').style.display = 'block'; }
-function addManualArticle() { const t = document.getElementById('manual-title').value; const c = document.getElementById('manual-cat').value; const co = document.getElementById('manual-content').value; if (!t || !co) { showToast('제목과 본문 입력', 'warning'); return; } App.articles.unshift({ id: Date.now(), title: t, content: co, category: c, level: 'intermediate', source: '직접 입력', wordCount: co.split(/\s+/).length, generatedAt: new Date().toISOString(), keyTerms: [] }); closeArticleUpdateModal(); renderArticles(); showToast('기사 추가됨'); }
 
 // ========== 운세 ==========
 function checkDailyFortune() { const l = Storage.getLastFortune(); if (l.date !== new Date().toDateString()) setTimeout(() => showFortune(), 2000); }
@@ -498,6 +599,18 @@ function setBGMVolume() { BGM.setVolume(document.getElementById('bgm-volume').va
 function createParticles() { const c = document.getElementById('particles'); if (!c) return; for (let i = 0; i < 20; i++) { const p = document.createElement('div'); p.className = 'particle'; p.style.left = Math.random() * 100 + '%'; p.style.top = Math.random() * 100 + '%'; p.style.animationDelay = Math.random() * 15 + 's'; p.style.animationDuration = (10 + Math.random() * 10) + 's'; c.appendChild(p); } }
 
 // ========== 유틸 ==========
-function showLoading(s) { document.getElementById('loading').style.display = s ? 'flex' : 'none'; }
+function showLoading(s, msg) { 
+    const el = document.getElementById('loading');
+    el.style.display = s ? 'flex' : 'none'; 
+    if (msg && s) {
+        el.querySelector('.loading-text')?.remove();
+        const txt = document.createElement('p');
+        txt.className = 'loading-text';
+        txt.textContent = msg;
+        txt.style.color = 'white';
+        txt.style.marginTop = '16px';
+        el.appendChild(txt);
+    }
+}
 function showToast(m, t) { const to = document.createElement('div'); to.className = 'toast ' + (t || 'success'); to.textContent = m; document.getElementById('toasts').appendChild(to); setTimeout(() => to.remove(), 3000); }
 function refreshArticles() { showToast('새로고침...'); loadArticles(); }

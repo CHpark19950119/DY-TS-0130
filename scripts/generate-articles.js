@@ -1,306 +1,206 @@
-/**
- * DAYOUNG's 통번역 스튜디오 - 기사 자동 생성 스크립트
- * 
- * RSS 피드에서 통번역사에게 필수적인 영역의 기사를 수집하고
- * Claude API를 사용하여 300단어 이상의 학습용 기사로 확장합니다.
- */
-
-const axios = require('axios');
-const xml2js = require('xml2js');
+// ===== 기사 자동 생성 스크립트 =====
+const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
 
-// RSS 피드 소스 (통번역사 필수 영역)
-const RSS_FEEDS = {
-    economy: [
-        { url: 'https://feeds.reuters.com/reuters/businessNews', source: 'Reuters' },
-        { url: 'https://feeds.bbci.co.uk/news/business/rss.xml', source: 'BBC' }
-    ],
-    politics: [
-        { url: 'https://feeds.reuters.com/Reuters/worldNews', source: 'Reuters' },
-        { url: 'https://feeds.bbci.co.uk/news/world/rss.xml', source: 'BBC' },
-        { url: 'https://www.theguardian.com/world/rss', source: 'The Guardian' }
-    ],
-    law: [
-        { url: 'https://feeds.reuters.com/reuters/politicsNews', source: 'Reuters' }
-    ],
-    health: [
-        { url: 'https://feeds.reuters.com/reuters/healthNews', source: 'Reuters' },
-        { url: 'https://feeds.bbci.co.uk/news/health/rss.xml', source: 'BBC' }
-    ],
-    tech: [
-        { url: 'https://feeds.reuters.com/reuters/technologyNews', source: 'Reuters' },
-        { url: 'https://feeds.bbci.co.uk/news/technology/rss.xml', source: 'BBC' }
-    ]
-};
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
-const CATEGORIES = [
-    { id: 'economy', name: '경제/금융', icon: '💹', description: '거시경제, 통화정책, 금융시장' },
-    { id: 'politics', name: '국제정치/외교', icon: '🌍', description: '외교, 안보, 국제관계' },
-    { id: 'law', name: '법률/규제', icon: '⚖️', description: '국제법, 통상법, 규제' },
-    { id: 'health', name: '의료/보건', icon: '🏥', description: '공중보건, 의료정책, 제약' },
-    { id: 'tech', name: '기술/IT', icon: '💻', description: 'AI, 반도체, 디지털 전환' }
+// 다양한 RSS 소스
+const RSS_SOURCES = [
+  // 경제
+  { url: 'https://feeds.reuters.com/reuters/businessNews', category: 'economy', source: 'Reuters' },
+  { url: 'https://feeds.bloomberg.com/markets/news.rss', category: 'economy', source: 'Bloomberg' },
+  { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Business.xml', category: 'economy', source: 'NYT' },
+  
+  // 정치/외교
+  { url: 'https://feeds.reuters.com/Reuters/worldNews', category: 'politics', source: 'Reuters' },
+  { url: 'https://feeds.bbci.co.uk/news/world/rss.xml', category: 'politics', source: 'BBC' },
+  { url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml', category: 'politics', source: 'NYT' },
+  
+  // 기술
+  { url: 'https://feeds.reuters.com/reuters/technologyNews', category: 'tech', source: 'Reuters' },
+  { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml', category: 'tech', source: 'NYT' },
+  
+  // 보건
+  { url: 'https://feeds.reuters.com/reuters/healthNews', category: 'health', source: 'Reuters' },
+  { url: 'https://rss.nytimes.com/services/xml/rss/nyt/Health.xml', category: 'health', source: 'NYT' },
 ];
 
-const LEVELS = [
-    { id: 'beginner', name: '초급', icon: '🌱', description: '기초 어휘와 단순한 문장 구조' },
-    { id: 'intermediate', name: '중급', icon: '📚', description: '전문 용어와 복합 문장' },
-    { id: 'advanced', name: '고급', icon: '🎓', description: '고급 표현과 뉘앙스' },
-    { id: 'expert', name: '심화', icon: '👑', description: '실전 통역 수준의 고난도 텍스트' }
-];
-
-// RSS 파싱
-async function parseRSS(url) {
-    try {
-        const response = await axios.get(url, { 
-            timeout: 15000,
-            headers: { 'User-Agent': 'Mozilla/5.0 (compatible; DayoungStudio/1.0)' }
+// RSS 파싱 (간단한 정규식 방식)
+async function fetchRSS(url) {
+  try {
+    const response = await fetch(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0' }
+    });
+    const text = await response.text();
+    
+    const items = [];
+    const itemMatches = text.match(/<item>([\s\S]*?)<\/item>/g) || [];
+    
+    for (const item of itemMatches.slice(0, 5)) {
+      const title = item.match(/<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/title>/)?.[1] || '';
+      const description = item.match(/<description>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/description>/)?.[1] || '';
+      
+      if (title && title.length > 20) {
+        items.push({
+          title: title.replace(/<[^>]*>/g, '').trim(),
+          summary: description.replace(/<[^>]*>/g, '').substring(0, 200).trim()
         });
-        const parser = new xml2js.Parser();
-        const result = await parser.parseStringPromise(response.data);
-        
-        if (result.rss && result.rss.channel) {
-            return result.rss.channel[0].item || [];
-        } else if (result.feed && result.feed.entry) {
-            return result.feed.entry.map(entry => ({
-                title: entry.title,
-                description: entry.summary || entry.content,
-                link: entry.link?.[0]?.$.href || entry.link
-            }));
-        }
-        return [];
-    } catch (error) {
-        console.error(`RSS 파싱 실패 (${url}):`, error.message);
-        return [];
+      }
     }
+    
+    return items;
+  } catch (error) {
+    console.error(`RSS fetch error (${url}):`, error.message);
+    return [];
+  }
 }
 
-// Claude API로 기사 확장 (핵심!)
-async function expandArticleWithClaude(title, summary, category, source) {
-    const apiKey = process.env.ANTHROPIC_API_KEY;
-    
-    if (!apiKey) {
-        console.log('  ⚠️ API 키 없음 - 기사 확장 불가');
-        return null;
-    }
-    
-    const categoryInfo = {
-        economy: '경제/금융 (거시경제, 통화정책, 금융시장, 무역)',
-        politics: '국제정치/외교 (외교, 안보, 국제관계, 정상회담)',
-        law: '법률/규제 (국제법, 통상법, 규제, 판결)',
-        health: '의료/보건 (공중보건, 의료정책, 제약, 임상시험)',
-        tech: '기술/IT (AI, 반도체, 디지털 전환, 사이버보안)'
-    };
+// GPT로 기사 확장
+async function expandArticle(title, summary, category, source) {
+  const categoryInfo = {
+    economy: '경제/금융 (거시경제, 통화정책, 금융시장, 기업 실적)',
+    politics: '국제정치/외교 (외교, 안보, 국제관계, 정상회담)',
+    law: '법률/규제 (국제법, 통상법, 규제 정책)',
+    health: '의료/보건 (공중보건, 의료정책, 신약 개발)',
+    tech: '기술/IT (AI, 반도체, 디지털 전환, 스타트업)'
+  };
 
-    const prompt = `You are a professional news writer creating educational content for Korean-English translation/interpretation students.
+  const prompt = `You are a Reuters/Bloomberg-level professional news writer.
 
-Based on this news headline and summary, write a COMPLETE NEWS ARTICLE of 350-450 words.
+## Task
+Write a professional English news article for translation practice.
 
-**Headline:** ${title}
-**Summary:** ${summary}
-**Category:** ${categoryInfo[category]}
-**Source Style:** ${source}
+Title: ${title}
+Summary: ${summary}
+Category: ${categoryInfo[category] || category}
+Source style: ${source}
 
-REQUIREMENTS:
-1. Write exactly 350-450 words (this is critical!)
-2. Write in clear, professional journalistic English
-3. Include:
-   - Opening paragraph with key facts (who, what, when, where, why)
-   - 2-3 body paragraphs with details, context, and quotes
-   - Background/context paragraph
-   - Closing paragraph with implications or future outlook
-4. Use vocabulary appropriate for the ${category} domain
-5. Include realistic (but clearly fabricated) quotes from officials/experts
-6. Make it suitable for translation practice
+## Requirements
+1. Write 350-450 words in formal journalistic English
+2. Structure: Lead → Body → Expert quote → Outlook
+3. Include specific numbers, dates, and names
+4. Use advanced vocabulary suitable for translation exams
+5. Maintain objective, neutral tone
 
-Respond with ONLY this JSON format (no markdown):
+Respond ONLY with this JSON format:
 {
-  "content": "The full 350-450 word article text here. Write multiple paragraphs separated by double newlines.",
-  "level": "beginner|intermediate|advanced|expert",
+  "content": "Full article text (350-450 words)",
+  "level": "intermediate|advanced|expert",
   "keyTerms": [
-    {"en": "English term 1", "ko": "한국어 번역 1"},
-    {"en": "English term 2", "ko": "한국어 번역 2"},
-    {"en": "English term 3", "ko": "한국어 번역 3"},
-    {"en": "English term 4", "ko": "한국어 번역 4"},
-    {"en": "English term 5", "ko": "한국어 번역 5"},
-    {"en": "English term 6", "ko": "한국어 번역 6"}
+    {"en": "term1", "ko": "용어1"},
+    {"en": "term2", "ko": "용어2"},
+    {"en": "term3", "ko": "용어3"},
+    {"en": "term4", "ko": "용어4"},
+    {"en": "term5", "ko": "용어5"}
   ]
-}
+}`;
 
-Level guidelines:
-- beginner: Simple vocabulary, short sentences (for general news)
-- intermediate: Technical terms, compound sentences (standard news)
-- advanced: Complex structures, nuanced expressions (in-depth analysis)
-- expert: Highly specialized, diplomatic/legal language (expert commentary)
+  try {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_API_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'gpt-5-mini',
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 2000
+      })
+    });
 
-IMPORTANT: The article MUST be 350-450 words. Count carefully!`;
-
-    try {
-        const response = await axios.post('https://api.anthropic.com/v1/messages', {
-            model: 'claude-3-haiku-20240307',
-            max_tokens: 2500,
-            messages: [{ role: 'user', content: prompt }]
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': apiKey,
-                'anthropic-version': '2023-06-01'
-            },
-            timeout: 60000
-        });
-        
-        const text = response.data.content[0].text;
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        
-        if (jsonMatch) {
-            const parsed = JSON.parse(jsonMatch[0]);
-            const wordCount = parsed.content.split(/\s+/).filter(w => w.length > 0).length;
-            
-            console.log(`  ✓ 확장 완료: ${wordCount}단어`);
-            
-            // 300단어 미만이면 스킵
-            if (wordCount < 300) {
-                console.log(`  ⚠️ 단어 수 부족 (${wordCount}), 스킵`);
-                return null;
-            }
-            
-            return parsed;
-        }
-    } catch (error) {
-        console.error('  ✗ Claude API 오류:', error.message);
-    }
+    const data = await response.json();
+    const text = data.choices?.[0]?.message?.content || '';
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
     
-    return null;
-}
-
-// 단어 수 계산
-function countWords(text) {
-    return text ? text.split(/\s+/).filter(w => w.length > 0).length : 0;
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[0]);
+    }
+  } catch (error) {
+    console.error('Article expansion error:', error.message);
+  }
+  
+  return null;
 }
 
 // 메인 실행
 async function main() {
-    console.log('🦜 DAYOUNG\'s 통번역 스튜디오 - 기사 업데이트\n');
-    console.log('=' .repeat(50));
+  console.log('📰 Starting article generation...');
+  
+  // 기존 기사 로드
+  const articlesPath = path.join(__dirname, '..', 'data', 'articles.json');
+  let existingData = { articles: [], categories: [], levels: [] };
+  
+  try {
+    existingData = JSON.parse(fs.readFileSync(articlesPath, 'utf8'));
+  } catch (e) {
+    console.log('Creating new articles.json');
+  }
+  
+  // 카테고리/레벨 정의
+  existingData.categories = [
+    { id: 'economy', name: '경제', icon: '💰' },
+    { id: 'politics', name: '정치/외교', icon: '🌍' },
+    { id: 'tech', name: '기술', icon: '💻' },
+    { id: 'health', name: '보건', icon: '🏥' },
+    { id: 'law', name: '법률', icon: '⚖️' }
+  ];
+  
+  existingData.levels = [
+    { id: 'intermediate', name: '중급', icon: '📗' },
+    { id: 'advanced', name: '고급', icon: '📘' },
+    { id: 'expert', name: '전문가', icon: '📕' }
+  ];
+  
+  const newArticles = [];
+  let articleId = Math.max(0, ...existingData.articles.map(a => a.id || 0)) + 1;
+  
+  // 각 카테고리에서 1-2개씩 기사 생성
+  for (const source of RSS_SOURCES) {
+    console.log(`\n📡 Fetching from ${source.source} (${source.category})...`);
     
-    const newArticles = [];
-    let articleId = 101;
+    const items = await fetchRSS(source.url);
     
-    for (const [category, feeds] of Object.entries(RSS_FEEDS)) {
-        console.log(`\n📰 [${category.toUpperCase()}] 카테고리`);
-        
-        for (const feed of feeds) {
-            console.log(`\n  📡 ${feed.source} 피드...`);
-            const items = await parseRSS(feed.url);
-            
-            if (items.length === 0) {
-                console.log('    (기사 없음)');
-                continue;
-            }
-            
-            // 소스별 1개씩만
-            const item = items[0];
-            
-            const title = (Array.isArray(item.title) ? item.title[0] : item.title)?.replace(/<[^>]+>/g, '').trim();
-            const description = (Array.isArray(item.description) ? item.description[0] : item.description || '')?.replace(/<[^>]+>/g, '').trim();
-            const link = Array.isArray(item.link) ? item.link[0] : item.link;
-            
-            if (!title || title.length < 20) continue;
-            
-            console.log(`    "${title.substring(0, 50)}..."`);
-            
-            // Claude로 기사 확장 (350-450단어)
-            const expanded = await expandArticleWithClaude(title, description, category, feed.source);
-            
-            if (expanded && expanded.content) {
-                newArticles.push({
-                    id: articleId++,
-                    title: title,
-                    summary: description.substring(0, 200) + (description.length > 200 ? '...' : ''),
-                    content: expanded.content,
-                    category: category,
-                    level: expanded.level || 'intermediate',
-                    source: feed.source,
-                    link: link,
-                    wordCount: countWords(expanded.content),
-                    keyTerms: expanded.keyTerms || [],
-                    generatedAt: new Date().toISOString()
-                });
-            }
-            
-            // API 레이트 리밋 방지 (3초 대기)
-            await new Promise(resolve => setTimeout(resolve, 3000));
-        }
+    if (items.length === 0) {
+      console.log('  No items found');
+      continue;
     }
     
-    console.log('\n' + '='.repeat(50));
-    console.log(`\n✅ 새로 생성된 기사: ${newArticles.length}개`);
+    // 첫 번째 아이템만 처리 (비용 절약)
+    const item = items[0];
+    console.log(`  Processing: ${item.title.substring(0, 50)}...`);
     
-    // 기존 데이터 로드
-    const dataPath = path.join(__dirname, '..', 'data', 'articles.json');
-    let existingData;
+    const expanded = await expandArticle(item.title, item.summary, source.category, source.source);
     
-    try {
-        existingData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
-    } catch (e) {
-        console.log('기존 파일 없음, 새로 생성');
-        existingData = { articles: [] };
+    if (expanded && expanded.content) {
+      newArticles.push({
+        id: articleId++,
+        title: item.title,
+        summary: item.summary,
+        content: expanded.content,
+        category: source.category,
+        level: expanded.level || 'advanced',
+        source: source.source,
+        keyTerms: expanded.keyTerms || [],
+        wordCount: expanded.content.split(/\s+/).length,
+        generatedAt: new Date().toISOString()
+      });
+      console.log(`  ✅ Generated article #${articleId - 1}`);
     }
     
-    // 기본 기사 (ID 1-16) 유지
-    const coreArticles = existingData.articles.filter(a => a.id <= 16);
-    
-    // 이전 자동생성 기사 중 최근 30개만 유지
-    const oldGenerated = existingData.articles
-        .filter(a => a.id > 100)
-        .sort((a, b) => new Date(b.generatedAt || 0) - new Date(a.generatedAt || 0))
-        .slice(0, 30);
-    
-    // 새 기사 ID 재할당
-    const maxOldId = oldGenerated.length > 0 ? Math.max(...oldGenerated.map(a => a.id)) : 100;
-    newArticles.forEach((a, i) => {
-        a.id = maxOldId + i + 1;
-    });
-    
-    // 최종 데이터
-    const finalArticles = [...coreArticles, ...newArticles, ...oldGenerated]
-        .sort((a, b) => {
-            if (a.id <= 16 && b.id > 16) return -1;
-            if (a.id > 16 && b.id <= 16) return 1;
-            return (b.id || 0) - (a.id || 0);
-        })
-        .slice(0, 50);
-    
-    const finalData = {
-        date: new Date().toISOString().split('T')[0],
-        updatedAt: new Date().toISOString(),
-        categories: CATEGORIES,
-        levels: LEVELS,
-        articles: finalArticles
-    };
-    
-    // 저장
-    fs.writeFileSync(dataPath, JSON.stringify(finalData, null, 2), 'utf8');
-    
-    console.log(`\n📊 최종 결과:`);
-    console.log(`   - 기본 기사: ${coreArticles.length}개`);
-    console.log(`   - 새 기사: ${newArticles.length}개`);
-    console.log(`   - 이전 기사: ${oldGenerated.length}개`);
-    console.log(`   - 총 기사: ${finalArticles.length}개`);
-    
-    // 단어 수 통계
-    const wordCounts = finalArticles.map(a => countWords(a.content));
-    console.log(`\n📏 단어 수 통계:`);
-    console.log(`   - 최소: ${Math.min(...wordCounts)}단어`);
-    console.log(`   - 최대: ${Math.max(...wordCounts)}단어`);
-    console.log(`   - 평균: ${Math.round(wordCounts.reduce((a,b)=>a+b,0)/wordCounts.length)}단어`);
-    
-    const under300 = wordCounts.filter(w => w < 300).length;
-    if (under300 > 0) {
-        console.log(`   ⚠️ 300단어 미만: ${under300}개`);
-    } else {
-        console.log(`   ✓ 모든 기사 300단어 이상!`);
-    }
+    // API 레이트 리밋 방지
+    await new Promise(r => setTimeout(r, 2000));
+  }
+  
+  // 새 기사를 맨 앞에 추가
+  existingData.articles = [...newArticles, ...existingData.articles].slice(0, 100);
+  
+  // 저장
+  fs.writeFileSync(articlesPath, JSON.stringify(existingData, null, 2));
+  
+  console.log(`\n✅ Done! Generated ${newArticles.length} new articles.`);
+  console.log(`📊 Total articles: ${existingData.articles.length}`);
 }
 
 main().catch(console.error);
