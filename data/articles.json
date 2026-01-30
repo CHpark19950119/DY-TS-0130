@@ -1,6 +1,6 @@
 {
   "date": "2026-01-30",
-  "updatedAt": "2026-01-30T01:23:19.549Z",
+  "updatedAt": "2026-01-30T01:35:43.478Z",
   "categories": [
     {
       "id": "economy",
@@ -635,6 +635,48 @@
           "ko": "연방공개시장위원회"
         }
       ]
+    },
+    {
+      "id": 103,
+      "title": "Niger’s military ruler vows retaliation after gunfire and explosions heard in capital",
+      "summary": "General Tchiani accuses France, Benin and the Ivory Coast of links to attack near Niamey’s airport and thanks Russian troops for defence efforts  Heavy security has been deployed around the main airpo...",
+      "content": "Tensions Flare in Niger as Military Leader Vows Retaliation\n\nNiamey, Niger - In a concerning turn of events, gunfire and explosions were reported near Niamey's airport in the early hours of Wednesday morning, prompting a swift response from Niger's military ruler, General Tchiani.\n\nAccording to residents in the area, the shooting and detonations began shortly after midnight, sending shockwaves through the capital. Tchiani, who assumed power in a coup last month, wasted no time in addressing the situation, accusing France, Benin, and the Ivory Coast of being behind the attack.\n\n\"We will not tolerate such blatant acts of aggression against our sovereign nation,\" Tchiani declared in a televised address. \"I want to thank our Russian allies for their steadfast support in defending Niger's territorial integrity. Rest assured, we will retaliate swiftly and decisively against those responsible.\" \n\nThe general's claims, however, were not supported by any concrete evidence, raising concerns about the potential for further escalation and political instability in the region.\n\nThe incident comes at a time of heightened tension between Niger and its neighbors, as the country grapples with a growing security crisis fueled by the presence of various extremist groups in the Sahel region. The recent military takeover, which ousted former President Mohamed Bazoum, has also strained relations with the international community, particularly with France, which has maintained a significant military presence in the country.\n\nIn the aftermath of the overnight events, heavy security has been deployed around the main airport, with reports of increased patrols and checkpoints throughout the city. Residents have been advised to remain vigilant and avoid unnecessary travel, further adding to the sense of unease in the capital.\n\n\"This is a very troubling situation,\" said Dr. Fatima Diallo, a political analyst at the University of Niamey. \"The military regime's inflammatory rhetoric and accusations, coupled with the ongoing security challenges, could lead to a dangerous escalation if not handled carefully. The people of Niger deserve stability and peace, not further turmoil.\" \n\nAs the situation continues to unfold, the international community will be closely monitoring developments in Niger, hoping to find a peaceful resolution to the growing tensions and safeguard the country's fragile democratic transition.",
+      "category": "politics",
+      "level": "intermediate",
+      "source": "The Guardian",
+      "link": "https://www.theguardian.com/world/2026/jan/29/gunfire-blasts-heard-airport-niamey-niger-planes-hit-reports",
+      "wordCount": 359,
+      "keyTerms": [
+        {
+          "en": "military ruler",
+          "ko": "군사 지도자"
+        },
+        {
+          "en": "retaliation",
+          "ko": "보복"
+        },
+        {
+          "en": "territorial integrity",
+          "ko": "영토 보전"
+        },
+        {
+          "en": "security crisis",
+          "ko": "안보 위기"
+        },
+        {
+          "en": "extremist groups",
+          "ko": "극단주의 단체"
+        },
+        {
+          "en": "military takeover",
+          "ko": "군부 쿠데타"
+        },
+        {
+          "en": "democratic transition",
+          "ko": "민주적 전환"
+        }
+      ],
+      "generatedAt": "2026-01-30T01:35:22.605Z"
     },
     {
       "id": 102,
