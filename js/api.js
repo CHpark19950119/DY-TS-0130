@@ -421,9 +421,9 @@ const TTS = {
     // 음성 이름 선택
     getVoiceName(lang) {
         const voices = {
-            'ko-KR': 'ko-KR-Standard-A',
-            'en-US': 'en-US-Chirp3-HD-Charon',  // ← 자연스러운 음성으로 변경
-            'en-GB': 'en-GB-Standard-A',
+            'ko-KR': 'ko-KR-Standard-B',
+            'en-US': 'en-US-Standard-B',  // ← 자연스러운 음성으로 변경
+            'en-GB': 'en-GB-Standard-B',
             'ja-JP': 'ja-JP-Standard-A',
             'zh-CN': 'zh-CN-Standard-A'
         };
