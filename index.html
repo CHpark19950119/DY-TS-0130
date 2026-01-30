@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦜 DAYOUNG's 통번역 스튜디오</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/games.css">
+</head>
+<body>
+    <!-- 배경 효과 -->
+    <div class="bg-effects">
+        <div class="bg-gradient"></div>
+        <div class="bg-particles" id="particles"></div>
+        <div class="bg-pattern"></div>
+    </div>
+
+    <!-- BGM 플레이어 -->
+    <div class="bgm-player" id="bgm-player">
+        <button class="bgm-toggle" onclick="toggleBGM()" title="배경음악">
+            <span id="bgm-icon">🔇</span>
+        </button>
+        <div class="bgm-controls" id="bgm-controls">
+            <select id="bgm-select" onchange="changeBGM()">
+                <option value="">음악 선택</option>
+                <option value="lofi">🎵 Lo-Fi Beats</option>
+                <option value="jazz">🎷 Smooth Jazz</option>
+                <option value="nature">🌿 자연 소리</option>
+                <option value="rain">🌧️ 빗소리</option>
+                <option value="piano">🎹 Piano</option>
+            </select>
+            <input type="range" id="bgm-volume" min="0" max="100" value="30" onchange="setBGMVolume()">
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- 사이드바 -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="mascot-container">
+                        <span class="mascot" id="sidebar-mascot">🦜</span>
+                        <span class="mascot-level" id="mascot-level">Lv.1</span>
+                    </div>
+                    <div class="logo-text">
+                        <h1 id="studio-name">DAYOUNG's Studio</h1>
+                        <p class="studio-title" id="studio-title">번역 새싹</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="user-stats-mini">
+                <div class="exp-bar-mini">
+                    <div class="exp-fill" id="exp-bar-fill" style="width: 0%"></div>
+                </div>
+                <span class="exp-text" id="exp-text">0 / 100 EXP</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-view="dashboard"><span>🏠</span>대시보드</button>
+                <button class="nav-item" data-view="articles"><span>📰</span>기사 학습<em id="article-count">0</em></button>
+                <button class="nav-item" data-view="translate"><span>✍️</span>번역 연습</button>
+                <button class="nav-item" data-view="interpret"><span>🎙️</span>통역 연습</button>
+                <button class="nav-item" data-view="vocabulary"><span>📚</span>단어장</button>
+                <button class="nav-item" data-view="games"><span>🎮</span>미니게임</button>
+                <button class="nav-item" data-view="archive"><span>🗂️</span>아카이브</button>
+                <button class="nav-item" data-view="achievements"><span>🏆</span>업적</button>
+                <button class="nav-item" data-view="customize"><span>🎨</span>꾸미기</button>
+                <button class="nav-item" data-view="settings"><span>⚙️</span>설정</button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="streak-box">
+                    <span class="streak-fire">🔥</span>
+                    <div class="streak-info">
+                        <b id="streak-count">0</b>일 연속!
+                        <small id="streak-best">최고: 0일</small>
+                    </div>
+                </div>
+                <button class="fortune-btn" onclick="showFortune()">🔮 오늘의 운세</button>
+            </div>
+        </aside>
+
+        <!-- 모바일 네비게이션 -->
+        <nav class="mobile-nav">
+            <button class="mnav active" data-view="dashboard">🏠</button>
+            <button class="mnav" data-view="articles">📰</button>
+            <button class="mnav" data-view="translate">✍️</button>
+            <button class="mnav" data-view="games">🎮</button>
+            <button class="mnav" data-view="customize">🎨</button>
+        </nav>
+
+        <main class="main-content">
+            <!-- ========== 대시보드 ========== -->
+            <section class="view active" id="view-dashboard">
+                <header class="view-header">
+                    <h2>🦜 <span id="header-name">DAYOUNG</span>'s 통번역 스튜디오</h2>
+                    <p id="today-date"></p>
+                </header>
+
+                <!-- 오늘의 운세 배너 -->
+                <div class="fortune-banner" id="fortune-banner" style="display:none;">
+                    <span class="fortune-icon">🔮</span>
+                    <p id="fortune-text"></p>
+                    <button onclick="closeFortune()">×</button>
+                </div>
+
+                <div class="dash-hero">
+                    <div class="hero-left">
+                        <div class="hero-progress">
+                            <svg viewBox="0 0 120 120">
+                                <circle class="ring-bg" cx="60" cy="60" r="52"/>
+                                <circle class="ring-fill" id="hero-ring" cx="60" cy="60" r="52"/>
+                            </svg>
+                            <div class="hero-text">
+                                <span id="hero-pct">0%</span>
+                                <small>오늘 목표</small>
+                            </div>
+                        </div>
+                        <div class="hero-checks">
+                            <div id="hc-article"><span>📰</span>기사<i>○</i></div>
+                            <div id="hc-translate"><span>✍️</span>번역<i>○</i></div>
+                            <div id="hc-vocab"><span>📚</span>단어<i>○</i></div>
+                            <div id="hc-quiz"><span>🎯</span>퀴즈<i>○</i></div>
+                        </div>
+                    </div>
+
+                    <div class="hero-mascot-area">
+                        <div class="mascot-display">
+                            <div class="mascot-big" id="mascot-big">🦜</div>
+                            <div class="mascot-name" id="mascot-name-display">파랑이</div>
+                            <div class="mascot-mood" id="mascot-mood">기분 좋음 😊</div>
+                        </div>
+                        <div class="mascot-speech">
+                            <p id="mascot-msg">오늘도 화이팅! 💪</p>
+                        </div>
+                    </div>
+
+                    <div class="hero-right">
+                        <div class="level-card">
+                            <div class="level-badge">
+                                <span class="level-num" id="user-level">1</span>
+                                <span class="level-label">LEVEL</span>
+                            </div>
+                            <div class="level-info">
+                                <div class="title-badge" id="user-title">번역 새싹</div>
+                                <div class="exp-bar">
+                                    <div class="exp-fill" id="exp-fill" style="width:0%"></div>
+                                </div>
+                                <small id="exp-display">0 / 100 EXP</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 학습 잔디 -->
+                <div class="dash-card grass-card">
+                    <div class="card-header">
+                        <h3>🌱 학습 잔디</h3>
+                        <span class="grass-year" id="grass-year">2026</span>
+                    </div>
+                    <div class="grass-container" id="grass-container"></div>
+                    <div class="grass-legend">
+                        <span>Less</span>
+                        <div class="grass-levels">
+                            <div class="grass-level" data-level="0"></div>
+                            <div class="grass-level" data-level="1"></div>
+                            <div class="grass-level" data-level="2"></div>
+                            <div class="grass-level" data-level="3"></div>
+                            <div class="grass-level" data-level="4"></div>
+                        </div>
+                        <span>More</span>
+                    </div>
+                </div>
+
+                <div class="dash-grid">
+                    <!-- 오늘의 추천 -->
+                    <div class="dash-card recommend-card">
+                        <h3>📰 오늘의 추천</h3>
+                        <div class="rec-meta">
+                            <span id="rec-cat">-</span>
+                            <span id="rec-level">-</span>
+                            <span id="rec-new" class="badge-new"></span>
+                        </div>
+                        <h4 id="rec-title">로딩중...</h4>
+                        <div class="rec-info">
+                            <span id="rec-source"></span>
+                            <span id="rec-date"></span>
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="startRecommended()">
+                            학습 시작 →
+                        </button>
+                    </div>
+
+                    <!-- 학습 시간 -->
+                    <div class="dash-card time-card">
+                        <h3>⏱️ 오늘 학습</h3>
+                        <div class="time-display">
+                            <span class="time-big" id="dash-time">0</span>
+                            <span class="time-unit">분</span>
+                        </div>
+                        <div class="time-goal">
+                            목표: <span id="time-goal">60</span>분
+                        </div>
+                    </div>
+
+                    <!-- 단어장 -->
+                    <div class="dash-card vocab-card">
+                        <h3>📚 단어장</h3>
+                        <div class="vocab-summary">
+                            <div><b id="dv-total">0</b><small>전체</small></div>
+                            <div><b id="dv-mastered">0</b><small>암기</small></div>
+                            <div class="hl"><b id="dv-review">0</b><small>복습</small></div>
+                        </div>
+                        <button class="btn btn-secondary btn-block" onclick="navigateTo('games')">
+                            🎮 게임으로 복습
+                        </button>
+                    </div>
+
+                    <!-- 최근 기사 -->
+                    <div class="dash-card new-card">
+                        <div class="card-header">
+                            <h3>🆕 최근 기사</h3>
+                            <button class="btn-icon" onclick="refreshArticles()" title="새로고침">🔄</button>
+                        </div>
+                        <div id="new-articles-list" class="new-articles-list">
+                            <p class="empty-small">로딩중...</p>
+                        </div>
+                    </div>
+
+                    <!-- 최근 뱃지 -->
+                    <div class="dash-card badges-card">
+                        <h3>🏆 최근 획득 뱃지</h3>
+                        <div id="recent-badges" class="recent-badges">
+                            <p class="empty-small">아직 뱃지가 없습니다</p>
+                        </div>
+                        <button class="btn btn-ghost btn-block" onclick="navigateTo('achievements')">
+                            전체 보기 →
+                        </button>
+                    </div>
+
+                    <!-- D-Day -->
+                    <div class="dash-card dday-card">
+                        <h3>📅 D-Day</h3>
+                        <div class="dday-display" id="dday-display">
+                            <p class="empty-small">목표를 설정하세요</p>
+                        </div>
+                        <button class="btn btn-ghost btn-sm" onclick="openDdayModal()">+ 목표 추가</button>
+                    </div>
+                </div>
+
+                <!-- 일기/메모 -->
+                <div class="dash-card diary-card">
+                    <div class="card-header">
+                        <h3>📝 오늘의 학습 일기</h3>
+                        <button class="btn btn-ghost btn-sm" onclick="saveDiary()">저장</button>
+                    </div>
+                    <textarea id="diary-text" placeholder="오늘 학습하면서 느낀 점, 어려웠던 부분, 기억하고 싶은 표현 등을 자유롭게 적어보세요..."></textarea>
+                </div>
+            </section>
+
+            <!-- ========== 기사 목록 ========== -->
+            <section class="view" id="view-articles">
+                <header class="view-header">
+                    <h2>📰 기사 학습</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="openArticleUpdateModal()">
+                            🔄 새 기사 가져오기
+                        </button>
+                    </div>
+                </header>
+                <div class="filters-bar">
+                    <select id="filter-cat">
+                        <option value="all">전체 분야</option>
+                        <option value="economy">💹 경제/금융</option>
+                        <option value="politics">🌍 국제정치</option>
+                        <option value="law">⚖️ 법률</option>
+                        <option value="health">🏥 의료</option>
+                        <option value="tech">💻 기술</option>
+                    </select>
+                    <select id="filter-level">
+                        <option value="all">전체 레벨</option>
+                        <option value="beginner">🌱 초급</option>
+                        <option value="intermediate">📚 중급</option>
+                        <option value="advanced">🎓 고급</option>
+                        <option value="expert">👑 심화</option>
+                    </select>
+                    <select id="filter-direction">
+                        <option value="en-ko">🇺🇸→🇰🇷 영한</option>
+                        <option value="ko-en">🇰🇷→🇺🇸 한영</option>
+                    </select>
+                    <select id="filter-sort">
+                        <option value="newest">🆕 최신순</option>
+                        <option value="oldest">📅 오래된순</option>
+                        <option value="difficulty">📊 난이도순</option>
+                    </select>
+                </div>
+                <div id="articles-grid" class="articles-grid"></div>
+            </section>
+
+            <!-- ========== 번역 연습 ========== -->
+            <section class="view" id="view-translate">
+                <header class="view-header">
+                    <h2>✍️ 번역 연습</h2>
+                    <div class="header-actions">
+                        <div class="direction-toggle">
+                            <button class="dir-btn active" data-dir="en-ko" onclick="setTranslateDirection('en-ko')">
+                                🇺🇸→🇰🇷 영한
+                            </button>
+                            <button class="dir-btn" data-dir="ko-en" onclick="setTranslateDirection('ko-en')">
+                                🇰🇷→🇺🇸 한영
+                            </button>
+                        </div>
+                        <button class="btn btn-secondary" onclick="navigateTo('articles')">📰 기사 변경</button>
+                        <button class="btn btn-icon" onclick="stopTTS()">🔇</button>
+                    </div>
+                </header>
+
+                <div id="trans-empty" class="empty-box">
+                    <div class="empty-icon">📰</div>
+                    <p>먼저 기사를 선택해주세요</p>
+                    <button class="btn btn-primary" onclick="navigateTo('articles')">기사 선택하기</button>
+                </div>
+
+                <div id="trans-content" style="display:none;">
+                    <div class="trans-article-info">
+                        <span class="trans-cat" id="trans-cat"></span>
+                        <span class="trans-level" id="trans-level"></span>
+                        <h3 id="trans-title"></h3>
+                    </div>
+
+                    <div class="trans-progress-bar">
+                        <div class="trans-progress-fill" id="trans-progress-fill"></div>
+                        <span class="trans-progress-text" id="trans-progress-text">0 / 0</span>
+                    </div>
+
+                    <div class="trans-workspace">
+                        <div class="phrase-card">
+                            <div class="phrase-header">
+                                <span class="phrase-num" id="phrase-num">1</span>
+                                <button class="btn-icon" onclick="speakPhrase()">🔊</button>
+                            </div>
+                            <p class="phrase-text" id="phrase-text"></p>
+                        </div>
+
+                        <div class="trans-input-area">
+                            <textarea id="trans-input" placeholder="번역을 입력하세요..."></textarea>
+                            <div class="trans-actions">
+                                <button class="btn btn-ghost" onclick="skipPhrase()">건너뛰기</button>
+                                <button class="btn btn-primary" onclick="submitTranslation()">
+                                    제출 & AI 첨삭 ✨
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="feedback-area" id="feedback-area" style="display:none;">
+                            <div class="feedback-score">
+                                <span class="score-num" id="feedback-score">0</span>
+                                <span class="score-label">점</span>
+                            </div>
+                            <div class="feedback-content" id="feedback-content"></div>
+                            <button class="btn btn-primary" onclick="nextPhrase()">다음 문장 →</button>
+                        </div>
+                    </div>
+
+                    <div class="key-terms-panel">
+                        <h4>📖 핵심 용어</h4>
+                        <div id="key-terms-list" class="key-terms-list"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== 통역 연습 ========== -->
+            <section class="view" id="view-interpret">
+                <header class="view-header">
+                    <h2>🎙️ 통역 연습</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="navigateTo('articles')">📰 기사 변경</button>
+                    </div>
+                </header>
+
+                <div id="interp-empty" class="empty-box">
+                    <div class="empty-icon">🎙️</div>
+                    <p>기사를 선택하고 통역 연습을 시작하세요</p>
+                    <button class="btn btn-primary" onclick="navigateTo('articles')">기사 선택하기</button>
+                </div>
+
+                <div id="interp-content" style="display:none;">
+                    <div class="interp-stages">
+                        <div class="stage active" data-stage="1">
+                            <span class="stage-num">1</span>
+                            <span class="stage-name">듣기</span>
+                        </div>
+                        <div class="stage" data-stage="2">
+                            <span class="stage-num">2</span>
+                            <span class="stage-name">기억</span>
+                        </div>
+                        <div class="stage" data-stage="3">
+                            <span class="stage-num">3</span>
+                            <span class="stage-name">녹음</span>
+                        </div>
+                        <div class="stage" data-stage="4">
+                            <span class="stage-num">4</span>
+                            <span class="stage-name">평가</span>
+                        </div>
+                    </div>
+
+                    <div class="interp-workspace" id="interp-workspace">
+                        <!-- 동적 콘텐츠 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== 단어장 ========== -->
+            <section class="view" id="view-vocabulary">
+                <header class="view-header">
+                    <h2>📚 단어장</h2>
+                    <button class="btn btn-primary" onclick="openWordModal()">+ 단어 추가</button>
+                </header>
+
+                <div class="vocab-tabs">
+                    <button class="tab-btn active" data-tab="today">오늘 추가</button>
+                    <button class="tab-btn" data-tab="all">전체</button>
+                    <button class="tab-btn" data-tab="starred">⭐ 중요</button>
+                    <button class="tab-btn" data-tab="review">🔄 복습</button>
+                </div>
+
+                <div id="vocab-list" class="vocab-list"></div>
+            </section>
+
+            <!-- ========== 미니게임 ========== -->
+            <section class="view" id="view-games">
+                <header class="view-header">
+                    <h2>🎮 미니게임</h2>
+                </header>
+
+                <div class="games-grid">
+                    <!-- 단어 퀴즈 -->
+                    <div class="game-card" onclick="startGame('quiz')">
+                        <div class="game-icon">🎯</div>
+                        <h3>단어 퀴즈</h3>
+                        <p>4지선다로 단어 실력 테스트</p>
+                        <div class="game-best">최고: <span id="quiz-best">0</span>점</div>
+                    </div>
+
+                    <!-- 타자 게임 -->
+                    <div class="game-card" onclick="startGame('typing')">
+                        <div class="game-icon">⌨️</div>
+                        <h3>타자 게임</h3>
+                        <p>떨어지는 단어를 빠르게 입력!</p>
+                        <div class="game-best">최고: <span id="typing-best">0</span>점</div>
+                    </div>
+
+                    <!-- 매칭 게임 -->
+                    <div class="game-card" onclick="startGame('matching')">
+                        <div class="game-icon">🃏</div>
+                        <h3>매칭 게임</h3>
+                        <p>영어-한국어 짝 맞추기</p>
+                        <div class="game-best">최고: <span id="matching-best">0</span>초</div>
+                    </div>
+
+                    <!-- 스피드 퀴즈 -->
+                    <div class="game-card" onclick="startGame('speed')">
+                        <div class="game-icon">⚡</div>
+                        <h3>스피드 퀴즈</h3>
+                        <p>30초 안에 최대한 많이!</p>
+                        <div class="game-best">최고: <span id="speed-best">0</span>개</div>
+                    </div>
+
+                    <!-- 가챠 -->
+                    <div class="game-card gacha-card" onclick="openGacha()">
+                        <div class="game-icon">🎁</div>
+                        <h3>오늘의 가챠</h3>
+                        <p>학습 완료 보상 뽑기!</p>
+                        <div class="gacha-tickets">티켓: <span id="gacha-tickets">0</span>장</div>
+                    </div>
+                </div>
+
+                <!-- 게임 플레이 영역 -->
+                <div id="game-play-area" class="game-play-area" style="display:none;"></div>
+            </section>
+
+            <!-- ========== 아카이브 ========== -->
+            <section class="view" id="view-archive">
+                <header class="view-header">
+                    <h2>🗂️ 아카이브</h2>
+                    <select id="archive-filter">
+                        <option value="all">전체</option>
+                        <option value="translation">번역</option>
+                        <option value="interpretation">통역</option>
+                    </select>
+                </header>
+                <div id="archive-list" class="archive-list"></div>
+            </section>
+
+            <!-- ========== 업적 ========== -->
+            <section class="view" id="view-achievements">
+                <header class="view-header">
+                    <h2>🏆 업적 & 뱃지</h2>
+                </header>
+
+                <div class="achievements-summary">
+                    <div class="ach-stat">
+                        <span class="ach-num" id="ach-unlocked">0</span>
+                        <span class="ach-label">획득</span>
+                    </div>
+                    <div class="ach-stat">
+                        <span class="ach-num" id="ach-total">0</span>
+                        <span class="ach-label">전체</span>
+                    </div>
+                    <div class="ach-stat">
+                        <span class="ach-num" id="ach-percent">0%</span>
+                        <span class="ach-label">달성률</span>
+                    </div>
+                </div>
+
+                <div class="achievements-tabs">
+                    <button class="ach-tab active" data-tab="all">전체</button>
+                    <button class="ach-tab" data-tab="streak">연속</button>
+                    <button class="ach-tab" data-tab="count">횟수</button>
+                    <button class="ach-tab" data-tab="special">특별</button>
+                </div>
+
+                <div id="achievements-grid" class="achievements-grid"></div>
+            </section>
+
+            <!-- ========== 꾸미기 ========== -->
+            <section class="view" id="view-customize">
+                <header class="view-header">
+                    <h2>🎨 꾸미기</h2>
+                </header>
+
+                <div class="customize-grid">
+                    <!-- 프로필 -->
+                    <div class="custom-card">
+                        <h3>👤 프로필</h3>
+                        <div class="custom-field">
+                            <label>닉네임</label>
+                            <input type="text" id="custom-nickname" placeholder="DAYOUNG" maxlength="20">
+                        </div>
+                        <div class="custom-field">
+                            <label>스튜디오 이름</label>
+                            <input type="text" id="custom-studio" placeholder="'s Studio" maxlength="30">
+                        </div>
+                    </div>
+
+                    <!-- 마스코트 -->
+                    <div class="custom-card">
+                        <h3>🐾 마스코트</h3>
+                        <div class="mascot-preview">
+                            <span id="mascot-preview">🦜</span>
+                        </div>
+                        <div class="mascot-select">
+                            <button class="mascot-opt active" data-mascot="🦜" onclick="selectMascot('🦜')">🦜</button>
+                            <button class="mascot-opt" data-mascot="🐱" onclick="selectMascot('🐱')">🐱</button>
+                            <button class="mascot-opt" data-mascot="🦊" onclick="selectMascot('🦊')">🦊</button>
+                            <button class="mascot-opt" data-mascot="🐻" onclick="selectMascot('🐻')">🐻</button>
+                            <button class="mascot-opt" data-mascot="🐰" onclick="selectMascot('🐰')">🐰</button>
+                            <button class="mascot-opt" data-mascot="🐶" onclick="selectMascot('🐶')">🐶</button>
+                            <button class="mascot-opt" data-mascot="🦉" onclick="selectMascot('🦉')">🦉</button>
+                            <button class="mascot-opt" data-mascot="🐧" onclick="selectMascot('🐧')">🐧</button>
+                        </div>
+                        <div class="custom-field">
+                            <label>마스코트 이름</label>
+                            <input type="text" id="mascot-name-input" placeholder="파랑이" maxlength="10">
+                        </div>
+                    </div>
+
+                    <!-- 테마 -->
+                    <div class="custom-card">
+                        <h3>🎨 테마</h3>
+                        <div class="theme-select">
+                            <button class="theme-opt active" data-theme="light" onclick="setTheme('light')">
+                                <span class="theme-preview light"></span>
+                                <span>라이트</span>
+                            </button>
+                            <button class="theme-opt" data-theme="dark" onclick="setTheme('dark')">
+                                <span class="theme-preview dark"></span>
+                                <span>다크</span>
+                            </button>
+                            <button class="theme-opt" data-theme="pastel" onclick="setTheme('pastel')">
+                                <span class="theme-preview pastel"></span>
+                                <span>파스텔</span>
+                            </button>
+                            <button class="theme-opt" data-theme="neon" onclick="setTheme('neon')">
+                                <span class="theme-preview neon"></span>
+                                <span>네온</span>
+                            </button>
+                            <button class="theme-opt" data-theme="vintage" onclick="setTheme('vintage')">
+                                <span class="theme-preview vintage"></span>
+                                <span>빈티지</span>
+                            </button>
+                            <button class="theme-opt" data-theme="sakura" onclick="setTheme('sakura')">
+                                <span class="theme-preview sakura"></span>
+                                <span>벚꽃</span>
+                            </button>
+                            <button class="theme-opt" data-theme="ocean" onclick="setTheme('ocean')">
+                                <span class="theme-preview ocean"></span>
+                                <span>바다</span>
+                            </button>
+                            <button class="theme-opt" data-theme="forest" onclick="setTheme('forest')">
+                                <span class="theme-preview forest"></span>
+                                <span>숲</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 배경 효과 -->
+                    <div class="custom-card">
+                        <h3>✨ 배경 효과</h3>
+                        <div class="effect-select">
+                            <label class="effect-opt">
+                                <input type="checkbox" id="effect-particles" onchange="toggleEffect('particles')">
+                                <span>✨ 파티클</span>
+                            </label>
+                            <label class="effect-opt">
+                                <input type="checkbox" id="effect-gradient" checked onchange="toggleEffect('gradient')">
+                                <span>🌈 그라데이션</span>
+                            </label>
+                            <label class="effect-opt">
+                                <input type="checkbox" id="effect-pattern" onchange="toggleEffect('pattern')">
+                                <span>🔲 패턴</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 스티커 -->
+                    <div class="custom-card wide">
+                        <h3>🏷️ 스티커 컬렉션</h3>
+                        <p class="hint">획득한 스티커를 대시보드에 붙일 수 있어요</p>
+                        <div id="sticker-collection" class="sticker-collection">
+                            <!-- 동적 생성 -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="customize-actions">
+                    <button class="btn btn-primary btn-lg" onclick="saveCustomization()">
+                        💾 저장하기
+                    </button>
+                </div>
+            </section>
+
+            <!-- ========== 설정 ========== -->
+            <section class="view" id="view-settings">
+                <header class="view-header">
+                    <h2>⚙️ 설정</h2>
+                </header>
+
+                <div class="settings-grid">
+                    <!-- 학습 설정 -->
+                    <div class="settings-card">
+                        <h3>📚 학습 설정</h3>
+                        <div class="setting-item">
+                            <label>일일 학습 목표 (분)</label>
+                            <input type="number" id="set-goal" min="10" max="300" value="60">
+                        </div>
+                        <div class="setting-item">
+                            <label>TTS 속도</label>
+                            <input type="range" id="set-tts-speed" min="0.5" max="1.5" step="0.1" value="0.9">
+                            <span id="tts-speed-val">0.9x</span>
+                        </div>
+                    </div>
+
+                    <!-- API 설정 -->
+                    <div class="settings-card">
+                        <h3>🤖 AI API 설정</h3>
+                        <div class="setting-item">
+                            <label>AI 모델 선택</label>
+                            <select id="set-ai-model">
+                                <option value="claude">Claude (Anthropic)</option>
+                                <option value="gpt">GPT (OpenAI)</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label>Anthropic API Key</label>
+                            <input type="password" id="api-key-claude" placeholder="sk-ant-...">
+                        </div>
+                        <div class="setting-item">
+                            <label>OpenAI API Key</label>
+                            <input type="password" id="api-key-openai" placeholder="sk-...">
+                        </div>
+                        <button class="btn btn-secondary" onclick="saveApiKeys()">API 키 저장</button>
+                    </div>
+
+                    <!-- D-Day 설정 -->
+                    <div class="settings-card">
+                        <h3>📅 D-Day 설정</h3>
+                        <div class="setting-item">
+                            <label>목표 이름</label>
+                            <input type="text" id="set-dday-name" placeholder="7급 공무원 시험">
+                        </div>
+                        <div class="setting-item">
+                            <label>목표 날짜</label>
+                            <input type="date" id="set-dday-date">
+                        </div>
+                        <button class="btn btn-secondary" onclick="saveDday()">D-Day 저장</button>
+                    </div>
+
+                    <!-- 데이터 관리 -->
+                    <div class="settings-card">
+                        <h3>💾 데이터 관리</h3>
+                        <div class="setting-buttons">
+                            <button class="btn btn-secondary" onclick="exportData()">📤 데이터 내보내기</button>
+                            <button class="btn btn-secondary" onclick="importData()">📥 데이터 가져오기</button>
+                            <button class="btn btn-danger" onclick="resetData()">🗑️ 데이터 초기화</button>
+                        </div>
+                    </div>
+
+                    <!-- 공유 카드 생성 -->
+                    <div class="settings-card wide">
+                        <h3>📱 학습 카드 생성</h3>
+                        <p>나의 학습 통계를 예쁜 카드로 만들어 공유하세요!</p>
+                        <div class="share-card-preview" id="share-card-preview">
+                            <!-- 동적 생성 -->
+                        </div>
+                        <button class="btn btn-primary" onclick="generateShareCard()">🎨 카드 생성하기</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ========== 모달들 ========== -->
+    
+    <!-- 단어 추가 모달 -->
+    <div class="modal" id="word-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📝 단어 추가</h3>
+                <button class="modal-close" onclick="closeWordModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>영어</label>
+                    <input type="text" id="nw-en" placeholder="English">
+                </div>
+                <div class="form-group">
+                    <label>한국어</label>
+                    <input type="text" id="nw-kr" placeholder="한국어">
+                </div>
+                <div class="form-group">
+                    <label>품사</label>
+                    <select id="nw-pos">
+                        <option value="">선택</option>
+                        <option value="n">명사</option>
+                        <option value="v">동사</option>
+                        <option value="adj">형용사</option>
+                        <option value="adv">부사</option>
+                        <option value="phrase">구문</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>예문</label>
+                    <textarea id="nw-ex" placeholder="예문을 입력하세요"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeWordModal()">취소</button>
+                <button class="btn btn-primary" onclick="addWord()">추가</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 기사 업데이트 모달 -->
+    <div class="modal" id="article-update-modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3>🔄 새 기사 가져오기</h3>
+                <button class="modal-close" onclick="closeArticleUpdateModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="update-options">
+                    <div class="update-option" onclick="updateFromRSS()">
+                        <div class="opt-icon">📡</div>
+                        <h4>RSS에서 자동 수집</h4>
+                        <p>Reuters, BBC 등에서 최신 기사를 가져옵니다</p>
+                    </div>
+                    <div class="update-option" onclick="updateFromURL()">
+                        <div class="opt-icon">🔗</div>
+                        <h4>URL 입력</h4>
+                        <p>특정 기사 URL을 입력하여 추가</p>
+                    </div>
+                    <div class="update-option" onclick="updateManual()">
+                        <div class="opt-icon">✍️</div>
+                        <h4>직접 입력</h4>
+                        <p>기사 내용을 직접 입력</p>
+                    </div>
+                </div>
+                <div id="update-form-area" style="display:none;">
+                    <!-- 동적 폼 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 가챠 모달 -->
+    <div class="modal" id="gacha-modal">
+        <div class="modal-content modal-gacha">
+            <div class="modal-header">
+                <h3>🎁 오늘의 가챠</h3>
+                <button class="modal-close" onclick="closeGacha()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="gacha-machine" id="gacha-machine">
+                    <div class="gacha-ball" id="gacha-ball">?</div>
+                </div>
+                <div class="gacha-result" id="gacha-result" style="display:none;">
+                    <div class="gacha-reward" id="gacha-reward"></div>
+                    <p id="gacha-reward-name"></p>
+                </div>
+                <div class="gacha-info">
+                    <p>보유 티켓: <span id="gacha-tickets-modal">0</span>장</p>
+                    <small>학습 완료 시 티켓 획득!</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-lg" id="gacha-pull-btn" onclick="pullGacha()">
+                    🎰 뽑기 (1장)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 아카이브 상세 모달 -->
+    <div class="modal" id="archive-modal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3 id="am-title">아카이브</h3>
+                <button class="modal-close" onclick="closeArchiveModal()">×</button>
+            </div>
+            <div class="modal-body" id="am-body"></div>
+            <div class="modal-footer">
+                <textarea id="am-memo" placeholder="메모를 남겨보세요..."></textarea>
+                <button class="btn btn-primary" onclick="saveArchiveMemo()">메모 저장</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 뱃지 획득 모달 -->
+    <div class="modal" id="badge-modal">
+        <div class="modal-content modal-badge">
+            <div class="badge-unlock-animation">
+                <div class="badge-glow"></div>
+                <div class="badge-icon" id="badge-unlock-icon">🏆</div>
+            </div>
+            <h3>🎉 새 뱃지 획득!</h3>
+            <p class="badge-name" id="badge-unlock-name"></p>
+            <p class="badge-desc" id="badge-unlock-desc"></p>
+            <button class="btn btn-primary" onclick="closeBadgeModal()">확인</button>
+        </div>
+    </div>
+
+    <!-- 레벨업 모달 -->
+    <div class="modal" id="levelup-modal">
+        <div class="modal-content modal-levelup">
+            <div class="levelup-animation">
+                <div class="levelup-stars">⭐✨🌟✨⭐</div>
+                <div class="levelup-text">LEVEL UP!</div>
+                <div class="levelup-num" id="levelup-num">2</div>
+            </div>
+            <p class="levelup-title" id="levelup-title">번역 수습생</p>
+            <button class="btn btn-primary" onclick="closeLevelupModal()">확인</button>
+        </div>
+    </div>
+
+    <!-- 공유 카드 모달 -->
+    <div class="modal" id="share-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📱 학습 카드</h3>
+                <button class="modal-close" onclick="closeShareModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="share-card-container"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="downloadShareCard()">📥 이미지 저장</button>
+                <button class="btn btn-primary" onclick="copyShareCard()">📋 복사</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 운세 모달 -->
+    <div class="modal" id="fortune-modal">
+        <div class="modal-content modal-fortune">
+            <div class="fortune-animation">
+                <div class="fortune-ball">🔮</div>
+            </div>
+            <h3>오늘의 학습 운세</h3>
+            <div class="fortune-result" id="fortune-result"></div>
+            <div class="fortune-lucky">
+                <span>행운의 단어: </span>
+                <strong id="fortune-word"></strong>
+            </div>
+            <button class="btn btn-primary" onclick="closeFortuneModal()">오늘도 파이팅! 💪</button>
+        </div>
+    </div>
+
+    <!-- 토스트 컨테이너 -->
+    <div id="toasts" class="toasts-container"></div>
+
+    <!-- 로딩 -->
+    <div id="loading" class="loading-overlay" style="display:none;">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>로딩중...</p>
+        </div>
+    </div>
+
+    <!-- 스크립트 -->
+    <script src="js/storage.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/games.js"></script>
+    <script src="js/achievements.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

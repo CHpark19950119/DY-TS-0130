@@ -1,0 +1,640 @@
+{
+  "date": "2026-01-29",
+  "updatedAt": "2026-01-29T23:44:55.889Z",
+  "categories": [
+    {
+      "id": "economy",
+      "name": "경제/금융",
+      "icon": "💹",
+      "description": "거시경제, 통화정책, 금융시장"
+    },
+    {
+      "id": "politics",
+      "name": "국제정치/외교",
+      "icon": "🌍",
+      "description": "외교, 안보, 국제관계"
+    },
+    {
+      "id": "law",
+      "name": "법률/규제",
+      "icon": "⚖️",
+      "description": "국제법, 통상법, 규제"
+    },
+    {
+      "id": "health",
+      "name": "의료/보건",
+      "icon": "🏥",
+      "description": "공중보건, 의료정책, 제약"
+    },
+    {
+      "id": "tech",
+      "name": "기술/IT",
+      "icon": "💻",
+      "description": "AI, 반도체, 디지털 전환"
+    }
+  ],
+  "levels": [
+    {
+      "id": "beginner",
+      "name": "초급",
+      "icon": "🌱",
+      "description": "기초 어휘와 단순한 문장 구조"
+    },
+    {
+      "id": "intermediate",
+      "name": "중급",
+      "icon": "📚",
+      "description": "전문 용어와 복합 문장"
+    },
+    {
+      "id": "advanced",
+      "name": "고급",
+      "icon": "🎓",
+      "description": "고급 표현과 뉘앙스"
+    },
+    {
+      "id": "expert",
+      "name": "심화",
+      "icon": "👑",
+      "description": "실전 통역 수준의 고난도 텍스트"
+    }
+  ],
+  "articles": [
+    {
+      "id": 16,
+      "title": "Electric Vehicle Battery Technology Advances Accelerate",
+      "summary": "New battery chemistries and manufacturing processes promise longer range and faster charging.",
+      "content": "The electric vehicle industry is experiencing a wave of battery technology advances that promise to address key consumer concerns about range, charging time, and cost, potentially accelerating the transition from internal combustion engines.\n\nSeveral major announcements at this year's international auto shows highlighted the pace of innovation. Leading battery manufacturers unveiled new cell chemistries, pack designs, and manufacturing processes that collectively represent significant improvements over current technology.\n\nSolid-state batteries, long considered the holy grail of EV technology, are moving closer to commercial production. Toyota announced that it has overcome key manufacturing challenges and plans to introduce vehicles with solid-state batteries by the end of the decade. These batteries offer higher energy density, faster charging, and improved safety compared to current lithium-ion technology.\n\n\"Solid-state batteries will transform what's possible with electric vehicles,\" said Toyota's chief technology officer. \"We're talking about vehicles that can travel over 1,000 kilometers on a single charge and recharge in under ten minutes.\"\n\nChinese battery giant CATL, the world's largest EV battery manufacturer, unveiled its own advances in both solid-state and improved lithium-ion technology. The company's new cells achieve energy density exceeding 500 watt-hours per kilogram, a significant improvement that will enable longer-range vehicles without increasing battery size or weight.\n\nBeyond chemistry advances, manufacturing innovations are driving down costs. The adoption of dry electrode coating processes, pioneered by Tesla and now spreading across the industry, reduces energy consumption in battery production and eliminates the need for toxic solvents. These process improvements could reduce battery costs by 20-30 percent.\n\nThe raw material supply chain remains a critical consideration. Battery makers are developing chemistries that reduce or eliminate the use of cobalt and other minerals with challenging supply dynamics. Sodium-ion batteries, which use abundant and inexpensive materials, are emerging as a viable option for certain vehicle segments and energy storage applications.\n\nCharging infrastructure is advancing in parallel with battery technology. Networks of ultra-fast chargers capable of delivering 350 kilowatts or more are expanding rapidly in major markets. Combined with batteries designed for high charging rates, these stations can add hundreds of kilometers of range in minutes.\n\nAnalysts expect these advances to reach mainstream vehicles within the next few years, fundamentally changing the calculus for consumers considering electric vehicles. The combination of longer range, faster charging, and lower costs could eliminate the practical barriers that have constrained EV adoption.\n\nHowever, challenges remain in scaling up production of advanced battery technologies and ensuring adequate supplies of critical minerals. Investment in mining, processing, and recycling capacity will be essential to support the projected growth in EV production.",
+      "category": "tech",
+      "level": "beginner",
+      "source": "Automotive News",
+      "wordCount": 450,
+      "keyTerms": [
+        {
+          "en": "solid-state battery",
+          "ko": "전고체 배터리"
+        },
+        {
+          "en": "energy density",
+          "ko": "에너지 밀도"
+        },
+        {
+          "en": "lithium-ion",
+          "ko": "리튬 이온"
+        },
+        {
+          "en": "charging infrastructure",
+          "ko": "충전 인프라"
+        },
+        {
+          "en": "supply chain",
+          "ko": "공급망"
+        },
+        {
+          "en": "raw materials",
+          "ko": "원자재"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "UN Security Council Debates Peacekeeping Mission Mandate Renewal",
+      "summary": "Council members negotiate terms for extending peacekeeping operations amid geopolitical tensions.",
+      "content": "The United Nations Security Council convened to debate the renewal of a major peacekeeping mission's mandate, with member states expressing divergent views on the operation's scope, resources, and timeline amid broader geopolitical tensions that have increasingly complicated multilateral cooperation.\n\nThe mission, one of the UN's largest peacekeeping operations, has been operating in a conflict-affected region for over a decade. Its mandate encompasses protection of civilians, support for the political process, human rights monitoring, and assistance with the extension of state authority. However, the security situation remains volatile, and progress toward sustainable peace has been limited.\n\nThe United States, which contributes significant funding to UN peacekeeping, advocated for a streamlined mandate focused on core protection tasks and a clearer exit strategy. Ambassador Linda Thomas-Greenfield emphasized the need for \"realistic objectives and measurable benchmarks\" to assess the mission's performance and guide future decisions.\n\nRussia and China, by contrast, expressed skepticism about certain aspects of the proposed mandate, particularly provisions related to human rights monitoring and support for civil society. These permanent Security Council members have increasingly questioned what they characterize as expansion of peacekeeping mandates beyond traditional security functions.\n\nTroop-contributing countries, several of which are non-permanent Council members, highlighted concerns about the safety of peacekeepers and the adequacy of resources provided for the mission's tasks. Recent attacks on UN personnel have underscored the dangers faced by those serving in peacekeeping operations.\n\n\"Our soldiers are being asked to do more with less,\" said the representative of a major troop contributor. \"If the Council wants the mission to succeed, it must provide the necessary resources and clear political support.\"\n\nThe host country's government expressed appreciation for the UN's presence while also asserting sovereign prerogatives regarding the mission's activities. Negotiations over the mandate language have involved careful diplomatic balancing to accommodate these sensitivities while maintaining the mission's effectiveness.\n\nSecretary-General António Guterres, in his briefing to the Council, provided a candid assessment of challenges facing the mission and peacekeeping more broadly. He called for adequate funding, appropriate mandates, and sustained political commitment from member states to enable peacekeepers to fulfill their responsibilities.\n\nThe debate reflects broader challenges confronting UN peacekeeping in an era of great power competition and diminished multilateral consensus. Peacekeeping operations have become increasingly complex, operating in environments where peace agreements are fragile or absent and where armed groups proliferate.\n\nAfter intensive negotiations, Council members are expected to adopt a resolution extending the mandate, likely with compromises reflecting the various concerns raised during the debate. The resolution will set the parameters for the mission's operations for the coming year and signal the international community's continued commitment to supporting peace efforts in the region.",
+      "category": "politics",
+      "level": "advanced",
+      "source": "UN News",
+      "wordCount": 470,
+      "keyTerms": [
+        {
+          "en": "peacekeeping mission",
+          "ko": "평화유지 임무"
+        },
+        {
+          "en": "mandate renewal",
+          "ko": "임무 연장"
+        },
+        {
+          "en": "protection of civilians",
+          "ko": "민간인 보호"
+        },
+        {
+          "en": "troop-contributing countries",
+          "ko": "파병국"
+        },
+        {
+          "en": "Security Council",
+          "ko": "안전보장이사회"
+        },
+        {
+          "en": "multilateral cooperation",
+          "ko": "다자 협력"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Breakthrough mRNA Cancer Vaccine Shows Promising Trial Results",
+      "summary": "Personalized cancer vaccine technology demonstrates significant efficacy in clinical trials.",
+      "content": "A personalized cancer vaccine using messenger RNA technology has shown promising results in a pivotal clinical trial, potentially opening a new frontier in oncology treatment by harnessing the immune system to target tumors based on their unique genetic profiles.\n\nThe Phase 2 trial, conducted by a partnership between major pharmaceutical companies, enrolled patients with advanced melanoma who had undergone surgical removal of their tumors but remained at high risk of recurrence. Patients received either the experimental vaccine in combination with standard immunotherapy or immunotherapy alone.\n\nResults presented at the American Society of Clinical Oncology annual meeting showed that patients receiving the combination treatment experienced a 44 percent reduction in the risk of recurrence or death compared to those receiving immunotherapy alone. The findings exceeded expectations and prompted the companies to accelerate plans for larger confirmatory trials.\n\n\"These results represent a potential paradigm shift in how we treat cancer,\" said Dr. Maria Chen, the lead investigator. \"By creating vaccines tailored to each patient's tumor, we can train the immune system to recognize and attack cancer cells with remarkable specificity.\"\n\nThe technology builds on the mRNA platform that enabled the rapid development of COVID-19 vaccines. For each patient, scientists analyze the genetic mutations present in their tumor and design vaccine molecules encoding these altered proteins. When injected, the mRNA instructs cells to produce fragments of these mutated proteins, triggering an immune response specifically directed at the cancer.\n\nThe personalized approach addresses a fundamental challenge in cancer immunotherapy: tumors vary enormously between patients, making one-size-fits-all treatments suboptimal. By targeting each patient's unique tumor mutations, personalized vaccines can potentially achieve more effective and durable responses.\n\nManufacturing personalized vaccines at scale presents significant logistical challenges. Each patient's vaccine must be designed, produced, and quality-tested individually, requiring sophisticated logistics and manufacturing capabilities. The companies reported that they have reduced production time significantly and are investing in expanded manufacturing capacity.\n\nThe cost implications of personalized cancer vaccines remain a concern. Initial treatments are likely to be expensive, raising questions about access and healthcare system sustainability. However, proponents argue that costs will decline as manufacturing processes mature and that the potential to achieve durable remissions could ultimately prove cost-effective.\n\nRegulatory authorities have granted the experimental vaccine breakthrough therapy designation, which will expedite the review process. If larger trials confirm the Phase 2 results, approval could come within the next few years, potentially establishing mRNA technology as a powerful new tool in the fight against cancer.\n\nOngoing trials are exploring the application of similar technology to other cancer types, including lung, pancreatic, and colorectal cancers. The platform's flexibility suggests it could eventually be applicable across a broad range of malignancies.",
+      "category": "health",
+      "level": "intermediate",
+      "source": "Nature Medicine",
+      "wordCount": 470,
+      "keyTerms": [
+        {
+          "en": "mRNA vaccine",
+          "ko": "mRNA 백신"
+        },
+        {
+          "en": "immunotherapy",
+          "ko": "면역치료"
+        },
+        {
+          "en": "clinical trial",
+          "ko": "임상시험"
+        },
+        {
+          "en": "recurrence",
+          "ko": "재발"
+        },
+        {
+          "en": "tumor mutations",
+          "ko": "종양 변이"
+        },
+        {
+          "en": "breakthrough therapy",
+          "ko": "혁신 치료제"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "World Trade Organization Ruling on Digital Services Taxation",
+      "summary": "WTO panel issues significant decision on the treatment of digital services under international trade rules.",
+      "content": "A World Trade Organization dispute settlement panel has issued a significant ruling on the compatibility of digital services taxes with international trade obligations, providing important guidance on a contentious issue that has strained relations between major trading partners.\n\nThe panel, established to adjudicate a complaint brought against several countries that have implemented unilateral digital services taxes, found that certain aspects of these measures are inconsistent with WTO commitments. The ruling has implications for the ongoing multilateral negotiations on international taxation and digital trade rules.\n\nThe dispute centers on taxes imposed on revenues derived from digital services, including online advertising, data sales, and digital intermediation platforms. The complaining parties argued that these taxes discriminate against foreign service suppliers, violating the most-favored-nation and national treatment principles embedded in WTO agreements.\n\nThe panel found that certain design features of the contested measures did indeed result in de facto discrimination against foreign suppliers, as the revenue thresholds and targeting criteria effectively excluded most domestic companies while capturing primarily foreign multinationals. However, the panel exercised caution in its findings, recognizing the legitimate policy objectives underlying digital taxation.\n\n\"Members have the sovereign right to tax,\" the panel noted in its report. \"However, the exercise of this right must be consistent with their international trade commitments. The measures at issue, as designed and applied, do not meet this standard.\"\n\nThe ruling comes as countries worldwide grapple with how to tax the digital economy, which has grown rapidly but operates under tax rules designed for an earlier era. Traditional tax principles based on physical presence have struggled to capture value created by digital businesses that can serve customers in countries where they have no tangible presence.\n\nThe OECD has been leading multilateral efforts to reform international taxation, including a proposed global minimum tax and new rules for allocating taxing rights over digital business profits. The WTO ruling may add urgency to these negotiations by demonstrating the legal vulnerabilities of unilateral approaches.\n\nBusiness groups have welcomed the ruling, arguing that unilateral digital taxes create compliance burdens and risk double taxation. Technology companies, which are the primary targets of these measures, have particularly advocated for multilateral solutions.\n\nHowever, civil society organizations and some developing countries have criticized the ruling, arguing that it constrains policy space needed to address tax avoidance by multinational corporations. They contend that the international tax system remains fundamentally inequitable and that developing countries should not be forced to wait for multilateral consensus to take action.\n\nThe ruling can be appealed, though the WTO's Appellate Body remains non-functional due to a dispute over judicial appointments. This procedural reality complicates the path forward and may lead to the ruling becoming final by default.",
+      "category": "law",
+      "level": "expert",
+      "source": "WTO",
+      "wordCount": 470,
+      "keyTerms": [
+        {
+          "en": "dispute settlement",
+          "ko": "분쟁 해결"
+        },
+        {
+          "en": "most-favored-nation",
+          "ko": "최혜국 대우"
+        },
+        {
+          "en": "national treatment",
+          "ko": "내국민 대우"
+        },
+        {
+          "en": "digital services tax",
+          "ko": "디지털 서비스세"
+        },
+        {
+          "en": "taxing rights",
+          "ko": "과세권"
+        },
+        {
+          "en": "double taxation",
+          "ko": "이중 과세"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "European Central Bank Navigates Inflation and Growth Concerns",
+      "summary": "ECB policymakers debate the appropriate monetary policy path amid conflicting economic signals.",
+      "content": "The European Central Bank is navigating a challenging policy environment as persistent inflation in services sectors conflicts with signs of weakening economic growth across the eurozone, forcing policymakers to carefully calibrate their approach.\n\nAt its latest monetary policy meeting, the ECB Governing Council decided to maintain its key interest rates unchanged while signaling that it remains data-dependent regarding future decisions. The main refinancing rate stands at 4.50 percent, the highest level since the creation of the euro, following the aggressive tightening cycle implemented to combat the post-pandemic inflation surge.\n\nECB President Christine Lagarde, speaking at the post-meeting press conference, acknowledged the difficult trade-offs facing policymakers. \"Inflation is declining but remains too high, particularly in services,\" she noted. \"At the same time, economic activity has been weaker than expected, and the outlook is clouded by significant uncertainties.\"\n\nThe eurozone economy has shown signs of stagnation, with several member states experiencing mild recessions while others have maintained modest growth. Germany, the bloc's largest economy, has been particularly affected by the energy transition and weakness in its export-oriented manufacturing sector.\n\nServices inflation has proven stubbornly persistent, running above 4 percent on an annual basis, driven by tight labor markets and wage increases as workers seek to recover purchasing power lost during the inflation spike. This stickiness complicates the ECB's task and has led some Governing Council members to advocate for maintaining restrictive policy for longer.\n\nHowever, other policymakers have expressed concern about the risks of over-tightening, pointing to leading indicators suggesting further economic weakness ahead. The manufacturing sector remains in contraction, and credit growth has slowed significantly as higher interest rates dampen demand for loans.\n\nFinancial markets are pricing in rate cuts beginning in the spring, though ECB officials have pushed back against expectations for rapid easing. The central bank has emphasized that its decisions will be guided by incoming data and that it will not pre-commit to a particular policy path.\n\nThe ECB's balance sheet normalization continues in the background, with the central bank allowing bonds purchased under its stimulus programs to mature without reinvestment. This quantitative tightening adds to the restrictive impulse from higher interest rates, though the pace remains gradual to avoid disrupting markets.\n\nExternal factors add to the uncertainty facing eurozone policymakers. Geopolitical tensions, including the ongoing conflict in Ukraine, continue to affect energy prices and business confidence. Trade policy developments, particularly involving the United States and China, could have significant implications for the export-dependent European economy.\n\nAnalysts expect the ECB to begin cutting rates in the first half of the year, but the pace and extent of easing will depend heavily on how inflation and growth dynamics evolve in the coming months.",
+      "category": "economy",
+      "level": "advanced",
+      "source": "ECB",
+      "wordCount": 470,
+      "keyTerms": [
+        {
+          "en": "refinancing rate",
+          "ko": "재융자금리"
+        },
+        {
+          "en": "tightening cycle",
+          "ko": "긴축 사이클"
+        },
+        {
+          "en": "services inflation",
+          "ko": "서비스 인플레이션"
+        },
+        {
+          "en": "quantitative tightening",
+          "ko": "양적 긴축"
+        },
+        {
+          "en": "data-dependent",
+          "ko": "데이터 의존적"
+        },
+        {
+          "en": "balance sheet normalization",
+          "ko": "대차대조표 정상화"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Samsung Electronics Reports Strong Quarterly Results on AI Chip Demand",
+      "summary": "Memory chip giant sees profits surge as artificial intelligence drives semiconductor demand.",
+      "content": "Samsung Electronics reported stronger-than-expected quarterly results, with profits rising significantly as surging demand for artificial intelligence applications drove up prices for memory chips and advanced semiconductors.\n\nThe South Korean technology giant posted operating profit of 9.1 trillion won for the quarter, exceeding analyst expectations and marking a sharp recovery from the depressed levels seen during the industry downturn. Revenue grew 14 percent year-over-year to 74 trillion won, with the semiconductor division contributing the largest share of profits.\n\nSamsung's memory chip business has benefited from the AI boom, particularly demand for high-bandwidth memory used in data center servers running large language models and other AI workloads. The company reported that HBM shipments more than doubled compared to the previous quarter, with strong pricing supporting margins.\n\n\"AI is driving a fundamental shift in semiconductor demand patterns,\" said Samsung's semiconductor division head during the earnings call. \"We are seeing unprecedented interest in our advanced memory solutions from hyperscale customers building AI infrastructure.\"\n\nThe foundry business, which manufactures chips designed by other companies, also showed improvement as utilization rates recovered from cyclical lows. Samsung reported progress in ramping production of its latest process technology nodes, which are critical for winning orders from fabless chip designers.\n\nHowever, challenges remain in the smartphone segment, where demand has been tepid despite the introduction of new flagship models featuring advanced AI capabilities. Samsung maintained its position as the world's largest smartphone maker by volume but faces intense competition from Chinese manufacturers in key markets.\n\nThe display division delivered solid results, benefiting from demand for large OLED panels used in premium televisions and IT applications. Samsung is investing heavily in next-generation display technologies including QD-OLED and microLED to maintain its competitive position.\n\nLooking ahead, Samsung provided a cautiously optimistic outlook, citing continued strong demand for AI-related semiconductors while acknowledging uncertainties in consumer electronics markets. The company announced plans to increase capital expenditure in semiconductor manufacturing to capture growth opportunities and maintain technological leadership.\n\nAnalysts noted that Samsung's results reflect broader trends in the technology industry, where AI is becoming the primary driver of growth and investment. Companies across the sector are racing to develop and deploy AI capabilities, creating unprecedented demand for the computing infrastructure that Samsung helps supply.\n\nThe strong results also have implications for the Korean economy, where Samsung accounts for a significant portion of exports and stock market capitalization. The company's performance is often viewed as a bellwether for the global technology industry and broader economic conditions.",
+      "category": "tech",
+      "level": "intermediate",
+      "source": "Korea Economic Daily",
+      "wordCount": 430,
+      "keyTerms": [
+        {
+          "en": "operating profit",
+          "ko": "영업이익"
+        },
+        {
+          "en": "memory chips",
+          "ko": "메모리 반도체"
+        },
+        {
+          "en": "high-bandwidth memory",
+          "ko": "고대역폭 메모리"
+        },
+        {
+          "en": "foundry",
+          "ko": "파운드리"
+        },
+        {
+          "en": "capital expenditure",
+          "ko": "자본적 지출"
+        },
+        {
+          "en": "hyperscale",
+          "ko": "하이퍼스케일"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Pharmaceutical Giants Announce Major Drug Pricing Reforms",
+      "summary": "Leading drugmakers respond to political pressure with significant changes to pricing practices.",
+      "content": "Several of the world's largest pharmaceutical companies have announced significant changes to their drug pricing practices in response to mounting political pressure and new legislation empowering the government to negotiate prices for certain medications.\n\nThe announcements come as the Inflation Reduction Act's drug pricing provisions begin to take effect, allowing Medicare to negotiate prices for a initial set of high-cost drugs. The law represents the most significant change to pharmaceutical pricing policy in decades and has prompted companies to reassess their pricing strategies more broadly.\n\nPfizer, one of the largest drugmakers, announced it would cap annual list price increases for its entire portfolio at or below the rate of inflation. The company also committed to expanded patient assistance programs and greater transparency in pricing decisions. Similar announcements followed from other major manufacturers including Merck, Johnson & Johnson, and Eli Lilly.\n\n\"We recognize that medicine only works if patients can access and afford it,\" said Pfizer CEO Albert Bourla in a statement. \"These commitments reflect our responsibility to balance innovation with affordability and our engagement with the ongoing societal conversation about drug pricing.\"\n\nPatient advocacy groups have cautiously welcomed the announcements while noting that significant affordability challenges remain. List price caps do not directly address out-of-pocket costs for patients, which are determined by insurance benefit designs and pharmacy benefit manager practices.\n\nThe pharmaceutical industry has traditionally argued that high drug prices are necessary to fund research and development of new treatments. Companies point to the high failure rates in drug development and the significant investments required to bring new medicines to market. However, critics note that much basic research is publicly funded and that marketing expenses often exceed R&D spending.\n\nAnalysts expect the pricing reforms to have meaningful impacts on industry revenues over time, though the effects will vary significantly by company and therapeutic area. Companies with strong pipelines of innovative treatments may be better positioned to absorb pricing pressures than those relying on older products facing generic competition.\n\nThe political environment around drug pricing remains contentious, with some legislators pushing for more aggressive measures including international reference pricing and mandatory rebates. The industry's voluntary reforms may be partly aimed at forestalling more stringent regulatory interventions.\n\nGlobally, the U.S. pricing changes could have spillover effects as other countries reference American prices in their own negotiations. The international pharmaceutical market is increasingly interconnected, and major policy changes in the world's largest drug market inevitably influence pricing dynamics elsewhere.\n\nHealthcare economists note that sustainable solutions to drug affordability will require addressing the entire value chain, including manufacturers, insurers, pharmacy benefit managers, and healthcare providers. The current reforms, while significant, represent only partial steps toward a more balanced system.",
+      "category": "health",
+      "level": "advanced",
+      "source": "STAT News",
+      "wordCount": 470,
+      "keyTerms": [
+        {
+          "en": "drug pricing",
+          "ko": "약가"
+        },
+        {
+          "en": "price negotiations",
+          "ko": "가격 협상"
+        },
+        {
+          "en": "patient assistance",
+          "ko": "환자 지원"
+        },
+        {
+          "en": "research and development",
+          "ko": "연구개발"
+        },
+        {
+          "en": "out-of-pocket costs",
+          "ko": "본인부담금"
+        },
+        {
+          "en": "pharmacy benefit manager",
+          "ko": "약제급여관리자"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Climate Summit Produces Agreement on Loss and Damage Fund",
+      "summary": "Historic breakthrough establishes new funding mechanism for climate-vulnerable nations.",
+      "content": "Negotiators at the annual United Nations Climate Change Conference reached a historic agreement to establish a new fund for addressing loss and damage suffered by developing countries particularly vulnerable to the adverse effects of climate change, marking a significant breakthrough after decades of contentious debate.\n\nThe decision, adopted by consensus in the early morning hours following extended negotiations, represents a major victory for small island states and least developed countries that have long advocated for financial support to cope with climate impacts that cannot be adapted to. These include rising sea levels, extreme weather events, and slow-onset processes like desertification and glacial retreat.\n\n\"This is a historic moment,\" said Simon Stiell, Executive Secretary of the UN Framework Convention on Climate Change. \"For the first time, we have a dedicated fund to help the most vulnerable communities deal with the unavoidable impacts of climate change. This is about climate justice.\"\n\nUnder the agreement, developed countries will contribute to the fund, with initial pledges exceeding $400 million. The World Bank will serve as the interim host of the fund, though developing countries secured important governance provisions ensuring their meaningful participation in decision-making.\n\nThe United States, which had historically resisted the loss and damage agenda due to concerns about legal liability, ultimately supported the agreement after securing language clarifying that contributions to the fund do not constitute an acknowledgment of liability or compensation claims. This compromise enabled the breakthrough but disappointed some advocates who had sought explicit recognition of historical responsibility.\n\nThe agreement also established criteria for determining which countries are eligible to receive funding, prioritizing those most vulnerable to climate impacts and least able to cope with them on their own. A transitional committee will work out operational details over the coming year, with the fund expected to become fully operational within two to three years.\n\nClimate policy experts have welcomed the agreement while noting the significant work that remains. The initial pledges, while symbolically important, fall far short of the estimated hundreds of billions of dollars in annual losses and damages experienced by vulnerable countries. Scaling up finance and ensuring effective delivery will be critical challenges.\n\nThe breakthrough on loss and damage came alongside other decisions at the summit, including renewed commitments on emissions reduction targets and adaptation finance. However, many observers expressed disappointment that the conference failed to secure stronger language on phasing out fossil fuels, which remains essential for limiting warming to 1.5 degrees Celsius.\n\nThe establishment of the loss and damage fund marks a shift in the international climate negotiations, acknowledging that mitigation and adaptation alone are insufficient to address the full scope of climate impacts. It sets a precedent for how the international community might address other dimensions of climate justice going forward.",
+      "category": "politics",
+      "level": "intermediate",
+      "source": "UNFCCC",
+      "wordCount": 460,
+      "keyTerms": [
+        {
+          "en": "loss and damage",
+          "ko": "손실과 피해"
+        },
+        {
+          "en": "climate vulnerability",
+          "ko": "기후 취약성"
+        },
+        {
+          "en": "adaptation",
+          "ko": "적응"
+        },
+        {
+          "en": "climate justice",
+          "ko": "기후 정의"
+        },
+        {
+          "en": "mitigation",
+          "ko": "완화/감축"
+        },
+        {
+          "en": "developing countries",
+          "ko": "개발도상국"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Central Banks Coordinate to Address Global Banking Stress",
+      "summary": "Major central banks announce joint action to ensure financial stability amid market turmoil.",
+      "content": "The world's major central banks announced coordinated measures to enhance the provision of liquidity through standing U.S. dollar swap line arrangements, following signs of stress in the global banking system that raised concerns about potential contagion effects.\n\nThe Federal Reserve, European Central Bank, Bank of Japan, Bank of England, Bank of Canada, and Swiss National Bank issued a joint statement outlining the enhanced operations. The central banks agreed to increase the frequency of seven-day maturity operations from weekly to daily, providing more regular access to dollar funding for banks in their respective jurisdictions.\n\n\"The network of swap lines among these central banks is a set of available standing facilities and serves as an important liquidity backstop to ease strains in global funding markets,\" the statement read. \"This helps to mitigate the effects of such strains on the supply of credit to households and businesses.\"\n\nThe coordinated action came in response to turbulence in regional banking sectors, which raised fears of broader financial instability. While the immediate triggers were specific to certain institutions, the interconnected nature of global financial markets meant that stress could quickly spread across borders and sectors.\n\nFederal Reserve Chair Jerome Powell, speaking separately about the measures, emphasized that the U.S. banking system remains sound and resilient. He noted that the swap line activation was a precautionary measure designed to ensure adequate dollar liquidity and maintain confidence in the financial system.\n\nEuropean Central Bank President Christine Lagarde echoed these sentiments, stating that euro area banks are well-capitalized and have strong liquidity positions. She indicated that the ECB stands ready to provide additional support if necessary to ensure the smooth functioning of financial markets.\n\nMarket participants generally welcomed the central bank coordination, viewing it as a demonstration of policymakers' commitment to maintaining financial stability. Stock markets stabilized following the announcement, and measures of financial stress moderated somewhat.\n\nHowever, analysts cautioned that the underlying vulnerabilities that triggered the banking stress have not been fully addressed. Questions remain about the exposure of banks to interest rate risk, the adequacy of regulatory oversight, and the potential for further institution-specific problems to emerge.\n\nThe episode serves as a reminder of the importance of central bank cooperation in managing cross-border financial risks. The swap line network, which was established during the 2008 financial crisis and expanded during the COVID-19 pandemic, has become a permanent feature of the global financial safety net.\n\nGoing forward, regulators and central banks are expected to conduct thorough reviews of the events that led to the banking stress and consider whether additional measures are needed to strengthen the resilience of the financial system.",
+      "category": "economy",
+      "level": "expert",
+      "source": "Federal Reserve",
+      "wordCount": 450,
+      "keyTerms": [
+        {
+          "en": "swap line",
+          "ko": "통화스와프"
+        },
+        {
+          "en": "liquidity",
+          "ko": "유동성"
+        },
+        {
+          "en": "contagion",
+          "ko": "전염/확산"
+        },
+        {
+          "en": "financial stability",
+          "ko": "금융 안정"
+        },
+        {
+          "en": "backstop",
+          "ko": "안전장치"
+        },
+        {
+          "en": "systemic risk",
+          "ko": "시스템 리스크"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "International Court Rules on Maritime Boundary Dispute",
+      "summary": "The International Court of Justice delivers landmark ruling on contested sea borders.",
+      "content": "The International Court of Justice has delivered a landmark ruling in a long-standing maritime boundary dispute, establishing important precedents for the delimitation of exclusive economic zones and continental shelves under international law.\n\nThe judgment, which addresses overlapping claims between two neighboring states, applies principles established in the United Nations Convention on the Law of the Sea to determine an equitable boundary line. The court employed a three-stage methodology involving the construction of a provisional equidistance line, consideration of relevant circumstances that might require adjustment, and a final proportionality check.\n\nPresiding Judge Joan Donoghue read the dispositif of the judgment in a public session at the Peace Palace in The Hague, outlining the precise coordinates of the maritime boundary as determined by the court. The ruling was adopted by a majority of the fifteen judges, with several members appending separate or dissenting opinions.\n\n\"The court has sought to achieve an equitable solution, which is the goal of maritime delimitation as mandated by the Convention,\" Judge Donoghue stated. \"In doing so, we have carefully considered the geographical configuration of the relevant coasts, the length of those coasts, and other pertinent factors.\"\n\nThe dispute centered on an area rich in fisheries resources and potentially significant oil and gas reserves, making the economic stakes substantial for both parties. The ruling determines which state has sovereign rights over these resources within its exclusive economic zone, which extends up to 200 nautical miles from the coast.\n\nInternational law experts have noted the significance of the judgment for similar disputes worldwide. The court's detailed analysis of how to handle special circumstances, such as the presence of islands and the configuration of coastlines, provides guidance for future cases and diplomatic negotiations.\n\nBoth parties have indicated they will comply with the ruling, as decisions of the International Court of Justice are binding under international law. However, implementation of the boundary may require further technical work and bilateral cooperation to address practical matters such as existing fishing arrangements and exploration licenses.\n\nThe case also highlights the continuing relevance of judicial settlement for international disputes in an era of rising geopolitical tensions. The peaceful resolution of territorial and boundary disputes through legal mechanisms is fundamental to maintaining international order and preventing conflicts.\n\nOther states with pending or potential maritime boundary disputes are closely studying the judgment for insights into how similar claims might be adjudicated. The ruling adds to the substantial body of jurisprudence on maritime delimitation that has developed over recent decades.",
+      "category": "law",
+      "level": "advanced",
+      "source": "ICJ Press Release",
+      "wordCount": 420,
+      "keyTerms": [
+        {
+          "en": "maritime boundary",
+          "ko": "해양 경계"
+        },
+        {
+          "en": "exclusive economic zone",
+          "ko": "배타적 경제수역"
+        },
+        {
+          "en": "continental shelf",
+          "ko": "대륙붕"
+        },
+        {
+          "en": "equidistance line",
+          "ko": "등거리선"
+        },
+        {
+          "en": "sovereign rights",
+          "ko": "주권적 권리"
+        },
+        {
+          "en": "judicial settlement",
+          "ko": "사법적 해결"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Global Semiconductor Shortage Shows Signs of Easing",
+      "summary": "Chip supply constraints that crippled industries worldwide are beginning to normalize.",
+      "content": "The global semiconductor shortage that has plagued industries from automotive to consumer electronics for over two years is showing clear signs of easing, as increased manufacturing capacity comes online and demand patterns normalize following the pandemic-driven surge.\n\nIndustry executives and analysts report improving lead times for most chip categories, with some segments even experiencing oversupply conditions. The shift represents a dramatic reversal from the acute shortage that forced automakers to halt production lines and delayed the availability of popular electronic devices.\n\n\"We are seeing a normalization of the supply-demand balance across most semiconductor categories,\" said Mark Liu, chairman of Taiwan Semiconductor Manufacturing Company, the world's largest contract chipmaker, at the company's quarterly earnings call. \"However, the situation varies significantly by end market and technology node.\"\n\nThe automotive sector, which was among the hardest hit by the shortage, has seen particular improvement. Major automakers report that chip supply is no longer the primary constraint on production, though they continue to prioritize high-margin vehicles while inventory levels remain below historical averages.\n\nThe easing shortage has prompted concerns about potential overcapacity, particularly as massive investments in new fabrication facilities begin to come online. Governments around the world, including the United States, European Union, Japan, and South Korea, have committed hundreds of billions of dollars to expand domestic chip manufacturing capabilities in response to the supply chain disruptions.\n\nAnalysts warn that the industry's notoriously cyclical nature could lead to a supply glut in certain segments, potentially triggering price declines and consolidation. Memory chip makers have already begun cutting production in response to falling prices and excess inventory at customers.\n\nDespite the improved supply situation, structural challenges remain in the semiconductor industry. Geopolitical tensions between the United States and China continue to disrupt supply chains and investment decisions. The concentration of advanced manufacturing in Taiwan, which produces the majority of the world's most sophisticated chips, remains a vulnerability that could be exposed by regional conflicts or natural disasters.\n\nLooking ahead, industry observers expect demand for semiconductors to continue growing over the long term, driven by trends including artificial intelligence, electric vehicles, 5G telecommunications, and the Internet of Things. These applications require increasingly sophisticated chips that demand significant investment in research and development and manufacturing infrastructure.\n\nThe lessons from the shortage are prompting fundamental changes in how companies manage their semiconductor supply chains, with greater emphasis on diversification, inventory buffers, and strategic partnerships with key suppliers.",
+      "category": "tech",
+      "level": "intermediate",
+      "source": "Bloomberg",
+      "wordCount": 400,
+      "keyTerms": [
+        {
+          "en": "semiconductor shortage",
+          "ko": "반도체 부족"
+        },
+        {
+          "en": "lead times",
+          "ko": "리드타임/납기"
+        },
+        {
+          "en": "fabrication facilities",
+          "ko": "제조 시설"
+        },
+        {
+          "en": "supply glut",
+          "ko": "공급 과잉"
+        },
+        {
+          "en": "cyclical nature",
+          "ko": "경기순환적 특성"
+        },
+        {
+          "en": "advanced manufacturing",
+          "ko": "첨단 제조"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "WHO Declares End of COVID-19 Global Health Emergency",
+      "summary": "The World Health Organization marks a milestone in pandemic response while urging continued vigilance.",
+      "content": "The World Health Organization officially declared an end to COVID-19 as a public health emergency of international concern, marking a significant milestone in the global response to the pandemic that has claimed millions of lives and disrupted societies worldwide over the past three years.\n\nWHO Director-General Dr. Tedros Adhanom Ghebreyesus announced the decision following a meeting of the International Health Regulations Emergency Committee, which advises on such declarations. While acknowledging the historic significance of the moment, he cautioned that the virus continues to pose a threat and urged countries to maintain surveillance and response capabilities.\n\n\"This does not mean COVID-19 is over as a global health threat,\" Dr. Tedros emphasized at a press conference in Geneva. \"The worst thing any country can do now is to use this news as a reason to let down its guard, to dismantle the systems it has built, or to send the message to its people that COVID-19 is nothing to worry about.\"\n\nThe emergency declaration, first issued in January 2020, has been instrumental in coordinating the international response to the pandemic. It enabled the WHO to issue temporary recommendations, facilitated the rapid development and distribution of vaccines, and helped mobilize billions of dollars in funding for public health measures.\n\nThe decision to end the emergency was based on declining death rates, increased population immunity through vaccination and natural infection, and the reduced burden on healthcare systems in most countries. However, the Committee noted significant disparities in vaccine coverage and healthcare capacity across regions, particularly in low-income countries.\n\nPublic health experts have welcomed the transition but stressed the importance of maintaining robust surveillance systems to detect new variants. The emergence of more transmissible or immune-evasive variants remains a concern, and the virus is expected to continue circulating for years to come.\n\nThe pandemic has fundamentally transformed public health systems, healthcare delivery, and social behaviors around the world. Lessons learned from the response are now being applied to prepare for future health emergencies, including investments in vaccine development platforms, disease surveillance networks, and medical supply chains.\n\nGovernments are now shifting from emergency response mode to long-term management strategies, integrating COVID-19 into routine public health programs alongside other respiratory diseases like influenza. This transition will require sustained investment in healthcare infrastructure and continued public communication about the importance of vaccination and other preventive measures.\n\nThe WHO announced plans to issue updated guidance on COVID-19 management in the post-emergency phase, including recommendations on vaccination schedules, treatment protocols, and surveillance activities. The organization will continue to monitor the global situation and stands ready to reconvene the Emergency Committee if circumstances warrant.",
+      "category": "health",
+      "level": "intermediate",
+      "source": "WHO",
+      "wordCount": 440,
+      "keyTerms": [
+        {
+          "en": "public health emergency",
+          "ko": "공중보건 비상사태"
+        },
+        {
+          "en": "surveillance",
+          "ko": "감시/역학조사"
+        },
+        {
+          "en": "vaccination",
+          "ko": "백신 접종"
+        },
+        {
+          "en": "population immunity",
+          "ko": "집단 면역"
+        },
+        {
+          "en": "variants",
+          "ko": "변이"
+        },
+        {
+          "en": "healthcare infrastructure",
+          "ko": "의료 인프라"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "European Union Reaches Agreement on Comprehensive AI Regulation",
+      "summary": "The landmark AI Act establishes the world's first comprehensive legal framework for artificial intelligence.",
+      "content": "The European Union has reached a historic agreement on the Artificial Intelligence Act, establishing the world's first comprehensive legal framework for regulating AI systems and setting a potential global standard for governing this transformative technology.\n\nAfter marathon negotiations lasting over 36 hours, representatives from the European Parliament and Council reached a provisional deal on the landmark legislation. The agreement, which must still be formally approved by both institutions, will impose strict requirements on high-risk AI applications while banning certain uses deemed incompatible with European values.\n\nCommissioner Thierry Breton hailed the agreement as a \"historic moment\" for Europe and the world. \"We have struck a balance between innovation and protection that will ensure AI develops in a way that respects fundamental rights and European values,\" he stated at a press conference in Brussels.\n\nThe legislation takes a risk-based approach, categorizing AI systems according to their potential impact on individuals and society. High-risk applications, such as those used in critical infrastructure, education, employment, law enforcement, and migration management, will be subject to rigorous requirements including transparency obligations, human oversight, and conformity assessments.\n\nCertain AI practices are outright prohibited under the new framework, including social scoring systems, real-time biometric surveillance in public spaces (with limited exceptions for law enforcement), and AI systems that manipulate human behavior in harmful ways. These provisions have been praised by civil society groups concerned about the potential for AI to enable mass surveillance and social control.\n\nThe agreement also addresses general-purpose AI models, including large language models like ChatGPT, requiring developers to provide detailed documentation about training data, model capabilities, and potential risks. Foundation model providers must conduct safety testing and implement measures to prevent harmful outputs.\n\nThe tech industry has expressed concerns about the compliance burden, particularly for startups and smaller companies. Industry associations have called for extended transition periods and clearer guidance on implementation. However, some major tech companies have welcomed the regulatory certainty, noting that clear rules can actually facilitate responsible innovation.\n\nThe AI Act will serve as a model for other jurisdictions considering AI regulation. Countries around the world are watching closely as they develop their own approaches to governing artificial intelligence. The United States, which has taken a more sector-specific approach, may face pressure to adopt more comprehensive measures to maintain regulatory compatibility with its largest trading partner.\n\nOnce formally adopted, the regulation will enter into force after a transition period of approximately two years, giving companies time to adapt their systems and processes to the new requirements.",
+      "category": "law",
+      "level": "expert",
+      "source": "Politico EU",
+      "wordCount": 420,
+      "keyTerms": [
+        {
+          "en": "AI regulation",
+          "ko": "AI 규제"
+        },
+        {
+          "en": "risk-based approach",
+          "ko": "위험 기반 접근법"
+        },
+        {
+          "en": "fundamental rights",
+          "ko": "기본권"
+        },
+        {
+          "en": "biometric surveillance",
+          "ko": "생체인식 감시"
+        },
+        {
+          "en": "compliance burden",
+          "ko": "규제 준수 부담"
+        },
+        {
+          "en": "transition period",
+          "ko": "전환 기간"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "U.S.-China Trade Tensions Escalate Over Semiconductor Export Controls",
+      "summary": "New restrictions on advanced chip technology exports deepen the technological divide between the superpowers.",
+      "content": "The United States announced sweeping new export controls targeting China's semiconductor industry, marking a significant escalation in the ongoing technology competition between the world's two largest economies and raising concerns about the potential fragmentation of global supply chains.\n\nThe new regulations, issued by the Commerce Department's Bureau of Industry and Security, expand restrictions on the sale of advanced semiconductor manufacturing equipment, artificial intelligence chips, and related technologies to Chinese entities. The measures also impose new licensing requirements on U.S. persons working with Chinese semiconductor companies.\n\nSecretary of Commerce Gina Raimondo defended the measures as necessary to protect national security and prevent China from acquiring technologies that could be used to advance its military capabilities. \"These targeted actions are intended to protect our national security while minimizing unintended impacts on legitimate commercial activities,\" she stated in a press briefing.\n\nChina's Ministry of Commerce responded with sharp criticism, calling the measures \"technological hegemony\" and vowing to take countermeasures to protect the legitimate rights and interests of Chinese companies. A ministry spokesperson warned that the restrictions would disrupt global supply chains and ultimately harm American businesses and consumers.\n\nThe semiconductor industry has expressed mixed reactions to the new controls. While some executives acknowledge the national security rationale, others worry about the long-term consequences of decoupling from the Chinese market, which accounts for a significant portion of global chip demand. Industry groups have called for more consultation with affected companies and clearer guidance on compliance requirements.\n\nAnalysts note that the new restrictions will accelerate China's efforts to achieve semiconductor self-sufficiency, potentially creating a rival technology ecosystem. Beijing has already announced massive investments in domestic chip manufacturing and research, though experts believe it will take years to close the gap with leading Western and Asian manufacturers.\n\nThe escalation comes at a sensitive time for U.S.-China relations, with ongoing disputes over Taiwan, trade imbalances, and various geopolitical issues. Some observers worry that the technology rivalry could spill over into other areas of the relationship, complicating efforts to cooperate on shared challenges such as climate change and global health.\n\nDespite the tensions, both sides have indicated a willingness to maintain dialogue. Senior officials from both countries are expected to meet in the coming weeks to discuss economic and trade issues, though expectations for substantive progress remain low given the deep-seated differences on technology and security matters.",
+      "category": "politics",
+      "level": "expert",
+      "source": "Financial Times",
+      "wordCount": 400,
+      "keyTerms": [
+        {
+          "en": "export controls",
+          "ko": "수출 통제"
+        },
+        {
+          "en": "semiconductor",
+          "ko": "반도체"
+        },
+        {
+          "en": "supply chains",
+          "ko": "공급망"
+        },
+        {
+          "en": "national security",
+          "ko": "국가 안보"
+        },
+        {
+          "en": "decoupling",
+          "ko": "디커플링"
+        },
+        {
+          "en": "self-sufficiency",
+          "ko": "자급자족"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Bank of Korea Holds Benchmark Rate Steady Amid Won Volatility",
+      "summary": "Korea's central bank maintains policy rate while monitoring currency fluctuations and external risks.",
+      "content": "The Bank of Korea decided to keep its benchmark interest rate unchanged at 3.50 percent at its monetary policy board meeting, balancing concerns over currency volatility against the need to support economic growth amid weakening domestic demand.\n\nGovernor Rhee Chang-yong, addressing reporters after the decision, emphasized that the central bank is closely monitoring developments in global financial markets, particularly the strength of the U.S. dollar and its impact on the Korean won. The won has depreciated approximately 8 percent against the dollar this year, raising concerns about imported inflation and capital outflows.\n\n\"Exchange rate stability is an important consideration in our policy deliberations,\" Governor Rhee explained. \"While we do not target a specific exchange rate level, excessive volatility can have destabilizing effects on the economy and financial markets.\"\n\nThe decision came amid mixed economic signals. On one hand, headline inflation has moderated to 2.8 percent, approaching the central bank's 2 percent target. On the other hand, core inflation remains sticky at 2.5 percent, and the economic recovery has been uneven, with exports showing strength while domestic consumption remains subdued.\n\nThe monetary policy board voted 5-1 to maintain the current rate, with one member advocating for a 25 basis point cut to support the struggling property market and indebted households. This dissent signals growing divisions within the board about the appropriate policy path forward.\n\nGovernor Rhee also addressed concerns about household debt, which stands at over 100 percent of GDP, making Korea one of the most indebted economies in the developed world. He noted that the central bank is working with financial regulators to implement targeted measures to address debt vulnerabilities without resorting to broad-based rate cuts.\n\nLooking ahead, the Bank of Korea indicated that it would maintain its restrictive stance until there is clearer evidence of inflation sustainably returning to target. However, Governor Rhee left the door open to rate cuts later in the year if economic conditions deteriorate significantly or if inflation continues to decline.\n\nMarket analysts expect the central bank to begin an easing cycle in the second half of the year, with most forecasting two to three 25 basis point cuts by year-end, contingent on the Federal Reserve's policy trajectory and developments in the currency market.",
+      "category": "economy",
+      "level": "advanced",
+      "source": "Yonhap News",
+      "wordCount": 380,
+      "keyTerms": [
+        {
+          "en": "benchmark interest rate",
+          "ko": "기준금리"
+        },
+        {
+          "en": "monetary policy board",
+          "ko": "금융통화위원회"
+        },
+        {
+          "en": "currency volatility",
+          "ko": "환율 변동성"
+        },
+        {
+          "en": "capital outflows",
+          "ko": "자본 유출"
+        },
+        {
+          "en": "household debt",
+          "ko": "가계부채"
+        },
+        {
+          "en": "easing cycle",
+          "ko": "완화 사이클"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Federal Reserve Maintains Interest Rates Amid Persistent Inflation Concerns",
+      "summary": "The Federal Reserve held interest rates steady while signaling continued vigilance against inflation.",
+      "content": "The Federal Reserve announced its decision to maintain the federal funds rate at its current target range of 5.25 to 5.50 percent following its two-day policy meeting, citing the need for continued vigilance against persistent inflationary pressures in the economy.\n\nFederal Reserve Chair Jerome Powell, speaking at the post-meeting press conference, emphasized that the central bank remains committed to its dual mandate of maximum employment and price stability. He noted that while inflation has moderated significantly from its peak levels, it remains above the Fed's 2 percent target, warranting a cautious approach to monetary policy adjustments.\n\n\"The economic data we have received since our last meeting suggests that economic activity continues to expand at a solid pace,\" Powell stated. \"However, inflation remains elevated, and we need to see more progress before considering any adjustment to our policy stance.\"\n\nThe decision was unanimous among the Federal Open Market Committee members, reflecting a consensus view that premature easing could risk reigniting inflationary pressures. Market participants had widely anticipated the decision, with futures markets pricing in a near-certain probability of unchanged rates.\n\nPowell highlighted several factors contributing to the Fed's cautious stance, including resilient consumer spending, a tight labor market with unemployment near historic lows, and persistent services inflation. He also acknowledged the lagged effects of previous rate hikes, noting that the full impact of the cumulative 525 basis points of tightening since March 2022 is still working through the economy.\n\nLooking ahead, Powell indicated that the Fed will continue to make decisions on a meeting-by-meeting basis, guided by incoming economic data. He reiterated that any future rate cuts would depend on sustained progress toward the inflation target, a cooling labor market, and broader evidence of economic rebalancing.\n\nFinancial markets reacted calmly to the announcement, with major stock indices showing modest gains and Treasury yields remaining relatively stable. Analysts noted that the Fed's communication struck an appropriate balance between acknowledging economic progress and maintaining flexibility for future policy actions.",
+      "category": "economy",
+      "level": "advanced",
+      "source": "Reuters",
+      "wordCount": 340,
+      "keyTerms": [
+        {
+          "en": "federal funds rate",
+          "ko": "연방기금금리"
+        },
+        {
+          "en": "monetary policy",
+          "ko": "통화정책"
+        },
+        {
+          "en": "inflation",
+          "ko": "인플레이션"
+        },
+        {
+          "en": "dual mandate",
+          "ko": "이중 책무"
+        },
+        {
+          "en": "basis points",
+          "ko": "베이시스 포인트"
+        },
+        {
+          "en": "FOMC",
+          "ko": "연방공개시장위원회"
+        }
+      ]
+    }
+  ]
+}
